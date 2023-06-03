@@ -1,0 +1,114 @@
+<?php
+
+namespace App\Http\Livewire\Group;
+
+use App\Models\Group;
+use App\Service\Trait\Table\WithBulkActions;
+use App\Service\Trait\Table\WithReordering;
+use App\Service\Trait\Table\WithSearch;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Livewire\Component;
+use Livewire\WithPagination;
+
+class Index extends Component
+{
+    use WithPagination;
+    use AuthorizesRequests;
+    use WithReordering;
+    use WithSearch;
+    use WithBulkActions;
+
+
+    public string $name;
+    public string|null $description;
+    public $perPage = 10;
+
+    public array $bulkActions = [
+        'exportSelected' => 'Export',
+    ];
+
+    public int|null $updateGroupId;
+
+    protected $rules = [
+        'name' => ['required', 'string', 'min:3', 'max:255'],
+        'description' => ['nullable', 'string', 'min:3', 'max:255'],
+    ];
+    protected $listeners = ['refresh' => '$refresh'];
+    protected $paginationTheme = 'bootstrap';
+
+
+    public function delete($id): void
+    {
+        $this->authorize('delete_group');
+        Group::find($id)->delete();
+        session()->flash('message', 'Group successfully deleted.');
+    }
+
+    public function exportSelected()
+    {
+        dd($this->selected, $this->selectAll);
+    }
+
+    // edit function
+    public function update(): void
+    {
+        $this->authorize('update_group');
+        $group = Group::findOrFail($this->updateGroupId);
+        $group->update([
+            'name' => $this->name,
+            'description' => $this->description,
+        ]);
+        $this->closeModal();
+    }
+
+    public function closeModal(): void
+    {
+        $this->emit('refresh');
+        $this->dispatchBrowserEvent('close-modal');
+        $this->resetInput();
+    }
+
+    private function resetInput(): void
+    {
+        $this->name = '';
+        $this->description = '';
+        $this->updateGroupId = null;
+    }
+
+    public function edit(int $id): void
+    {
+        $group = Group::findOrFail($id);
+
+        $this->name = $group->name;
+        $this->description = $group->description;
+        $this->updateGroupId = $group->id;
+    }
+
+    public function store(): void
+    {
+        $this->authorize('create_group');
+        $validatedData = $this->validate();
+        $validatedData['tenant_id'] = session()->get('tenant_id');
+        $group = Group::create($validatedData);
+        $this->emit('groupStored', $group->id);
+        flash()->addSuccess('Group successfully created.');
+        $this->closeModal();
+    }
+
+    public function updated($propertyName): void
+    {
+        $this->validateOnly($propertyName);
+    }
+
+    public function render(): Application|Factory|View
+    {
+        return view('livewire.group.index', [
+            'groups' => Group::search($this->search)
+                ->orderBy($this->defaultReorderColumn, $this->defaultReorderDirection ? 'asc' : 'desc')
+                ->paginate($this->perPage),
+        ]);
+    }
+}

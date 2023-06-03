@@ -1,0 +1,12 @@
+@import "bootstrap";
+
+
+[x-cloak] {
+    display: none;
+}
+@import "theme";
+@import "login";
+@import "fontAwesome/all";
+@import "media-library-pro-styles/dist/styles";
+//@import "tom-select/src/scss/tom-select.scss";
+@import "tom-select/src/scss/tom-select.bootstrap5.scss";
