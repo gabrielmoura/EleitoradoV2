@@ -22,14 +22,5 @@ class Permission extends Model
         return $this->belongsToMany(User::class, 'permission_user');
     }
 
-    // public static function registerGatePolicies cached
-    public static function registerGatePolicies(): void
-    {
-        self::all()->each(function ($permission) {
-            Gate::define($permission->name, function ($user) use ($permission) {
-                return $user->hasPermissionTo($permission->name);
-            });
-        });
-    }
 }
 
