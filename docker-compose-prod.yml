@@ -7,6 +7,7 @@ services:
       args:
         WWWGROUP: '${WWWGROUP}'
     image: blx32/laravel-fpm:latest
+    restart: "on-failure"
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     volumes:
@@ -23,6 +24,7 @@ services:
       args:
         WWWGROUP: '${WWWGROUP}'
     image: blx32/laravel-nginx:latest
+    restart: "on-failure"
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     ports:
@@ -39,6 +41,7 @@ services:
       - php-fpm
   pgsql:
     image: 'postgres:14-alpine3.18'
+    restart: "on-failure"
     ports:
       - '${FORWARD_DB_PORT:-5432}:5432'
     environment:
@@ -64,6 +67,7 @@ services:
       timeout: 5s
   redis:
     image: 'redis:alpine'
+    restart: "on-failure"
     ports:
       - '${FORWARD_REDIS_PORT:-6379}:6379'
     volumes:
