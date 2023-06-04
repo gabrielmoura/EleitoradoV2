@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -84,7 +85,20 @@ class Person extends Model implements HasMedia
         'dateOfBirth',
         'sex',
         'meta',
-        'pid'
+        'pid',
+        'cellphone',
+        'telephone',
+        'phone_verified_at',
+        'observation',
+        'skinColor',
+        'maritalStatus',
+        'educationLevel',
+        'occupation',
+        'religion',
+        'housing',
+        'sexualOrientation',
+        'genderIdentity',
+        'deficiencyType',
     ];
     protected $casts = [
         'cpf' => 'string',
@@ -93,6 +107,7 @@ class Person extends Model implements HasMedia
         'meta' => 'collection',
         'sex' => 'string',
         'pid' => 'string',
+        'phone_verified_at' => 'datetime',
     ];
 
     public function address(): BelongsTo
@@ -111,6 +126,33 @@ class Person extends Model implements HasMedia
     }
 
 
+    public function getImageAttribute(): ?string
+    {
+        return $this->getMedia('image')->first() ?? Vite::asset("resources/images/$this->sex.png");
+    }
+
+    public function getCellPhoneAttribute(): ?string
+    {
+        if (strlen($this?->cellphone) === 9) {
+            return $this->attributes['cellphone'] = '5521' . $this->attributes['cellphone'];
+        } elseif (strlen($this?->cellphone) === 11) {
+            return $this->attributes['cellphone'] = '55' . $this->attributes['cellphone'];
+        } else {
+            return $this->attributes['cellphone'];
+        }
+    }
+
+    public function getTelephoneAttribute(): ?string
+    {
+        if (strlen($this?->telephone) === 8) {
+            return $this->attributes['telephone'] = '5521' . $this->attributes['telephone'];
+        } elseif (strlen($this?->telephone) === 10) {
+            return $this->attributes['telephone'] = '55' . $this->attributes['telephone'];
+        } else {
+            return $this->attributes['telephone'];
+        }
+    }
+
     protected function pid(): Attribute
     {
         return Attribute::make(
@@ -118,6 +160,7 @@ class Person extends Model implements HasMedia
             set: fn(Ulid|string $value) => $value instanceof Ulid ? $value->toRfc4122() : Ulid::fromString($value)->toRfc4122(),
         );
     }
+
     /**
      * @param Builder $query
      * @param string $pid
@@ -138,7 +181,7 @@ class Person extends Model implements HasMedia
     {
         parent::boot();
         static::creating(function ($model) {
-            if(!app()->runningInConsole()) {
+            if (!app()->runningInConsole()) {
                 $model->tenant_id = session()->get('tenant_id');
                 $model->pid = Str::ulid()->toRfc4122();
             }

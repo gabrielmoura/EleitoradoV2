@@ -105,4 +105,33 @@ class EloquentAnalyticsRepository implements AnalyticsRepository
             ])
             ->get();
     }
+
+    /**
+     * @description Retorna os aniversariantes do dia
+     * @return Collection
+     */
+    public function birthdaysOfTheDay(): Collection
+    {
+        $now = now()->day;
+        return DB::table('people')
+            ->join('addresses', 'people.address_id', '=', 'addresses.id', 'LEFT')
+            ->whereNotNull('people.address_id')
+            ->whereDay('people.birthday', '=', $now)
+            ->select([
+                'people.*',
+                'addresses.street',
+                'addresses.city',
+                'addresses.district',
+                'addresses.state',
+                'addresses.uf',
+                'addresses.zipcode',
+                'addresses.country',
+                'addresses.number',
+                'addresses.complement',
+                'addresses.reference',
+                'addresses.latitude',
+                'addresses.longitude'
+            ])
+            ->get();
+    }
 }
