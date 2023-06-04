@@ -16,7 +16,12 @@ return new class extends Migration
             $table->timestamps();
             $table->uuid('tenant_id')->index()->comment('Tenant id');
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
+            $table->date('solution_date')->nullable()->comment('Data para Solução');
+            $table->timestamp('closed_at')->nullable()->comment('Data da Solução');
+            $table->enum('status', ['open', 'closed'])->default('open')->comment('Demand status');
+            $table->enum('priority', ['low', 'medium', 'high'])->default('low')->comment('Demand priority');
+
             $table->boolean('active')->default(true)->nullable();
             $table->integer('priority')->default(0)->nullable();
         });
