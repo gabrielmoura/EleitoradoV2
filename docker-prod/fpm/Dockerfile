@@ -10,7 +10,7 @@ WORKDIR /var/www/html/
 # Essentials
 ENV TZ=America/Sao_Paulo
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN apk add --no-cache zip unzip curl sqlite nginx supervisor postgresql$POSTGRES_VERSION composer
+RUN apk add --no-cache zip unzip curl sqlite supervisor postgresql$POSTGRES_VERSION composer
 
 # Installing bash
 RUN apk add bash
@@ -49,20 +49,12 @@ RUN apk update && apk add --no-cache php82 \
 RUN mkdir -p /etc/supervisor.d/
 COPY ./supervisord.conf /etc/supervisor.d/supervisord.ini
 
-#COPY ./php-fpm.conf /etc/php82/php-fpm.conf
+COPY ./php-fpm.conf /etc/php82/php-fpm.d/www.conf
 COPY ./php.ini /etc/php82/php.ini
 
-# Configure nginx
-COPY ./nginx.conf /etc/nginx/
-COPY ./app-nginx.conf /etc/nginx/modules/
+RUN addgroup fpm -g 1000 \
+    && addgroup nobody fpm \
+    && chown -R nobody:fpm /var/www/html
 
-RUN mkdir -p /run/nginx/
-RUN touch /run/nginx/nginx.pid
-
-RUN ln -sf /dev/stdout /var/log/nginx/access.log
-RUN ln -sf /dev/stderr /var/log/nginx/error.log
-
-RUN chown -R nobody:nobody /var/www/html
-
-EXPOSE 80
+EXPOSE 9000
 CMD ["supervisord", "-c", "/etc/supervisor.d/supervisord.ini"]

@@ -1,19 +1,12 @@
 # Laravel Alpine - Nginx - PHP 8.2
 
-- https://dev.to/jackmiras/laravel-with-php7-4-in-an-alpine-container-3jk6
-- https://blog.devsense.com/2019/php-nginx-docker
-
-## Build
-
-```bash
-docker build -t laravel-alpine:latest .
-```
 
 ## Run
 
 ```bash
-docker run -d -p 80:80 -v ${pwd}:/var/wwww/html laravel-alpine:latest
+docker-compose -f docker-compose.prod.yml --no-cache -p politica up -d
 ```
+
 
 ## Packages installed
 * php82-common 

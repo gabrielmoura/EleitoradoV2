@@ -1,12 +1,28 @@
 version: '3'
 services:
-  laravel.test:
+  php-fpm:
     build:
-      context: ./docker-prod/8.2
+      context: ./docker-prod/fpm
       dockerfile: Dockerfile
       args:
         WWWGROUP: '${WWWGROUP}'
-    image: blx32/laravel-alpine:latest
+    image: blx32/laravel-fpm:latest
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    volumes:
+      - '.:/var/www/html'
+    networks:
+      - pol
+    depends_on:
+      - pgsql
+      - redis
+  nginx:
+    build:
+      context: ./docker-prod/nginx
+      dockerfile: Dockerfile
+      args:
+        WWWGROUP: '${WWWGROUP}'
+    image: blx32/laravel-nginx:latest
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     ports:
@@ -20,6 +36,7 @@ services:
     depends_on:
       - pgsql
       - redis
+      - php-fpm
   pgsql:
     image: 'postgres:14-alpine3.18'
     ports:
