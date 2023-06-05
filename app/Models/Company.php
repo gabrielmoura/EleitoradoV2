@@ -27,6 +27,7 @@ class Company extends Model implements HasMedia
         'meta' => 'collection',
         'conf' => 'collection',
     ];
+
     protected $fillable = [
         'name',
         'address',
@@ -36,8 +37,8 @@ class Company extends Model implements HasMedia
         'logo',
         'meta',
         'conf',
-        'banned'
-//        'tenant_id',
+        'banned',
+        //        'tenant_id',
     ];
 
     protected static function boot(): void
@@ -47,6 +48,7 @@ class Company extends Model implements HasMedia
             $model->tenant_id = Str::ulid()->toRfc4122();
         });
     }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults();

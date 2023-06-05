@@ -35,7 +35,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
             'current_team_id' => null,
-            'company_id' => collect([2,3,4,5,6,7,8,9,10,11])->random(),
+            'company_id' => collect([2, 3, 4, 5, 6, 7, 8, 9, 10, 11])->random(),
         ];
     }
 

@@ -16,7 +16,8 @@ class EloquentPersonRepository implements PersonRepository
             $personData = $request->only([
                 'name',
                 'email',
-                'phone',
+                'cellphone',
+                'telephone',
                 'cpf',
                 'rg',
                 'address_id',
@@ -26,13 +27,13 @@ class EloquentPersonRepository implements PersonRepository
 
             $this->createAddress($request, $person);
 
-//        if ($request->has('media')) {
-//            $media = $request->file('media');
-//            $mediaName = $media->getClientOriginalName();
-//            $media->storeAs('public/persons/' . $person->id, $mediaName);
-//            $person->media = $mediaName;
-//            $person->save();
-//        }
+            //        if ($request->has('media')) {
+            //            $media = $request->file('media');
+            //            $mediaName = $media->getClientOriginalName();
+            //            $media->storeAs('public/persons/' . $person->id, $mediaName);
+            //            $person->media = $mediaName;
+            //            $person->save();
+            //        }
             if ($request->has('events')) {
                 $person->events()->sync($request->events);
             }
@@ -51,7 +52,8 @@ class EloquentPersonRepository implements PersonRepository
             $personData = $request->only([
                 'name',
                 'email',
-                'phone',
+                'cellphone',
+                'telephone',
                 'cpf',
                 'rg',
                 'address_id',
@@ -69,9 +71,9 @@ class EloquentPersonRepository implements PersonRepository
             if ($request->has('groups')) {
                 $person->groups()->syncWithPivotValues($request->groups, ['checked_at' => now(), 'checked_by' => auth()->id()]);
             }
+
             return $person;
         }, 5);
-
 
     }
 
@@ -99,6 +101,7 @@ class EloquentPersonRepository implements PersonRepository
             $person = Person::findPid($id)
                 ->firstOrFail();
             $person->delete();
+
             return $person;
         }, 5);
     }
@@ -110,6 +113,7 @@ class EloquentPersonRepository implements PersonRepository
                 ->findPid($id)
                 ->firstOrFail();
             $person->restore();
+
             return $person;
         }, 5);
     }

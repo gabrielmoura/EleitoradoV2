@@ -21,11 +21,12 @@
                         Email: {{$person->email}}<br>
                         Data de Cadastro: {{$person->created_at}}<br>
                         Data de Atualização: {{$person->updated_at}}<br>
-                        Telefone: {{$person?->telephone}} | Celular: {{$person?->cellphone}} @if($person->cellphone==null)
-                            <a href="https://api.whatsapp.com/send?phone={{$person->cellphone}}"><i
-                                    class="fab fa-whatsapp"></i>(Enviar mensagem no WhatsApp)</a>
-                            <a href="https://t.me/+{{$person->cellphone}}"><i class="fab fa-telegram"></i>(Enviar
-                                mensagem no Telegram)</a>
+                        Telefone: {{$person?->telephone}} | Celular: {{$person?->cellphone}} @if($person->cellphone)
+                            <a href="https://api.whatsapp.com/send?phone={{$person->cellphone}}"
+                               title="(Enviar mensagem no WhatsApp)"><i
+                                    class="fab fa-whatsapp"></i></a>
+                            <a href="https://t.me/+{{$person->cellphone}}" title="(Enviar mensagem no Telegram)"><i
+                                    class="fab fa-telegram"></i></a>
                         @endif<br>
                         Endereço Completo: {{$person->address->street}} - {{$person->address->number}}
                         - {{$person->address->district}} - {{$person->address->city}} - {{$person->address->state}}<br>

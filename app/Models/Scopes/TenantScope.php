@@ -13,9 +13,7 @@ class TenantScope implements Scope
 {
     /**
      * Apply the scope to a given Eloquent query builder.
-     * @param Builder $builder
-     * @param Model $model
-     * @return void
+     *
      * @throws TenantException
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
@@ -24,8 +22,8 @@ class TenantScope implements Scope
     {
 
         $company_id = session()->get('tenant_id') ?? false;
-        if (!$company_id) {
-            if (!app()->runningInConsole() && !auth()->user()->hasRole('admin')) {
+        if (! $company_id) {
+            if (! app()->runningInConsole() && ! auth()->user()->hasRole('admin')) {
                 throw new TenantException(message: 'Tenant id not found', user: auth()->user());
             }
         } else {

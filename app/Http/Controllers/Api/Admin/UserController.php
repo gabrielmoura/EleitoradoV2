@@ -32,17 +32,18 @@ class UserController extends Controller
         //
     }
 
-
     public function store(UserStoreRequest $request)
     {
         $data = $request->validated();
         $transaction = DB::transaction(function () use ($data) {
             $user = User::create($data);
             $user->assignRole('manager');
+
             return $user;
         });
         if ($transaction) {
             Mail::to($transaction)->send(new WelcomeSystemMail());
+
             return $transaction;
         }
     }
@@ -55,7 +56,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -66,7 +67,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -77,7 +78,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

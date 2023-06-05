@@ -21,9 +21,10 @@ class Index extends Component
     use WithSearch;
     use WithBulkActions;
 
-
     public string $name;
+
     public string|null $description;
+
     public $perPage = 10;
 
     public array $bulkActions = [
@@ -36,9 +37,10 @@ class Index extends Component
         'name' => ['required', 'string', 'min:3', 'max:255'],
         'description' => ['nullable', 'string', 'min:3', 'max:255'],
     ];
-    protected $listeners = ['refresh' => '$refresh'];
-    protected $paginationTheme = 'bootstrap';
 
+    protected $listeners = ['refresh' => '$refresh'];
+
+    protected $paginationTheme = 'bootstrap';
 
     public function delete($id): void
     {

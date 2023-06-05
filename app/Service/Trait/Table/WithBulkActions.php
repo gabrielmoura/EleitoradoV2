@@ -8,7 +8,7 @@ trait WithBulkActions
 
     public bool $selectAll = false;
 
-//    public array $bulkActions = [];
+    //    public array $bulkActions = [];
 
     public array $selected = [];
 
@@ -24,7 +24,6 @@ trait WithBulkActions
         $this->selected = [];
     }
 
-
     //setSelected
     public function setSelected(int|string $selected): void
     {
@@ -38,7 +37,7 @@ trait WithBulkActions
     //selectAll
     public function selectAll(): void
     {
-        $this->selectAll = !$this->selectAll;
+        $this->selectAll = ! $this->selectAll;
     }
 
     public function bulkActions(): array
@@ -49,5 +48,4 @@ trait WithBulkActions
 
         return [];
     }
-
 }

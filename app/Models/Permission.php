@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Gate;
 
 class Permission extends Model
 {
@@ -21,6 +20,4 @@ class Permission extends Model
     {
         return $this->belongsToMany(User::class, 'permission_user');
     }
-
 }
-

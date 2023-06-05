@@ -20,6 +20,7 @@ class ExportContactsJob implements ShouldQueue
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public int $peerPage = 10;
+
     public Collection $data;
 
     /**
@@ -52,7 +53,7 @@ class ExportContactsJob implements ShouldQueue
         \Storage::disk('public')->put($newName, $content);
 
         Company::find($this->company_id)
-            ->addMedia(storage_path('app/public/' . $newName))
+            ->addMedia(storage_path('app/public/'.$newName))
             ->withCustomProperties(['batchId' => $this->batch()->id])
             ->toMediaCollection('contactList');
     }

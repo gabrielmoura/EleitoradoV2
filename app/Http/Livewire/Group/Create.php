@@ -7,7 +7,9 @@ use Livewire\Component;
 class Create extends Component
 {
     public $name;
+
     public $description;
+
     protected $rules = [
         'name' => ['required', 'min:3', 'unique:groups,name'],
         'description' => ['nullable', 'min:3'],

@@ -1,4 +1,5 @@
 <?php
+
 return [
     'question' => 'O que aconteceu?',
     'Unauthorized' => 'Não autorizado',
@@ -8,5 +9,5 @@ return [
     'TooManyRequests' => 'Muitos pedidos',
     'ServerError' => 'Erro do servidor',
     'ServiceUnavailable' => 'Serviço indisponível',
-    'Forbidden' => 'Proibido'
+    'Forbidden' => 'Proibido',
 ];

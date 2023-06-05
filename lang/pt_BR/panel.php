@@ -3,4 +3,3 @@
 return [
     'site_title' => 'Recurring Events',
 ];
-

@@ -16,12 +16,13 @@ class PermissionController extends Controller
     {
         $roles = Role::get();
         $permissions = Permission::get();
+
         return view('admin.role.index', compact('roles', 'permissions'));
     }
 
     /**
-     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
@@ -36,8 +37,6 @@ class PermissionController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, $id)
@@ -46,16 +45,18 @@ class PermissionController extends Controller
             // admin role has everything
             if ($role->name === 'Admin') {
                 $role->syncPermissions(Permission::all());
+
                 return redirect()->route('admin.role.index');
             }
 
             $permissions = $request->get('permissions', []);
             $role->syncPermissions($permissions);
-            toastr()->success($role->name . ' permissions has been updated.');
+            toastr()->success($role->name.' permissions has been updated.');
 
         } else {
-            toastr()->error('Role with id ' . $id . ' note found.');
+            toastr()->error('Role with id '.$id.' note found.');
         }
+
         return redirect()->route('admin.role.index');
     }
 }

@@ -13,6 +13,7 @@ class AddressFactory extends Factory
     public function definition(): array
     {
         $tenant_id = Company::all()->random()->tenant_id;
+
         return [
             'tenant_id' => $tenant_id,
             'street' => $this->faker->streetAddress(),

@@ -33,7 +33,6 @@ class PersonStoreRequest extends FormRequest
             'sex' => ['nullable', 'string', 'max:1'],
             'observation' => ['nullable', 'string'],
 
-
             'street' => ['nullable', 'string', 'max:255'],
             'number' => ['nullable', 'string', 'max:255'],
             'complement' => ['nullable', 'string', 'max:255'],

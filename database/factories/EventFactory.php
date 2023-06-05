@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\Company;
 use App\Models\Event;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Carbon;
 
 class EventFactory extends Factory
 {
@@ -13,7 +12,8 @@ class EventFactory extends Factory
 
     public function definition(): array
     {
-        $random_pid= Company::all()->random();
+        $random_pid = Company::all()->random();
+
         return [
             'tenant_id' => $random_pid->tenant_id,
             'name' => $this->faker->name,

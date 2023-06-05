@@ -14,6 +14,7 @@ class DemandFactory extends Factory
     public function definition(): array
     {
         $random = Company::all()->random();
+
         return [
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

@@ -1,4 +1,5 @@
 <?php
+
 return [
     'deferred' => 'Deferido',
     'rejected' => 'Indeferido',
@@ -8,7 +9,7 @@ return [
     'cancellation' => 'Solicitou Cancelamento',
     'sex' => [
         'm' => 'Masculino',
-        'f' => 'Feminino'
+        'f' => 'Feminino',
     ],
     'Pendencies' => 'Pendencias',
     'Clients' => 'Clientes',

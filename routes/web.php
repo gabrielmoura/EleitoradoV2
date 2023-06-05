@@ -1,10 +1,7 @@
 <?php
 
-use App\Events\Export\PDF\ExportedPeopleAddress;
-use App\Events\Export\PDF\FailedExportPeopleAddress;
-use App\Jobs\Export\PDF\ExportPeopleAddressJob;
-use Illuminate\Bus\Batch;
-use Illuminate\Support\Facades\Bus;
+use App\Http\Controllers\Auth\SocialController;
+use App\Http\Controllers\Dash\Export\PeopleAddressController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,33 +19,35 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/get/{id}', [\App\Http\Controllers\Dash\Export\PeopleAddressController::class, 'response'])->name('getFile');
+Route::get('/get/{id}', [PeopleAddressController::class, 'response'])->name('getFile');
+
+Route::get('/auth/redirect/{provider}', [SocialController::class, 'redirect'])->name('social.redirect');
+Route::get('/auth/callback/{provider}', [SocialController::class, 'callback'])->name('social.callback');
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified'
+    'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 });
 
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+    //    'hasCompany'
+])->prefix('dash')->name('dash.')->group(fn () => require_once 'dash.php');
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-//    'hasCompany'
-])->prefix('dash')->name('dash.')->group(fn() => require_once 'dash.php');
-
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->prefix('admin')->name('admin.')->group(fn() => require_once 'admin.php');
+])->prefix('admin')->name('admin.')->group(fn () => require_once 'admin.php');
 
 Route::middleware([
     'auth',
-    'ajaxOnly'
-])->prefix('ajax')->name('ajax.')->group(fn() => require_once 'ajax.php');
+    'ajaxOnly',
+])->prefix('ajax')->name('ajax.')->group(fn () => require_once 'ajax.php');

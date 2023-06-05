@@ -3,8 +3,6 @@
 namespace Tests\Feature\Livewire\Batch;
 
 use App\Http\Livewire\Batch\Job;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Livewire;
 use Tests\TestCase;
 

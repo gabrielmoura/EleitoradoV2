@@ -25,7 +25,6 @@ class EloquentBatchRepository implements BatchRepository
 
     public function allWithMethods(): Collection
     {
-        return $this->all()->map(fn($batch) => Bus::findBatch($batch->id));
+        return $this->all()->map(fn ($batch) => Bus::findBatch($batch->id));
     }
-
 }

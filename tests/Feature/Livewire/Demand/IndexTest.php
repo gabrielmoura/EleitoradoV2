@@ -3,8 +3,6 @@
 namespace Tests\Feature\Livewire\Demand;
 
 use App\Http\Livewire\Demand\Index;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Livewire;
 use Tests\TestCase;
 

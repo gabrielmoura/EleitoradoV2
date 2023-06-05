@@ -19,11 +19,10 @@ class PersonController extends Controller
 
     public function index()
     {
-//        $voters = Voter::with(['addresses'])->where('company_id', $this->getCompanyId())
-//            ->limit(10)->get();
+        //        $voters = Voter::with(['addresses'])->where('company_id', $this->getCompanyId())
+        //            ->limit(10)->get();
         return view('dash.person.index');
     }
-
 
     public function create()
     {
@@ -31,9 +30,9 @@ class PersonController extends Controller
         $events = Event::orderBy('created_at')->take(10)->get();
         $form = ['method' => 'POST', 'route' => ['dash.person.store']];
         $person = new Person();
+
         return view('dash.person.form', compact('form', 'groups', 'events', 'person'));
     }
-
 
     public function store(PersonStoreRequest $request)
     {
@@ -43,12 +42,13 @@ class PersonController extends Controller
         } catch (\Throwable $throwable) {
             report($throwable);
             flash()->addError('Erro ao Salvar');
+
             return redirect()->back()->withInput()->withErrors($throwable->getMessage());
         }
         flash()->addSaved('Salvo com sucesso');
+
         return redirect()->route('dash.person.index');
     }
-
 
     public function update(PersonUpdateRequest $request, $id)
     {
@@ -57,22 +57,23 @@ class PersonController extends Controller
         } catch (\Throwable $throwable) {
             report($throwable);
             flash()->addError('Erro ao Salvar');
+
             return redirect()->back()->withInput()->withErrors($throwable->getMessage());
         }
         flash()->addSaved('Salvo com sucesso');
+
         return redirect()->route('dash.person.index');
     }
-
 
     public function show($pid)
     {
         $person = Person::findPid($pid)
             ->with(['groups', 'media', 'events', 'address'])
             ->firstOrFail();
+
         return view('dash.person.show', compact('person'));
 
     }
-
 
     public function edit($pid)
     {
@@ -83,13 +84,13 @@ class PersonController extends Controller
         $events = Event::orderBy('created_at')->take(10)->get();
 
         $form = ['method' => 'PATCH', 'route' => ['dash.person.update', 'person' => $pid]];
+
         return view('dash.person.form', compact('form', 'person', 'groups', 'events'));
     }
 
-
     public function destroy($id)
     {
-        if (!Gate::allows('delete_person')) {
+        if (! Gate::allows('delete_person')) {
             abort(403);
         }
         try {
@@ -103,7 +104,6 @@ class PersonController extends Controller
         }
     }
 
-
     public function deleted()
     {
         try {
@@ -114,20 +114,20 @@ class PersonController extends Controller
         }
     }
 
-
     public function restore($pid)
     {
         $this->personRepository->restore($pid);
     }
 
-
     public function history($pid)
     {
         try {
             $person = $this->personRepository->getHistory($pid);
+
             return view('dash.person.history', compact('person'));
         } catch (\Throwable $throwable) {
             report($throwable);
+
             return redirect()->back();
         }
     }

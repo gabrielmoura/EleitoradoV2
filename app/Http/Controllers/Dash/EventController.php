@@ -6,12 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\EventStoreRequest;
 use App\Http\Requests\EventUpdateRequest;
 use App\Models\Event;
-use App\Models\TagGroup;
-use App\Models\Voter;
 use App\Traits\CompanySessionTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
@@ -24,6 +21,7 @@ class EventController extends Controller
     {
         $events = Event::where('company_id', $this->getCompanyId())
             ->with('voters', 'address')->get();
+
         return view('dash.event.index', compact('events'));
     }
 
@@ -33,11 +31,11 @@ class EventController extends Controller
     public function create()
     {
         $form = ['method' => 'POST', 'route' => ['dash.event.store']];
+
         return view('dash.event.form', compact('form'));
     }
 
     /**
-     * @param $pid
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show($pid)
@@ -46,11 +44,11 @@ class EventController extends Controller
             ->where('company_id', $this->getCompanyId())
             ->with('voters', 'address')
             ->firstOrFail();
+
         return view('dash.event.show', compact('event'));
     }
 
     /**
-     * @param $pid
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit($pid)
@@ -60,11 +58,11 @@ class EventController extends Controller
             ->with(['address'])
             ->firstOrFail();
         $form = ['method' => 'PATCH', 'route' => ['dash.event.update', 'event' => $pid]];
+
         return view('dash.event.form', compact('form', 'event'));
     }
 
     /**
-     * @param EventStoreRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(EventStoreRequest $request)
@@ -84,8 +82,6 @@ class EventController extends Controller
     }
 
     /**
-     * @param EventUpdateRequest $request
-     * @param $pid
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(EventUpdateRequest $request, $pid)
@@ -108,7 +104,6 @@ class EventController extends Controller
     }
 
     /**
-     * @param $pid
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($pid)
@@ -127,22 +122,10 @@ class EventController extends Controller
         }
     }
 
-    /**
-     * @param EventUpdateRequest|EventStoreRequest $request
-     * @param \Illuminate\Database\Eloquent\Model|Event|\Illuminate\Database\Eloquent\Builder $event
-     * @return void
-     */
     private function setAddress(EventUpdateRequest|EventStoreRequest $request, Model|Event|Builder $event): void
     {
         if ($request->has('post_code') || $request->has('street')) {
-            $address = $request->only(['post_code'
-                , 'street'
-                , 'number'
-                , 'complement'
-                , 'district'
-                , 'city'
-                , 'state'
-                , 'country']);
+            $address = $request->only(['post_code', 'street', 'number', 'complement', 'district', 'city', 'state', 'country']);
             $address['is_primary'] = true;
             if ($event->address()->exists()) {
                 $event->address()->update($address);

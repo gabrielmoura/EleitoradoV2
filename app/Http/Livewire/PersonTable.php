@@ -13,9 +13,11 @@ use Rappasoft\LaravelLivewireTables\Views\Columns\LinkColumn;
 class PersonTable extends DataTableComponent
 {
     public int $perPage = 25;
+
     public array $bulkActions = [
         'exportSelected' => 'Export',
     ];
+
     protected $model = Person::class;
 
     public function configure(): void
@@ -34,38 +36,38 @@ class PersonTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Id", "id")
+            Column::make('Id', 'id')
                 ->sortable(),
-            Column::make("Nome", "name")
+            Column::make('Nome', 'name')
                 ->sortable()
                 ->searchable(),
-            Column::make("Email", "email")
+            Column::make('Email', 'email')
                 ->sortable()
                 ->searchable(),
-            Column::make("Phone", "phone")
+            Column::make('Celular', 'cellphone')
                 ->sortable()
                 ->searchable(),
-            Column::make("Cpf", "cpf")
+            Column::make('Cpf', 'cpf')
                 ->sortable(),
-            Column::make("Rg", "rg")
+            Column::make('Rg', 'rg')
                 ->sortable(),
-            Column::make('Endereço', 'address.street')->label(fn($row) => $row->addresses->street ?? null),
+            Column::make('Endereço', 'address.street')->label(fn ($row) => $row->addresses->street ?? null),
             ButtonGroupColumn::make('Actions')->attributes(function ($row) {
                 return [
                     'class' => 'space-x-2',
                 ];
             })->buttons([
                 LinkColumn::make('View') // make() has no effect in this case but needs to be set anyway
-                ->title(fn($row) => 'Ver ')
-                    ->location(fn($row) => route('dash.person.show', $row->pid))
+                    ->title(fn ($row) => 'Ver ')
+                    ->location(fn ($row) => route('dash.person.show', $row->pid))
                     ->attributes(function ($row) {
                         return [
                             'class' => 'badge bg-primary',
                         ];
                     }),
                 LinkColumn::make('Edit')
-                    ->title(fn($row) => 'Editar')
-                    ->location(fn($row) => route('dash.person.edit', $row->pid))
+                    ->title(fn ($row) => 'Editar')
+                    ->location(fn ($row) => route('dash.person.edit', $row->pid))
                     ->attributes(function ($row) {
                         return [
                             'target' => '_blank',
@@ -75,14 +77,14 @@ class PersonTable extends DataTableComponent
             ]),
             Column::make('Remoção', 'pid')
                 ->label(
-                    fn($row) => /** @lang text */ "<form action=" . route('dash.person.destroy', ['voter' => $row->pid]) . " method='POST'>
+                    fn ($row) => /** @lang text */ '<form action='.route('dash.person.destroy', ['voter' => $row->pid])." method='POST'>
                             <input type='hidden' name='_method' value='DELETE'>
-                            <input type='hidden' name='_token' value=" . csrf_token() . ">
+                            <input type='hidden' name='_token' value=".csrf_token().">
                             <button type='submit'>Remover</button>
                         </form>"
                 )
                 ->html()
-                ->hideIf(!\Auth::user()->hasRole('manager')),
+                ->hideIf(! \Auth::user()->hasRole('manager')),
         ];
     }
 
@@ -97,10 +99,11 @@ class PersonTable extends DataTableComponent
                 return Excel::download(new VotersExport($users), 'voters.xlsx');
             }
         );
-        if (!$executed) {
+        if (! $executed) {
             flash()->addError('Too many messages sent!', 'Error');
         }
         $this->clearSelected();
+
         return $executed;
     }
 }

@@ -11,16 +11,14 @@ use Illuminate\Routing\Middleware\ValidateSignature as Middleware;
 class AjaxOnly extends Middleware
 {
     /**
-     * @param Request $request
-     * @param Closure $next
-     * @param ...$args
-     * @return JsonResponse|Response
+     * @param  Request  $request
      */
     public function handle($request, Closure $next, ...$args): Response|JsonResponse
     {
         if ($request->ajax()) {
             return $next($request);
         }
+
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 }

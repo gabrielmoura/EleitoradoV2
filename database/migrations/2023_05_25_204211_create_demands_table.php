@@ -23,7 +23,6 @@ return new class extends Migration
             $table->enum('priority', ['low', 'medium', 'high'])->default('low')->comment('Demand priority');
 
             $table->boolean('active')->default(true)->nullable();
-            $table->integer('priority')->default(0)->nullable();
         });
     }
 

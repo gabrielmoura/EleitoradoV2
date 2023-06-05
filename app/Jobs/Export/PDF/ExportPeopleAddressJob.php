@@ -23,21 +23,15 @@ class ExportPeopleAddressJob implements ShouldQueue
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public int $peerPage = 10;
+
     public Collection $data;
 
-    /**
-     * @param $data
-     * @param string $filename
-     * @param int $company_id
-     * @param string $group_by_name
-     */
     public function __construct($data, public string $filename, public int $company_id, public string $group_by_name)
     {
         $this->data = collect($data);
     }
 
     /**
-     * @return void
      * @throws FileDoesNotExist
      * @throws FileIsTooBig
      */
@@ -62,15 +56,11 @@ class ExportPeopleAddressJob implements ShouldQueue
         \Storage::disk('public')->put($newName, $content);
 
         Company::find($this->company_id)
-            ->addMedia(storage_path('app/public/' . $newName))
+            ->addMedia(storage_path('app/public/'.$newName))
             ->withCustomProperties(['batchId' => $this->batch()->id])
             ->toMediaCollection('puxada');
     }
 
-    /**
-     * @param Throwable $exception
-     * @return void
-     */
     public function failed(Throwable $exception): void
     {
         report($exception);

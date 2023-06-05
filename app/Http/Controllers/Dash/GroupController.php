@@ -21,6 +21,7 @@ class GroupController extends Controller
     {
         return view('dash.group.show', compact('group'));
     }
+
     public function history($pid)
     {
         try {
@@ -29,9 +30,11 @@ class GroupController extends Controller
             $histories = Activity::where('subject_type', Group::class)
                 ->where('subject_id', $tag->id)
                 ->get();
+
             return view('dash.group.history', compact('histories'));
         } catch (\Throwable $throwable) {
             report($throwable);
+
             return redirect()->back();
         }
     }

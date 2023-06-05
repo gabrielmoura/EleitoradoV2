@@ -7,12 +7,9 @@ use Laravel\Fortify\LoginRateLimiter;
 
 class PopulateSessionPipeline
 {
-
-
     /**
      * Create a new class instance.
      *
-     * @param LoginRateLimiter $limiter
      * @return void
      */
     public function __construct(protected LoginRateLimiter $limiter)
@@ -22,10 +19,6 @@ class PopulateSessionPipeline
 
     /**
      * Populate the session with the rate limiter data.
-     *
-     * @param Request $request
-     * @param callable $next
-     * @return mixed
      */
     public function handle(Request $request, callable $next): mixed
     {
@@ -35,15 +28,16 @@ class PopulateSessionPipeline
         $request->session()->put('company', [
             'name' => $company->name,
             'id' => $company->id,
-            'banned' => $company->banned
+            'banned' => $company->banned,
         ]);
         $request->session()->put('user', [
             'profile_photo_url' => $user->profile_photo_url,
             'name' => $user->name,
-            'email' => $user->email
+            'email' => $user->email,
         ]);
 
         $this->limiter->clear($request);
+
         return $next($request);
     }
 }

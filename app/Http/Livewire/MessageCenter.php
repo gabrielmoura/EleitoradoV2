@@ -6,7 +6,6 @@ use Livewire\Component;
 
 class MessageCenter extends Component
 {
-
     public $message = [
         [
             'img' => 'assets/img/illustrations/profiles/profile-2.png',
@@ -17,7 +16,7 @@ class MessageCenter extends Component
                 fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
                 officia deserunt mollit anim id est laborum.',
             'name' => 'Thomas Wilcox',
-            'time' => '58m'
+            'time' => '58m',
         ],
         [
             'img' => 'assets/img/illustrations/profiles/profile-3.png',
@@ -28,7 +27,7 @@ class MessageCenter extends Component
                 fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
                 officia deserunt mollit anim id est laborum.',
             'name' => 'Emily Fowler',
-            'time' => '2d'
+            'time' => '2d',
         ],
         [
             'img' => 'assets/img/illustrations/profiles/profile-4.png',
@@ -39,14 +38,14 @@ class MessageCenter extends Component
                 fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
                 officia deserunt mollit anim id est laborum.',
             'name' => 'Marshall Rosencrantz',
-            'time' => '3d'
-        ]
+            'time' => '3d',
+        ],
     ];
 
     public function render()
     {
         return view('livewire.message-center', [
-            'messages' => $this->message
+            'messages' => $this->message,
         ]);
     }
 }

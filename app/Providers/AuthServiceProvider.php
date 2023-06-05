@@ -29,9 +29,9 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         try {
-            if (Cache::has(config('permission.cache.prefix') . 'roles') && Cache::has(config('permission.cache.prefix') . 'permissions')) {
-                $rolesArray = Cache::get(config('permission.cache.prefix') . 'roles');
-                $permissionsArray = Cache::get(config('permission.cache.prefix') . 'permissions');
+            if (Cache::has(config('permission.cache.prefix').'roles') && Cache::has(config('permission.cache.prefix').'permissions')) {
+                $rolesArray = Cache::get(config('permission.cache.prefix').'roles');
+                $permissionsArray = Cache::get(config('permission.cache.prefix').'permissions');
             } else {
                 $roles = Role::all();
                 $users = User::all();
@@ -48,10 +48,9 @@ class AuthServiceProvider extends ServiceProvider
                         $rolesArray[$role->name][] = $user->hasRole($role->name) ? $user->id : null;
                     }
                 }
-                Cache::set(config('permission.cache.prefix') . 'permissions', $permissionsArray, config('permission.cache.ttl'));
-                Cache::set(config('permission.cache.prefix') . 'roles', $rolesArray, config('permission.cache.ttl'));
+                Cache::set(config('permission.cache.prefix').'permissions', $permissionsArray, config('permission.cache.ttl'));
+                Cache::set(config('permission.cache.prefix').'roles', $rolesArray, config('permission.cache.ttl'));
             }
-
 
             foreach ($permissionsArray as $permission => $users) {
                 Gate::define($permission, function ($user) use ($users) {
@@ -65,7 +64,7 @@ class AuthServiceProvider extends ServiceProvider
             }
 
         } catch (\Exception $e) {
-//            dd($e);
+            //            dd($e);
         }
 
     }

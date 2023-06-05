@@ -5,6 +5,7 @@ namespace App\Service\Trait\Table;
 trait WithReordering
 {
     public string $defaultReorderColumn = 'created_at';
+
     public bool $defaultReorderDirection = true;
 
     public function orderBy($field): void
@@ -16,5 +17,4 @@ trait WithReordering
         }
         $this->defaultReorderColumn = $field;
     }
-
 }

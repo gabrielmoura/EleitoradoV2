@@ -9,21 +9,16 @@ use Illuminate\Support\LazyCollection;
 class EloquentAnalyticsRepository implements AnalyticsRepository
 {
     /**
-     * @param string $group_name
-     * @param string $tenant_id uuid
-     * @param string|null $district
-     * @param bool $checked
-     * @param bool $lazy
-     * @return Collection|LazyCollection
+     * @param  string  $tenant_id uuid
+     * @param  string|null  $district
      */
     public function pessoas(
-        string      $group_name,
-        string      $tenant_id,
+        string $group_name,
+        string $tenant_id,
         null|string $district = null,
-        bool        $checked = true,
-        bool        $lazy = false
-    ): Collection|LazyCollection
-    {
+        bool $checked = true,
+        bool $lazy = false
+    ): Collection|LazyCollection {
 
         $sql = DB::table('people')
             ->join('group_people', 'people.id', '=', 'group_people.person_id', 'LEFT')
@@ -56,11 +51,12 @@ class EloquentAnalyticsRepository implements AnalyticsRepository
                 'addresses.complement',
                 'addresses.reference',
                 'addresses.latitude',
-                'addresses.longitude'
+                'addresses.longitude',
             ]);
         if ($lazy) {
             return $sql->cursor();
         }
+
         return $sql->get();
     }
 
@@ -108,11 +104,11 @@ class EloquentAnalyticsRepository implements AnalyticsRepository
 
     /**
      * @description Retorna os aniversariantes do dia
-     * @return Collection
      */
     public function birthdaysOfTheDay(): Collection
     {
         $now = now()->day;
+
         return DB::table('people')
             ->join('addresses', 'people.address_id', '=', 'addresses.id', 'LEFT')
             ->whereNotNull('people.address_id')
@@ -130,7 +126,7 @@ class EloquentAnalyticsRepository implements AnalyticsRepository
                 'addresses.complement',
                 'addresses.reference',
                 'addresses.latitude',
-                'addresses.longitude'
+                'addresses.longitude',
             ])
             ->get();
     }

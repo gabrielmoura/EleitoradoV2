@@ -11,34 +11,46 @@ class Index extends Component
 {
     use WithPagination;
     use AuthorizesRequests;
+
     public string $name;
+
     public string|null $description;
+
     public string $start_date;
+
     public string|null $end_date;
+
     public $perPage = 10;
+
     public $search = '';
+
     public $orderBy = 'created_at';
+
     public $orderAsc = true;
+
     public int|null $updateEventId;
+
     public $selectedItems = [];
+
     protected $rules = [
         'name' => ['required', 'string', 'min:3', 'max:255'],
         'description' => ['nullable', 'string', 'min:3', 'max:255'],
         'start_date' => ['required', 'date'],
         'end_date' => ['nullable', 'date'],
     ];
-    protected $listeners = ['refresh' => '$refresh'];
-    protected $paginationTheme = 'bootstrap';
 
+    protected $listeners = ['refresh' => '$refresh'];
+
+    protected $paginationTheme = 'bootstrap';
 
     public function render()
     {
         return view('livewire.event.index',
             [
-                'events' => Event::where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('description', 'like', '%' . $this->search . '%')
+                'events' => Event::where('name', 'like', '%'.$this->search.'%')
+                    ->orWhere('description', 'like', '%'.$this->search.'%')
                     ->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')
-                    ->paginate($this->perPage)
+                    ->paginate($this->perPage),
             ]);
     }
 
@@ -66,7 +78,7 @@ class Index extends Component
     public function sortBy($field): void
     {
         if ($this->orderBy === $field) {
-            $this->orderAsc = !$this->orderAsc;
+            $this->orderAsc = ! $this->orderAsc;
         } else {
             $this->orderAsc = true;
         }

@@ -16,10 +16,6 @@ enum PersonOptions
         ];
     }
 
-    /**
-     * @param string|null $sex
-     * @return string
-     */
     public static function getSexOption(?string $sex): string
     {
         return match ($sex) {
@@ -44,10 +40,6 @@ enum PersonOptions
         ];
     }
 
-    /**
-     * @param string|null $skinColor
-     * @return string
-     */
     public static function getSkinColorOption(?string $skinColor): string
     {
         return match ($skinColor) {
@@ -73,10 +65,6 @@ enum PersonOptions
         ];
     }
 
-    /**
-     * @param string|null $genderIdentity
-     * @return string
-     */
     public static function getGenderIdentityOption(?string $genderIdentity): string
     {
         return match ($genderIdentity) {
@@ -103,10 +91,6 @@ enum PersonOptions
         ];
     }
 
-    /**
-     * @param string|null $sexualOrientation
-     * @return string
-     */
     public static function getSexualOrientationOption(?string $sexualOrientation): string
     {
         return match ($sexualOrientation) {
@@ -133,10 +117,6 @@ enum PersonOptions
         ];
     }
 
-    /**
-     * @param string|null $genderExpression
-     * @return string
-     */
     public static function getGenderExpressionOption(?string $genderExpression): string
     {
         return match ($genderExpression) {
@@ -161,10 +141,6 @@ enum PersonOptions
         ];
     }
 
-    /**
-     * @param string|null $house
-     * @return string
-     */
     public static function getHouseOption(?string $house): string
     {
         return match ($house) {
@@ -190,10 +166,6 @@ enum PersonOptions
         ];
     }
 
-    /**
-     * @param string|null $maritalStatus
-     * @return string
-     */
     public static function getMaritalStatusOption(?string $maritalStatus): string
     {
         return match ($maritalStatus) {
@@ -205,7 +177,6 @@ enum PersonOptions
             default => 'Não informado',
         };
     }
-
 
     /**
      * @return string[]
@@ -227,11 +198,6 @@ enum PersonOptions
         ];
     }
 
-
-    /**
-     * @param string|null $educationLevel
-     * @return string
-     */
     public static function getEducationLevelOption(?string $educationLevel): string
     {
         return match ($educationLevel) {
@@ -250,7 +216,6 @@ enum PersonOptions
         };
     }
 
-
     /**
      * @return string[]
      */
@@ -268,11 +233,6 @@ enum PersonOptions
         ];
     }
 
-
-    /**
-     * @param string|null $occupation
-     * @return string
-     */
     public static function getOccupationOption(?string $occupation): string
     {
         return match ($occupation) {
@@ -287,7 +247,6 @@ enum PersonOptions
             default => 'Não informado',
         };
     }
-
 
     /**
      * @return string[]
@@ -309,11 +268,6 @@ enum PersonOptions
         ];
     }
 
-
-    /**
-     * @param string|null $religion
-     * @return string
-     */
     public static function getReligionOption(?string $religion): string
     {
         return match ($religion) {
@@ -343,10 +297,6 @@ enum PersonOptions
         ];
     }
 
-    /**
-     * @param string|null $voter
-     * @return string
-     */
     public static function getVoterOption(?string $voter): string
     {
         return match ($voter) {
@@ -355,6 +305,7 @@ enum PersonOptions
             default => 'Não informado',
         };
     }
+
     // Deficiency Type Options
     public static function getDeficiencyTypeOptions(): array
     {
@@ -366,6 +317,7 @@ enum PersonOptions
             'Outro' => 'o', // other
         ];
     }
+
     // Deficiency Type Option
     public static function getDeficiencyTypeOption(?string $deficiencyType): string
     {

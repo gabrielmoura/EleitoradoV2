@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Person;
 
-
 use App\Models\Person;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
@@ -14,25 +13,35 @@ class Index extends Component
     use AuthorizesRequests;
 
     public string $name;
+
     public string|null $description;
+
     public $perPage = 10;
+
     public $search = '';
 
     public $orderBy = 'created_at';
+
     public $orderAsc = true;
+
     public int|null $updatePersonId;
+
     public $selectedItems = [];
 
     protected $rules = [
         'name' => ['required', 'string', 'min:3', 'max:255'],
         'description' => ['nullable', 'string', 'min:3', 'max:255'],
     ];
+
     protected $listeners = ['refresh' => '$refresh'];
+
     protected $paginationTheme = 'bootstrap';
+
     public function render()
     {
         return view('livewire.person.index');
     }
+
     public function setSelect($id): void
     {
         $this->selectedItems[] = $id;
@@ -43,11 +52,10 @@ class Index extends Component
         $this->emit('exportSelected', $to, $this->selectedItems);
     }
 
-
     public function sortBy($field): void
     {
         if ($this->orderBy === $field) {
-            $this->orderAsc = !$this->orderAsc;
+            $this->orderAsc = ! $this->orderAsc;
         } else {
             $this->orderAsc = true;
         }
@@ -60,6 +68,7 @@ class Index extends Component
         $this->dispatchBrowserEvent('close-modal');
         $this->resetInput();
     }
+
     public function updated($propertyName): void
     {
         $this->validateOnly($propertyName);
@@ -103,12 +112,11 @@ class Index extends Component
         ]);
         $this->closeModal();
     }
+
     public function delete($id): void
     {
         $this->authorize('delete_person');
         Person::find($id)->delete();
         session()->flash('message', 'Group successfully deleted.');
     }
-
-
 }

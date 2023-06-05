@@ -3,8 +3,6 @@
 namespace Tests\Feature\Livewire\Adress;
 
 use App\Http\Livewire\Adress\Create;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Livewire;
 use Tests\TestCase;
 

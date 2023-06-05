@@ -20,9 +20,6 @@ class AlertsCenter extends Component
         });
     }
 
-    /**
-     * @return Application|View|Factory
-     */
     public function render(): Factory|View|Application
     {
         return view('livewire.alerts-center', [

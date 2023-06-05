@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\Demand\DemandClosedEvent;
+use App\Events\Demand\DemandCreatedEvent;
 use App\Events\Export\PDF\ExportedPeopleAddress;
 use App\Events\Export\PDF\FailedExportPeopleAddress;
+use App\Listeners\Demand\DemandClosedMail;
+use App\Listeners\Demand\DemandCreatedMail;
 use App\Listeners\Export\PDF\ExportedPeopleAddressNotification;
 use App\Listeners\Export\PDF\FailedExportedPeopleAddressNotification;
 use Illuminate\Auth\Events\Registered;
@@ -25,7 +29,22 @@ class EventServiceProvider extends ServiceProvider
             ExportedPeopleAddressNotification::class,
         ],
         FailedExportPeopleAddress::class => [
-            FailedExportedPeopleAddressNotification::class
+            FailedExportedPeopleAddressNotification::class,
+        ],
+        DemandCreatedEvent::class => [
+            DemandCreatedMail::class,
+        ],
+        DemandClosedEvent::class => [
+            DemandClosedMail::class,
+        ],
+        \Spatie\Backup\Events\BackupWasSuccessful::class => [
+            // Backup Realizado com Sucesso
+        ],
+        \Spatie\Backup\Events\BackupHasFailed::class => [
+            // Backup Falhou
+        ],
+        \Spatie\Backup\Events\CleanupWasSuccessful::class => [
+            // Backup Limpo com Sucesso
         ],
 
     ];

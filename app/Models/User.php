@@ -29,6 +29,7 @@ class User extends Authenticatable
         'email',
         'password',
         'company_id',
+        'social',
     ];
 
     /**
@@ -53,6 +54,7 @@ class User extends Authenticatable
         'password' => 'hashed',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'social' => 'collection',
     ];
 
     /**
@@ -62,7 +64,7 @@ class User extends Authenticatable
      */
     protected $appends = [
         'profile_photo_url',
-//        'company'
+        //        'company'
     ];
 
     public function getCompanyAttribute()
@@ -84,5 +86,4 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Permission::class, 'permission_user', 'user_id', 'permission_id');
     }
-
 }

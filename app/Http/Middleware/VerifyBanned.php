@@ -14,21 +14,20 @@ class VerifyBanned extends Middleware
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
-     * @param Closure $next
-     * @param mixed ...$args
-     * @return Response
+     * @param  Request  $request
+     * @param  mixed  ...$args
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     public function handle($request, Closure $next, ...$args): Response
     {
         abort_if($this->hasBanned(), 403, __('error.Unauthorized'));
+
         return $next($request);
     }
 
     /**
-     * @return bool
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */

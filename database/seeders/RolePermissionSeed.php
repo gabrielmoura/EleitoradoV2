@@ -17,8 +17,9 @@ class RolePermissionSeed extends Seeder
         $permissions = collect(['person', 'group', 'event'])->map(function ($item) {
             $value = [];
             foreach (['create_', 'update_', 'read_', 'delete_'] as $prefix) {
-                $value[] = ['name' => $prefix . $item];
+                $value[] = ['name' => $prefix.$item];
             }
+
             return $value;
         });
         foreach ($permissions as $permission) {

@@ -13,16 +13,16 @@
             </ul>
         </div>
     @endif
-{{--    @if($form['method']!=='POST')--}}
-{{--        <form action="{{route('dash.checkin.store')}}" method="POST">--}}
-{{--            @csrf--}}
-{{--            <input type="hidden" value="{{$person->pid}}" name="voter_pid"/>--}}
-{{--            <button type="submit" class="btn btn-success">--}}
-{{--                <i class="fa fa-check"></i>--}}
-{{--                Checkin--}}
-{{--            </button>--}}
-{{--        </form>--}}
-{{--    @endif--}}
+    {{--    @if($form['method']!=='POST')--}}
+    {{--        <form action="{{route('dash.checkin.store')}}" method="POST">--}}
+    {{--            @csrf--}}
+    {{--            <input type="hidden" value="{{$person->pid}}" name="voter_pid"/>--}}
+    {{--            <button type="submit" class="btn btn-success">--}}
+    {{--                <i class="fa fa-check"></i>--}}
+    {{--                Checkin--}}
+    {{--            </button>--}}
+    {{--        </form>--}}
+    {{--    @endif--}}
     <form action="{{route($form['route'][0],(isset($form['route']['person']))?$form['route']['person']:null)}}"
           method="POST">
         @method($form['method'])
@@ -32,9 +32,10 @@
             <div class="row">
                 <div class="form-group mb-3 col-md-3">
                     <label for="cel" class="form-label">Celular</label>
-                    <input type="text" name="cel" class="form-control tel @error('cel') is-invalid @enderror" id="cel"
+                    <input type="text" name="cellphone"
+                           class="form-control tel @error('cellphone') is-invalid @enderror" id="cellphone"
                            placeholder=""
-                           value="{{$person->cel??old('cel')}}">
+                           value="{{$person->cellphone??old('cellphone')}}">
                 </div>
                 <div class="from-group mb-3  col-md-6">
                     <label for="name" class="form-label">Nome</label>
@@ -45,9 +46,9 @@
                 <div class="form-group mb-3  col-md-3">
                     <label for="sex" class="form-label">Sexo</label>
                     <select class="select form-control" name="sex">
-                        <option value="m" {{$person?->sex=='m'?'selected':null}}>Masculino</option>
-                        <option value="f" {{$person?->sex=='f'?'selected':null}}>Feminino</option>
-                        <option value="o" {{$person?->sex=='o'?'selected':null}}>Outro</option>
+                        @foreach(\App\Service\Enum\PersonOptions::getSexOptions() as $key=>$value)
+                            <option value="{{$value}}" {{$person?->sex===$value?'selected':null}}>{{$key}}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="form-group mb-3 col-md-3">
@@ -65,9 +66,10 @@
                 </div>
                 <div class="form-group mb-3 col-md-3">
                     <label for="tel" class="form-label">Telefone</label>
-                    <input type="text" name="tel" class="form-control tel @error('tel') is-invalid @enderror" id="tel"
+                    <input type="text" name="telephone"
+                           class="form-control tel @error('telephone') is-invalid @enderror" id="telephone"
                            placeholder=""
-                           value="{{$person->tel??old('tel')}}">
+                           value="{{$person->telephone??old('telephone')}}">
                 </div>
             </div>
             <div class="row">
@@ -137,7 +139,7 @@
                     <label for="state" class="form-label">Estado</label>
                     <input type="text" name="state" class="form-control @error('state') is-invalid @enderror" id="state"
                            placeholder=""
-{{--                           value="{{$person->addresses->last()->state??old('state')}}"--}}
+                        {{--                           value="{{$person->addresses->last()->state??old('state')}}"--}}
                     >
                 </div>
             </div>
@@ -154,7 +156,7 @@
                             <option
                                 value="{{$group->id}}"
                                 {{(isset($person)&&$person->groups->contains( fn($value,$key)=>$value->name==$group->name))?'selected':null}}>
-                               > {{$group->name}}
+                                > {{$group->name}}
                             </option>
                         @endforeach
                     </select>
@@ -207,9 +209,6 @@
         function getCep(cep) {
             axios.post('{{route('ajax.getCep')}}', {cep: cep})
                 .then(function (r) {
-
-                    console.log(r.data);
-
                     document.getElementById('street').value = r.data.logradouro;
                     document.getElementById('city').value = r.data.localidade;
                     document.getElementById('district').value = r.data.bairro;

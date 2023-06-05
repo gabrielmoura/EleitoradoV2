@@ -13,20 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('backup:run --only-db')->daily()->at('18:00')
-            ->onFailure(function ($e) {
-//                Notification::sendNow(
-//                    User::find(1),
-//                    new PrivateMessageNotification('Backup Error', $e ?? null, '', ['name' => 'System DB'])
-//                );
-            })
-            ->onSuccess(function () {
-//                Notification::sendNow(
-//                    User::find(1),
-//                    new PrivateMessageNotification('Backup Success', $e ?? null, '', ['name' => 'System DB'])
-//                );
-            });
-
+        $schedule->command('backup:run --only-db')->daily()->at('18:00');
 
         /** Limpar filas diariamente.  */
         $schedule->command('queue:prune-batches')->daily();
@@ -36,8 +23,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('sanctum:prune-expired')->monthly();
 
         /** Limpar SoftDeletes de ano em ano */
-//        $schedule->command('model:prune')->yearly();
-
+        //        $schedule->command('model:prune')->yearly();
 
     }
 

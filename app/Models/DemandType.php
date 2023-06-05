@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class DemandType extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'name',
         'description',
         'responsible',
     ];
+
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',

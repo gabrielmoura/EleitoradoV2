@@ -6,6 +6,7 @@
 
 ## Cosiderar:
 * https://darkghosthunter.medium.com/laravel-you-can-now-use-uuid-and-ulid-4ce9d3792fcb
+* https://freefrontend.com/bootstrap-cards/
 
 ## Instalação Heroku
 * https://devcenter.heroku.com/articles/getting-started-with-laravel
@@ -30,3 +31,14 @@ sail up -d
 php artisan optimize
 ```
 
+
+
+## TODO
+
+- [ ] Demandas concluidas no mes.
+- [ ] Demandas concluidas por usuario.
+- [ ] Demandas concluidas por tipo.
+- [ ] Aniverssarienates do mes.
+- [ ] Enviar email para aniversariantes.
+- [ ] En ver pessoa mostrar apenas um numero de associações para não poluir a tela.
+- 
