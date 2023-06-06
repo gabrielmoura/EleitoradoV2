@@ -28,44 +28,38 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        try {
-            if (Cache::has(config('permission.cache.prefix').'roles') && Cache::has(config('permission.cache.prefix').'permissions')) {
-                $rolesArray = Cache::get(config('permission.cache.prefix').'roles');
-                $permissionsArray = Cache::get(config('permission.cache.prefix').'permissions');
+        Gate::before(function (User $user, string $ability, $arguments) {
+            if (! config('permission.cache.enabled')) {
+                return $user->hasPermissionTo($ability) || $user->hasRole('admin');
             } else {
-                $roles = Role::all();
-                $users = User::all();
-                $permissions = Permission::all();
-
-                $rolesArray = [];
-                $permissionsArray = [];
-
-                foreach ($users as $user) {
-                    foreach ($permissions as $permission) {
-                        $permissionsArray[$permission->name][] = $user->hasPermissionTo($permission->name) ? $user->id : null;
+                if (Cache::has(config('permission.cache.prefix').'roles') && Cache::has(config('permission.cache.prefix').'permissions')) {
+                    // Com Cache
+                    $rolesArray = Cache::get(config('permission.cache.prefix').'roles');
+                    $permissionsArray = Cache::get(config('permission.cache.prefix').'permissions');
+                } else {
+                    // Sem Cache
+                    $roles = Role::all();
+                    $users = User::all();
+                    $permissions = Permission::all();
+                    $rolesArray = [];
+                    $permissionsArray = [];
+                    foreach ($users as $userx) {
+                        foreach ($permissions as $permission) {
+                            $permissionsArray[$permission->name][] = $userx->hasPermissionTo($permission->name) ? $userx->id : null;
+                        }
+                        foreach ($roles as $role) {
+                            $rolesArray[$role->name][] = $userx->hasRole($role->name) ? $userx->id : null;
+                        }
                     }
-                    foreach ($roles as $role) {
-                        $rolesArray[$role->name][] = $user->hasRole($role->name) ? $user->id : null;
-                    }
+                    Cache::set(config('permission.cache.prefix').'permissions', $permissionsArray, config('permission.cache.ttl'));
+                    Cache::set(config('permission.cache.prefix').'roles', $rolesArray, config('permission.cache.ttl'));
                 }
-                Cache::set(config('permission.cache.prefix').'permissions', $permissionsArray, config('permission.cache.ttl'));
-                Cache::set(config('permission.cache.prefix').'roles', $rolesArray, config('permission.cache.ttl'));
-            }
 
-            foreach ($permissionsArray as $permission => $users) {
-                Gate::define($permission, function ($user) use ($users) {
-                    return in_array($user->id, $users);
-                });
+                return in_array($user->id, $permissionsArray[$ability] ?? [])
+                    || in_array($user->id, $rolesArray[$ability] ?? [])
+                    || $user->hasRole($ability);
             }
-            foreach ($rolesArray as $role => $users) {
-                Gate::define($role, function ($user) use ($users) {
-                    return in_array($user->id, $users);
-                });
-            }
-
-        } catch (\Exception $e) {
-            //            dd($e);
-        }
+        });
 
     }
 }

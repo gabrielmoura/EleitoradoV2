@@ -2,8 +2,6 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\AjaxOnly;
-use App\Http\Middleware\VerifyBanned;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -23,7 +21,6 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        VerifyBanned::class,
     ];
 
     /**
@@ -39,6 +36,8 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\VerifyBanned::class,
+            \App\Http\Middleware\ValidateIp::class,
         ],
 
         'api' => [
@@ -70,7 +69,7 @@ class Kernel extends HttpKernel
         'abilities' => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
         'ability' => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
 
-        'ajaxOnly' => AjaxOnly::class,
-        'verifyBanned' => VerifyBanned::class,
+        'ajaxOnly' => \App\Http\Middleware\AjaxOnly::class,
+        'verifyBanned' => \App\Http\Middleware\VerifyBanned::class,
     ];
 }

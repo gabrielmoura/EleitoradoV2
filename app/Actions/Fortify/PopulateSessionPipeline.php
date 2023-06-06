@@ -35,6 +35,10 @@ class PopulateSessionPipeline
             'name' => $user->name,
             'email' => $user->email,
         ]);
+        //        $request->session()->put('two_factor', [
+        //            'enabled' => ! is_null($user->two_factor_secret),
+        //        ]);
+        $request->session()->put('ip', $request->ip());
 
         $this->limiter->clear($request);
 

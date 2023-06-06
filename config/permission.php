@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Console Commands
+    | Controle de Permissões
     |--------------------------------------------------------------------------
     |
     | This option allows you to add additional Artisan commands that should
@@ -13,7 +13,7 @@ return [
     |
     */
     'cache' => [
-        'enabled' => true,
+        'enabled' => env('PERMISSION_CACHE_ENABLED', true),
         'store' => 'default',
         'expiration' => 60 * 60 * 24, // 24 hours
         'prefix' => 'permission_',
