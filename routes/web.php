@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\InviteController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\Dash\Export\PeopleAddressController;
+use App\Http\Controllers\FrontController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,12 +17,12 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/pricing', function () {
-    return view('welcome');
+Route::group(['middleware' => 'cache.headers:public;max_age=2592000;etag', 'name' => 'front.'], function () {
+    Route::get('/', [FrontController::class, 'index'])->name('index');
+    Route::get('/privacy', [FrontController::class, 'privacy'])->name('privacy');
+    Route::get('/terms', [FrontController::class, 'terms'])->name('terms');
+    Route::get('/pricing', [FrontController::class, 'pricing'])->name('pricing');
+    Route::get('/faq', [FrontController::class, 'faq'])->name('faq');
 });
 
 Route::get('/get/{id}', [PeopleAddressController::class, 'response'])->name('getFile');
@@ -33,9 +35,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', HomeController::class)->name('dashboard');
 });
 
 Route::middleware([

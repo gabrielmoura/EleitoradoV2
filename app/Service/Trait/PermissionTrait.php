@@ -6,16 +6,18 @@ trait PermissionTrait
 {
     public function hasRole(string|array $role): bool
     {
-
         return $this->roles()->where('name', $role)
             ->exists();
     }
 
     public function hasPermissionTo(string $permission): bool
     {
-        return $this->roles()->whereHas('permissions', function ($query) use ($permission) {
-            $query->where('name', $permission);
-        })->exists() || $this->permissions()->where('name', $permission)->exists();
+        return $this->with('roles.permissions', 'permissions')
+            ->whereHas('roles.permissions', function ($query) use ($permission) {
+                $query->where('name', $permission);
+            })->orWhereHas('permissions', function ($query) use ($permission) {
+                $query->where('name', $permission);
+            })->exists();
     }
 
     public function givePermissionTo(string $permission): void

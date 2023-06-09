@@ -14,7 +14,7 @@ class RolePermissionSeed extends Seeder
     public function run(): void
     {
         //'history_', 'restore_'
-        $permissions = collect(['person', 'group', 'event', 'demand_type', 'demand'])->map(function ($item) {
+        $permissions = collect(['person', 'group', 'event', 'demand_type', 'demand', 'user', 'cron'])->map(function ($item) {
             $value = [];
             foreach (['create_', 'update_', 'read_', 'delete_'] as $prefix) {
                 $value[] = ['name' => $prefix.$item];
@@ -30,9 +30,16 @@ class RolePermissionSeed extends Seeder
         $roleAdmin = Role::create(['name' => 'admin']);
         $roleAdmin->permissions()->attach(Permission::all());
 
+        $roleManager = Role::create(['name' => 'manager']);
+        $roleManager->permissions()->attach(
+            Permission::all()
+        );
+
         $roleUser = Role::create(['name' => 'user']);
         $roleUser->permissions()->attach(
-            Permission::whereNot('name', 'like', '%delete_%')->get()
+            Permission::whereNot('name', 'like', '%delete_%')
+                ->whereNot('name', 'like', '%cron%')
+                ->whereNot('name', 'like', '%user%')->get()
         );
     }
 }

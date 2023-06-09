@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Service\Trait\PermissionTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -77,12 +78,12 @@ class User extends Authenticatable
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }
 
-    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'permission_user', 'user_id', 'role_id');
     }
 
-    public function permissions(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class, 'permission_user', 'user_id', 'permission_id');
     }

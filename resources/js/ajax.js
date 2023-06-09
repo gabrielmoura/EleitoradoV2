@@ -26,5 +26,17 @@ window.helpers = {
             console.error(error);
             flasher.error('Erro ao solicitar relatório!');
         });
+    },
+    getCep: function (cep) {
+        if (cep.length === 8 || cep.length === 9) {
+            axios.post(route('ajax.getCep', undefined, undefined, Ziggy), {cep: cep})
+                .then(function (r) {
+                        document.getElementById('street').value = r.data?.logradouro;
+                        document.getElementById('district').value = r.data?.bairro;
+                        document.getElementById('city').value = r.data?.localidade;
+                        document.getElementById('state').value = r.data?.uf;
+                        document.getElementById('complement').value = r.data?.complemento;
+                });
+        }
     }
 };

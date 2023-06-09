@@ -93,7 +93,7 @@
                     <input type="text" name="zipcode"
                            class="form-control cep @error('zipcode') is-invalid @enderror" id="zipcode"
                            placeholder=""
-                           onblur="getCep(this.value);"
+                           onblur="helpers.getCep(this.value);"
                            value="{{$person->address->zipcode??old('post_code')}}"
                     >
                 </div>
@@ -205,16 +205,4 @@
             <button type="submit" class="btn btn-primary">Enviar</button>
         </div>
     </form>
-    <script>
-        function getCep(cep) {
-            axios.post('{{route('ajax.getCep')}}', {cep: cep})
-                .then(function (r) {
-                    document.getElementById('street').value = r.data.logradouro;
-                    document.getElementById('city').value = r.data.localidade;
-                    document.getElementById('district').value = r.data.bairro;
-                    document.getElementById('state').value = r.data.uf;
-                    document.getElementById('complement').value = r.data.complemento;
-                });
-        };
-    </script>
 </x-app-layout>

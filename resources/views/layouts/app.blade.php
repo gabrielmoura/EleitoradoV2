@@ -27,27 +27,18 @@
         <x-banner/>
         <main>
             @if (isset($header))
-                <header class="page-header page-header-dark pb-10">
+                <header class="page-header page-header-compact page-header-light border-bottom bg-white mb-4">
                     <div class="container-xl px-4">
-                        <div class="page-header-content pt-4">
-                            <div class="row align-items-center justify-content-between">
-                                {{--                                <div class="col-auto mt-4">--}}
-                                {{--                                    <h1 class="page-header-title">--}}
-                                {{--                                        <div class="page-header-icon"><i data-feather="file"></i></div>--}}
-                                {{--                                        Blank Starter--}}
-                                {{--                                       --}}
-                                {{--                                    </h1>--}}
-                                {{--                                    <div class="page-header-subtitle">Use this blank page as a starting point for creating new pages inside your project!</div>--}}
-                                {{--                                </div>--}}
-                                {{--                                <div class="col-12 col-xl-auto mt-4">Optional page header content</div>--}}
-                                {{ $header}}
+                        <div class="page-header-content">
+                            <div class="row align-items-center justify-content-between pt-3">
+                                    {{$header}}
                             </div>
                         </div>
                     </div>
                 </header>
             @endif
             <!-- Main page content-->
-            <div class="container-xl px-4 mt-n10">
+            <div class="container-xl px-4 mt-4">
                 {{ $slot }}
             </div>
         </main>

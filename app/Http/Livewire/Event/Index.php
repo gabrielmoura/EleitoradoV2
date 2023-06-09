@@ -2,26 +2,21 @@
 
 namespace App\Http\Livewire\Event;
 
+use App\Models\Address;
 use App\Models\Event;
-use App\Repositories\EventRepository;
 use App\Service\Trait\Table\WithReordering;
 use App\Service\Trait\Table\WithSearch;
+use App\ServiceHttp\CepService\CepService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class Index extends Component
 {
-    private EventRepository $repository;
-
-    public function mount(EventRepository $repository): void
-    {
-        $this->repository = $repository;
-    }
-
     use WithPagination;
     use AuthorizesRequests;
     use WithReordering;
@@ -31,7 +26,7 @@ class Index extends Component
 
     public ?string $description;
 
-    public string $start_date;
+    public ?string $start_date;
 
     public ?string $end_date;
 
@@ -77,13 +72,12 @@ class Index extends Component
 
     protected $paginationTheme = 'bootstrap';
 
-
     public function render(): View|Factory|Application
     {
         return view('livewire.event.index',
             [
-                'events' => Event::where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('description', 'like', '%' . $this->search . '%')
+                'events' => Event::where('name', 'like', '%'.$this->search.'%')
+                    ->orWhere('description', 'like', '%'.$this->search.'%')
                     ->orderBy($this->defaultReorderColumn, $this->defaultReorderDirection ? 'asc' : 'desc')
                     ->paginate($this->perPage),
             ]);
@@ -98,8 +92,8 @@ class Index extends Component
     {
         $this->name = '';
         $this->description = '';
-        $this->start_date = '';
-        $this->end_date = '';
+        $this->start_date = null;
+        $this->end_date = null;
         $this->updateEventId = null;
         $this->street = '';
         $this->number = '';
@@ -124,8 +118,16 @@ class Index extends Component
     {
         $this->authorize('create_event');
         $validatedData = $this->validate();
-//        $validatedData['tenant_id'] = session()->get('tenant_id');
-        $event = Event::create($validatedData);
+
+        $event = DB::transaction(function () use ($validatedData) {
+            if ($this->zipcode >= 8) {
+                $address = Address::create($validatedData);
+                $validatedData['address_id'] = $address->id;
+            }
+
+            return Event::create($validatedData);
+        });
+
         $this->emit('groupStored', $event->id);
         flash()->addSuccess('Event successfully created.');
         $this->closeModal();
@@ -134,7 +136,16 @@ class Index extends Component
     public function update(): void
     {
         $this->authorize('update_event');
-        $this->repository->atualizar($this->validate(), $this->updateEventId);
+        $validatedData = $this->validate();
+
+        DB::transaction(function () use ($validatedData) {
+            $event = Event::find($this->updateEventId);
+            Address::find($event->address_id)->update($validatedData);
+
+            return $event->update($validatedData);
+        });
+
+        flash()->addSuccess('Evento atualizado com sucesso.');
         $this->closeModal();
     }
 
@@ -161,5 +172,16 @@ class Index extends Component
         $this->city = $event->address->city;
         $this->state = $event->address->state;
         $this->zipcode = $event->address->zipcode;
+    }
+
+    public function getCep(): void
+    {
+        if ($this->zipcode >= 8 || $this->zipcode <= 9) {
+            $cep = CepService::find($this->zipcode);
+            $this->street = $cep->logradouro;
+            $this->district = $cep->bairro;
+            $this->city = $cep->localidade;
+            $this->state = $cep->uf;
+        }
     }
 }
