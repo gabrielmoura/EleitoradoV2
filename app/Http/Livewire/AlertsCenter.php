@@ -12,6 +12,8 @@ class AlertsCenter extends Component
 {
     public $notifications;
 
+    protected $listeners = ['refresh' => '$refresh'];
+
     public function mount(): void
     {
         $company = Company::find(session()->get('company.id'));
@@ -25,5 +27,12 @@ class AlertsCenter extends Component
         return view('livewire.alerts-center', [
             'notifications' => $this->notifications,
         ]);
+    }
+
+    public function markAsRead($notificationId): void
+    {
+        $company = Company::find(session()->get('company.id'));
+        $company->unreadNotifications->where('id', $notificationId)->markAsRead();
+        $this->emit('refresh');
     }
 }

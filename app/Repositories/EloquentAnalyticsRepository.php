@@ -8,16 +8,13 @@ use Illuminate\Support\LazyCollection;
 
 class EloquentAnalyticsRepository implements AnalyticsRepository
 {
-    /**
-     * @param  string  $tenant_id uuid
-     * @param  string|null  $district
-     */
     public function pessoas(
         string $group_name,
         string $tenant_id,
-        null|string $district = null,
+        ?string $district = null,
         bool $checked = true,
-        bool $lazy = false
+        bool $lazy = false,
+        ?string $month = null,
     ): Collection|LazyCollection {
 
         $sql = DB::table('people')
@@ -31,6 +28,9 @@ class EloquentAnalyticsRepository implements AnalyticsRepository
         }
         if ($district) {
             $sql->where('addresses.district', '=', $district);
+        }
+        if ($month) {
+            $sql->whereMonth('group_people.checked_at', '=', $district);
         }
 
         $sql->where('people.tenant_id', '=', $tenant_id)

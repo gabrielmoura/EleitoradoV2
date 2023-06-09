@@ -3,26 +3,53 @@
 namespace App\Http\Livewire\Event;
 
 use App\Models\Event;
+use App\Repositories\EventRepository;
+use App\Service\Trait\Table\WithReordering;
+use App\Service\Trait\Table\WithSearch;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Livewire\WithPagination;
 
 class Index extends Component
 {
+    private EventRepository $repository;
+
+    public function mount(EventRepository $repository): void
+    {
+        $this->repository = $repository;
+    }
+
     use WithPagination;
     use AuthorizesRequests;
+    use WithReordering;
+    use WithSearch;
 
     public string $name;
 
-    public string|null $description;
+    public ?string $description;
 
     public string $start_date;
 
-    public string|null $end_date;
+    public ?string $end_date;
+
+    public ?string $street;
+
+    public ?string $number;
+
+    public ?string $complement;
+
+    public ?string $district;
+
+    public ?string $city;
+
+    public ?string $state;
+
+    public ?string $zipcode;
 
     public $perPage = 10;
-
-    public $search = '';
 
     public $orderBy = 'created_at';
 
@@ -37,19 +64,27 @@ class Index extends Component
         'description' => ['nullable', 'string', 'min:3', 'max:255'],
         'start_date' => ['required', 'date'],
         'end_date' => ['nullable', 'date'],
+        'street' => ['nullable', 'string', 'min:3', 'max:255'],
+        'number' => ['nullable', 'string', 'min:1', 'max:10'],
+        'complement' => ['nullable', 'string', 'min:3', 'max:255'],
+        'district' => ['nullable', 'string', 'min:3', 'max:255'],
+        'city' => ['nullable', 'string', 'min:3', 'max:255'],
+        'state' => ['nullable', 'string', 'min:3', 'max:255'],
+        'zipcode' => ['nullable', 'string', 'min:3', 'max:10'],
     ];
 
     protected $listeners = ['refresh' => '$refresh'];
 
     protected $paginationTheme = 'bootstrap';
 
-    public function render()
+
+    public function render(): View|Factory|Application
     {
         return view('livewire.event.index',
             [
-                'events' => Event::where('name', 'like', '%'.$this->search.'%')
-                    ->orWhere('description', 'like', '%'.$this->search.'%')
-                    ->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')
+                'events' => Event::where('name', 'like', '%' . $this->search . '%')
+                    ->orWhere('description', 'like', '%' . $this->search . '%')
+                    ->orderBy($this->defaultReorderColumn, $this->defaultReorderDirection ? 'asc' : 'desc')
                     ->paginate($this->perPage),
             ]);
     }
@@ -66,6 +101,13 @@ class Index extends Component
         $this->start_date = '';
         $this->end_date = '';
         $this->updateEventId = null;
+        $this->street = '';
+        $this->number = '';
+        $this->complement = '';
+        $this->district = '';
+        $this->city = '';
+        $this->state = '';
+        $this->zipcode = '';
     }
 
     public function closeModal(): void
@@ -75,26 +117,6 @@ class Index extends Component
         $this->resetInput();
     }
 
-    public function sortBy($field): void
-    {
-        if ($this->orderBy === $field) {
-            $this->orderAsc = ! $this->orderAsc;
-        } else {
-            $this->orderAsc = true;
-        }
-        $this->orderBy = $field;
-    }
-
-    public function setSelect($id): void
-    {
-        $this->selectedItems[] = $id;
-    }
-
-    public function exportSelected($to): void
-    {
-        $this->emit('exportSelected', $to, $this->selectedItems);
-    }
-
     /**
      * CUD functions
      */
@@ -102,7 +124,7 @@ class Index extends Component
     {
         $this->authorize('create_event');
         $validatedData = $this->validate();
-        $validatedData['tenant_id'] = session()->get('tenant_id');
+//        $validatedData['tenant_id'] = session()->get('tenant_id');
         $event = Event::create($validatedData);
         $this->emit('groupStored', $event->id);
         flash()->addSuccess('Event successfully created.');
@@ -112,11 +134,7 @@ class Index extends Component
     public function update(): void
     {
         $this->authorize('update_event');
-        $event = Event::findOrFail($this->updateEventId);
-        $event->update([
-            'name' => $this->name,
-            'description' => $this->description,
-        ]);
+        $this->repository->atualizar($this->validate(), $this->updateEventId);
         $this->closeModal();
     }
 
@@ -136,5 +154,12 @@ class Index extends Component
         $this->updateEventId = $event->id;
         $this->start_date = $event->start_date;
         $this->end_date = $event->end_date;
+        $this->street = $event->address->street;
+        $this->number = $event->address->number;
+        $this->complement = $event->address->complement;
+        $this->district = $event->address->district;
+        $this->city = $event->address->city;
+        $this->state = $event->address->state;
+        $this->zipcode = $event->address->zipcode;
     }
 }

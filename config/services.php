@@ -34,4 +34,7 @@ return [
         'token' => env('TELEGRAM_BOT_TOKEN', 'YOUR BOT TOKEN HERE'),
         'admin' => env('TELEGRAM_BOT_ADMIN', 'YOUR TELEGRAM ID HERE'),
     ],
+    'utalk' => [
+        'key' => env('UTALK_KEY'),
+    ],
 ];

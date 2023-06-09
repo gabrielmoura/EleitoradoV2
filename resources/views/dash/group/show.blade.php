@@ -8,6 +8,9 @@
         <div class="card">
             <div class="card-header">
                 <h3 class="text-start text-xl">{{$group->name}}</h3>
+                <div class="text-end">
+                    <button class="btn btn-sm btn-blue" onclick="helpers.requestReportGroup('{{$group->name}}')">Puxada</button>
+                </div>
                 {{--                <div class="text-end">--}}
                 {{--                    <a href="" class="btn btn-primary btn-sm">Editar</a>--}}
                 {{--                    <a href="" class="btn btn-secondary btn-sm">Voltar</a>--}}

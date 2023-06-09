@@ -10,8 +10,9 @@ class ValidateIp extends Middleware
 {
     public function handle($request, Closure $next, ...$args): Response
     {
-        if ($request->ip() !== session('ip')) {
+        if (auth()->check() && $request->ip() !== session('ip')) {
             session()->flush();
+            abort(Response::HTTP_FORBIDDEN, 'You have been disconnected because your IP address has changed.');
         }
 
         return $next($request);

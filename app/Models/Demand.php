@@ -8,6 +8,7 @@ use App\Models\Scopes\TenantScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laravel\Scout\Searchable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
@@ -18,6 +19,7 @@ class Demand extends Model implements HasMedia
     use HasFactory;
     use LogsActivity;
     use InteractsWithMedia;
+    use Searchable;
 
     protected $fillable = [
         'name',

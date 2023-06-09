@@ -39,18 +39,17 @@ class AuthServiceProvider extends ServiceProvider
                 } else {
                     // Sem Cache
                     $roles = Role::all();
-                    $users = User::all();
                     $permissions = Permission::all();
                     $rolesArray = [];
                     $permissionsArray = [];
-                    foreach ($users as $userx) {
+                    User::all()->each(function ($user) use ($permissions, $roles, &$permissionsArray, &$rolesArray) {
                         foreach ($permissions as $permission) {
-                            $permissionsArray[$permission->name][] = $userx->hasPermissionTo($permission->name) ? $userx->id : null;
+                            $permissionsArray[$permission->name][] = $user->hasPermissionTo($permission->name) ? $user->id : null;
                         }
                         foreach ($roles as $role) {
-                            $rolesArray[$role->name][] = $userx->hasRole($role->name) ? $userx->id : null;
+                            $rolesArray[$role->name][] = $user->hasRole($role->name) ? $user->id : null;
                         }
-                    }
+                    });
                     Cache::set(config('permission.cache.prefix').'permissions', $permissionsArray, config('permission.cache.ttl'));
                     Cache::set(config('permission.cache.prefix').'roles', $rolesArray, config('permission.cache.ttl'));
                 }

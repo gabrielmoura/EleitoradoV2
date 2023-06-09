@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Cpf;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
@@ -27,7 +28,7 @@ class PersonStoreRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255'],
             'cellphone' => ['nullable', 'string', 'max:13'],
             'telephone' => ['nullable', 'string', 'max:12'],
-            'cpf' => ['nullable', 'string', 'max:30'],
+            'cpf' => ['nullable', 'string', new Cpf],
             'rg' => ['nullable', 'string', 'max:30'],
             'birth_date' => ['nullable', 'date'],
             'sex' => ['nullable', 'string', 'max:1'],

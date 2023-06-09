@@ -8,7 +8,9 @@ use App\Repositories\DemandRepository;
 use App\Repositories\EloquentAnalyticsRepository;
 use App\Repositories\EloquentBatchRepository;
 use App\Repositories\EloquentDemandRepository;
+use App\Repositories\EloquentEventRepository;
 use App\Repositories\EloquentPersonRepository;
+use App\Repositories\EventRepository;
 use App\Repositories\PersonRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,5 +21,6 @@ class RepositoryProvider extends ServiceProvider
         BatchRepository::class => EloquentBatchRepository::class,
         AnalyticsRepository::class => EloquentAnalyticsRepository::class,
         DemandRepository::class => EloquentDemandRepository::class,
+        EventRepository::class => EloquentEventRepository::class,
     ];
 }

@@ -47,6 +47,17 @@
                         @forelse($person->groups as $group)
                             <tr>
                                 <td>{{$group->name}}</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm"
+                                            onclick="helpers.checkPersonAndGroup('{{$person->id}}','{{$group->id}}')"
+                                    >Check
+                                    </button>
+
+                                    <button class="btn btn-danger btn-sm" data-toggle="modal"
+                                            data-target="#modal-delete-{{$group->id}}">Remover
+                                    </button>
+
+                                </td>
                             </tr>
                         @empty
                             <tr>

@@ -3,6 +3,9 @@
 //use App\Http\Controllers\Dash\CheckinController;
 //use App\Http\Controllers\Dash\CompanyController;
 //use App\Http\Controllers\Dash\EventController;
+use App\Http\Controllers\Dash\DemandController;
+use App\Http\Controllers\Dash\DemandTypeController;
+use App\Http\Controllers\Dash\EventController;
 use App\Http\Controllers\Dash\GroupController;
 use App\Http\Controllers\Dash\HomeController;
 use App\Http\Controllers\Dash\PersonController;
@@ -14,10 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', HomeController::class)->name('index');
 Route::resource('/person', PersonController::class)->names('person')->whereUlid('person');
 
-Route::resource('/group', GroupController::class)->only(['index', 'show'])->names('group');
+Route::resource('/group', GroupController::class)->only(['index', 'show'])->names('group')->whereUlid('group');
 Route::get('/group/{group}/history', [GroupController::class, 'history'])->name('group.history')->whereUlid('group');
-Route::get('/event', \App\Http\Livewire\Event\Index::class)->name('event');
-Route::get('/demand', \App\Http\Livewire\Demand\Index::class)->name('demand');
+Route::resource('/event', EventController::class)->only(['index', 'show'])->names('event')->whereUlid('event');
+Route::resource('/demand', DemandController::class)->only(['index', 'show'])->names('demand')->whereUlid('demand');
+Route::resource('/demandType', DemandTypeController::class)->only(['index'])->names('demandType')->whereUlid('demandType');
 
 //Route::get('/voter/{voter}/history', [PersonController::class, 'history'])->name('voter.history');
 //Route::resource('/user', UserController::class)->names('user');

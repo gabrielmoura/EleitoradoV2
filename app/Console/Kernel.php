@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('backup:run --only-db')->daily()->at('18:00');
+        $schedule->command('backup:run --only-db')->daily()->at('3:00');
 
         /** Limpar filas diariamente.  */
         $schedule->command('queue:prune-batches')->daily();
@@ -25,6 +25,8 @@ class Kernel extends ConsoleKernel
         /** Limpar SoftDeletes de ano em ano */
         //        $schedule->command('model:prune')->yearly();
 
+        /** Métricas Trabalhos em fila */
+        $schedule->command('horizon:snapshot')->everyFiveMinutes();
     }
 
     /**

@@ -328,7 +328,7 @@
                 {{--                        </nav>--}}
                 {{--                    </div>--}}
                 {{--                </div>--}}
-                @can('user')
+
                     <div>
                         <!-- Sidenav Heading (Addons)-->
                         <div class="sidenav-menu-heading">Home</div>
@@ -346,44 +346,19 @@
                             <div class="nav-link-icon"><i class="fa fa-envelope-o"></i></div>
                             Grupos
                         </a>
-                        <a class="nav-link" href="{{route('dash.event')}}">
+                        <a class="nav-link" href="{{route('dash.event.index')}}">
                             <div class="nav-link-icon"><i class="fa fa-envelope-o"></i></div>
                             Eventos
                         </a>
-                        <a class="nav-link" href="{{route('dash.demand')}}">
+                        <a class="nav-link" href="{{route('dash.demand.index')}}">
                             <div class="nav-link-icon"><i class="fa fa-envelope-o"></i></div>
                             Demandas
                         </a>
-                    </div>
-                @endcan
-                @can('admin')
-                    <div>
-                        <!-- Sidenav Heading (Addons)-->
-                        <div class="sidenav-menu-heading">Home</div>
-                        <!-- Sidenav Link (Charts)-->
-                        <a class="nav-link" href="{{route('dashboard')}}">
+                        <a class="nav-link" href="{{route('dash.demandType.index')}}">
                             <div class="nav-link-icon"><i class="fa fa-envelope-o"></i></div>
-                            Home
-                        </a>
-
-                        <a class="nav-link" href="{{route('dash.person.index')}}">
-                            <div class="nav-link-icon"><i class="fa fa-envelope-o"></i></div>
-                            Pessoas
-                        </a>
-                        <a class="nav-link" href="{{route('dash.group.index')}}">
-                            <div class="nav-link-icon"><i class="fa fa-envelope-o"></i></div>
-                            Grupos
-                        </a>
-                        <a class="nav-link" href="{{route('dash.event')}}">
-                            <div class="nav-link-icon"><i class="fa fa-envelope-o"></i></div>
-                            Eventos
-                        </a>
-                        <a class="nav-link" href="{{route('dash.demand')}}">
-                            <div class="nav-link-icon"><i class="fa fa-envelope-o"></i></div>
-                            Demandas
+                            Tipos de Demanda
                         </a>
                     </div>
-                @endcan
             </div>
         </div>
         <!-- Sidenav Footer-->

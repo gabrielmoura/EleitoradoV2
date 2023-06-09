@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('demand_types', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->uuid('pid')->index()->comment('Public id');
+            $table->uuid('tenant_id')->index()->comment('Tenant id');
             $table->string('name', 100)->unique();
             $table->string('description', 255)->nullable();
             $table->string('responsible', 100)->nullable();

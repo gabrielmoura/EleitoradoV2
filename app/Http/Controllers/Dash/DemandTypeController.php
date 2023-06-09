@@ -13,7 +13,7 @@ class DemandTypeController extends Controller
      */
     public function index()
     {
-        //
+        return view('dash.demandType.index');
     }
 
     /**
@@ -21,7 +21,7 @@ class DemandTypeController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**

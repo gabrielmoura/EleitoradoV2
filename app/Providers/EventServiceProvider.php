@@ -6,10 +6,12 @@ use App\Events\Demand\DemandClosedEvent;
 use App\Events\Demand\DemandCreatedEvent;
 use App\Events\Export\PDF\ExportedPeopleAddress;
 use App\Events\Export\PDF\FailedExportPeopleAddress;
+use App\Events\System\GeneratedInviteEvent;
 use App\Listeners\Demand\DemandClosedMail;
 use App\Listeners\Demand\DemandCreatedMail;
 use App\Listeners\Export\PDF\ExportedPeopleAddressNotification;
 use App\Listeners\Export\PDF\FailedExportedPeopleAddressNotification;
+use App\Listeners\System\GeneratedInviteNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -45,6 +47,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         \Spatie\Backup\Events\CleanupWasSuccessful::class => [
             // Backup Limpo com Sucesso
+        ],
+        GeneratedInviteEvent::class => [
+            GeneratedInviteNotification::class,
         ],
 
     ];

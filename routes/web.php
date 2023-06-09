@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\InviteController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\Dash\Export\PeopleAddressController;
 use Illuminate\Support\Facades\Route;
@@ -18,9 +19,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/pricing', function () {
+    return view('welcome');
+});
 
 Route::get('/get/{id}', [PeopleAddressController::class, 'response'])->name('getFile');
-
+Route::resource('/auth/invite', InviteController::class)->only(['index', 'store'])->names('auth.invite');
 Route::get('/auth/redirect/{provider}', [SocialController::class, 'redirect'])->name('social.redirect');
 Route::get('/auth/callback/{provider}', [SocialController::class, 'callback'])->name('social.callback');
 

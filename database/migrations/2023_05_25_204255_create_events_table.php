@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->uuid('tenant_id')->index()->comment('Tenant id');
+            $table->uuid('pid')->index()->comment('Public Id');
+            $table->uuid('tenant_id')->index()->comment('Tenant Id');
             $table->foreignId('address_id')->nullable()->constrained('addresses');
             $table->string('name');
             $table->string('description')->nullable();

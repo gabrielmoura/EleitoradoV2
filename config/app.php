@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'pt-br',
+    'locale' => 'pt_BR',
 
     /*
     |--------------------------------------------------------------------------
@@ -109,7 +109,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'pt_BR',
 
     /*
     |--------------------------------------------------------------------------
@@ -167,6 +167,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
@@ -174,7 +175,10 @@ return [
 
         Elibyy\TCPDF\ServiceProvider::class,
 
+        //        Maatwebsite\Excel\ExcelServiceProvider::class,
+
         App\Providers\RepositoryProvider::class,
+        App\Providers\JobMiddlewareProvider::class,
     ])->toArray(),
 
     /*
@@ -192,6 +196,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'Redis' => Illuminate\Support\Facades\Redis::class,
         'PDF' => Elibyy\TCPDF\Facades\TCPDF::class,
+        //        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
 
 ];

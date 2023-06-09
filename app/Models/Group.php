@@ -29,6 +29,10 @@ class Group extends Model
         'pid',
     ];
 
+    protected $casts = [
+        //        'pid' => Ulid::class,
+    ];
+
     protected function pid(): Attribute
     {
         return Attribute::make(

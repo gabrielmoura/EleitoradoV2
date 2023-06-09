@@ -14,11 +14,13 @@
          aria-labelledby="navbarDropdownAlerts"
     >
         <h6 class="dropdown-header dropdown-notifications-header">
-            <i class="me-2 fa fa-bell" ></i>
+            <i class="me-2 fa fa-bell"></i>
             Alerts Center
         </h6>
         @foreach($notifications as $alert)
-            <a class="dropdown-item dropdown-notifications-item" href="{{$alert->data['url']??'#'}}">
+            <a class="dropdown-item dropdown-notifications-item" href="{{$alert->data['url']??'#'}}"
+               wire:click="markAsRead('{{$alert->id}}')"
+            >
                 <div class="dropdown-notifications-item-icon bg-{{$alert->data['type']}}">
                     <i class="fa fa-warning"></i>
                 </div>

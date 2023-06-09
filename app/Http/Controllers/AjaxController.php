@@ -3,12 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Tools\GetCep;
+use App\Events\Export\PDF\ExportedPeopleAddress;
+use App\Events\Export\PDF\FailedExportPeopleAddress;
 use App\Exceptions\GetCepException;
+use App\Jobs\Export\PDF\ExportPeopleAddressJob;
+use App\Models\Person;
+use App\Repositories\AnalyticsRepository;
+use Illuminate\Bus\Batch;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\RateLimiter;
 
 class AjaxController extends Controller
 {
+    public function __construct(private readonly AnalyticsRepository $analyticsRepository)
+    {
+    }
+
     /**
      * @throws GetCepException
      */
@@ -17,5 +29,65 @@ class AjaxController extends Controller
         $this->validate($request, ['cep' => 'min:8|max:9']);
 
         return response()->json(GetCep::find($request->input('cep'))->getCached());
+    }
+
+    public function requestReportGroup(Request $request): JsonResponse
+    {
+        if (RateLimiter::tooManyAttempts('export-pdf:'.$request->user()->id, $perMinute = 5)) {
+            abort(429, 'Too Many Attempts.');
+        }
+        $this->validate($request, [
+            'group_name' => ['required', 'string', 'max:150'],
+            'district' => ['nullable', 'string', 'max:150'],
+            'checked' => ['nullable', 'boolean'],
+        ]);
+        $tenant_id = session()->get('tenant_id');
+        $company_id = session()->get('company.id');
+
+        $batch = Bus::batch([])->then(function (Batch $batch) use ($company_id) {
+            ExportedPeopleAddress::dispatch($batch->id, $company_id);
+
+        })->catch(function (Batch $batch, \Throwable $e) use ($company_id) {
+            FailedExportPeopleAddress::dispatch($batch->id, $company_id, $e->getMessage());
+        })->name('Export People Address')->dispatch();
+
+        $data = $this->analyticsRepository->pessoas(
+            group_name: $request->input('group_name'),
+            tenant_id: $tenant_id,
+            district: $request->input('district'),
+            checked: $request->input('checked'),
+            lazy: false);
+
+        $data->chunk(100)->each(fn ($item) => $batch->add(new ExportPeopleAddressJob(
+            data: $item,
+            filename: 'puxada',
+            company_id: $company_id,
+            group_by_name: $request->input('group_name')
+        )));
+        RateLimiter::hit('export-pdf:'.$request->user()->id);
+
+        return response()->json(['batch' => $batch->id]);
+    }
+
+    public function checkPersonToGroup(Request $request): JsonResponse
+    {
+        $this->validate($request, [
+            'personId' => ['required', 'string', 'max:20'],
+            'groupId' => ['required', 'string', 'max:20'],
+        ]);
+        $personId = $request->input('personId');
+        $groupId = $request->input('groupId');
+        try {
+            Person::find($personId)->groups()->updateExistingPivot($groupId, [
+                'checked_at' => now(),
+                'checked_by' => auth()->user()->id,
+            ]);
+        } catch (\Throwable $throwable) {
+            report($throwable);
+
+            return response()->json(['message' => 'error']);
+        }
+
+        return response()->json(['message' => 'ok']);
     }
 }

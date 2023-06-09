@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->softDeletes();
-            $table->uuid('pid')->index()->comment('Tenant id');
+            $table->uuid('pid')->index()->comment('Public id');
             $table->uuid('tenant_id')->index()->comment('Tenant id');
             $table->boolean('active')->default(true);
             $table->string('name');

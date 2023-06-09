@@ -103,7 +103,7 @@
                             </th>
                         @endif
                         <th scope="col" class="">
-                            <div class="d-flex align-items-center" wire:click="sortBy('name')" wire:change="orderBy"
+                            <div class="d-flex align-items-center" wire:click="orderBy('name')" wire:change="orderBy"
                                  wire:change="orderAsc" style="cursor:pointer;">
                                 <span>Nome</span>
                             </div>
@@ -127,6 +127,9 @@
                             <td>{{ $group->name }}</td>
                             <td>{{ $group->description }}</td>
                             <td class="d-flex">
+                                <a href="/dash/group/{{$group->pid}}" class="btn btn-black btn-sm m-1">
+                                    Ver
+                                </a>
                                 @can('update_group')
                                     <button data-bs-toggle="modal" data-bs-target="#updateModal"
                                             wire:click="edit({{$group->id}})" class="btn btn-primary btn-sm m-1">Edit
