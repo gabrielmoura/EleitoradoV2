@@ -1,8 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="h4 font-weight-bold">
-            {{ __('Tags') }}
-        </h2>
+        <x-header-compact>
+            <x-slot:content>
+                <h2 class="h4 font-weight-bold">
+                    {{ __('Events') }}
+                </h2>
+            </x-slot:content>
+        </x-header-compact>
     </x-slot>
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <table id="dataTable" class="table table-striped table-bordered display nowrap" cellspacing="0">

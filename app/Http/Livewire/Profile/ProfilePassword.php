@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Profile;
 
 use App\Actions\Fortify\UpdateUserPassword;
+use Illuminate\Validation\Rules\Password;
 use Livewire\Component;
 
 class ProfilePassword extends Component
@@ -15,6 +16,10 @@ class ProfilePassword extends Component
 
     public function changePassword(UpdateUserPassword $updater)
     {
+        $this->validate([
+            'state.current_password' => ['required', 'password'],
+            'state.password' => ['required', 'string', Password::min(8)->mixedCase()->numbers()->symbols()->uncompromised()],
+        ]);
         $this->resetErrorBag();
 
         $updater->update(auth()->user(), $this->state);
@@ -24,9 +29,10 @@ class ProfilePassword extends Component
             'password' => '',
             'password_confirmation' => '',
         ];
+        flash()->addSuccess('Senha alterada com sucesso');
 
-        session()->flash('status', 'Password successfully changed');
     }
+
     public function render()
     {
         return view('livewire.profile.profile-password');

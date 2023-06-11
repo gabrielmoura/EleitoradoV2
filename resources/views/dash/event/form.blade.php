@@ -1,8 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="h4 font-weight-bold">
-            {{ __('Eventos') }}
-        </h2>
+        <x-header-compact>
+            <x-slot:content>
+                <h2 class="h4 font-weight-bold">
+                    {{ __('Events') }}
+                </h2>
+            </x-slot:content>
+        </x-header-compact>
     </x-slot>
     <form action="{{route($form['route'][0],(isset($form['route']['event']))?$form['route']['event']:null)}}"
           method="POST">
@@ -71,7 +75,8 @@
             <div class="row">
                 <div class="form-group mb-3 col-md-3">
                     <label for="post_code" class="form-label">CEP</label>
-                    <input type="text" name="post_code" class="form-control cep @error('post_code') is-invalid @enderror" id="post_code"
+                    <input type="text" name="post_code"
+                           class="form-control cep @error('post_code') is-invalid @enderror" id="post_code"
                            placeholder=""
                            onblur="getCep(this.value);"
                            value="{{$event->address->post_code??old('post_code')}}">

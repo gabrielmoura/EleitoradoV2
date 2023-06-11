@@ -73,6 +73,7 @@ class OtherBrowsers extends Component
         $this->confirmingLogout = false;
 
         $this->emit('loggedOut');
+        flash()->addSuccess(__('Desconectado de outras sessões do navegador.'));
     }
 
     /**

@@ -1,8 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="h4 font-weight-bold">
-            {{ __('Eleitores') }}
-        </h2>
+        <x-header-compact>
+            <x-slot:content>
+                <h2 class="h4 font-weight-bold">
+                    {{ __('Eleitores') }}
+                </h2>
+            </x-slot:content>
+        </x-header-compact>
     </x-slot>
     @if ($errors->any())
         <div class="alert alert-danger">
