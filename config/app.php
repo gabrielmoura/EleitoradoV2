@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -196,6 +196,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'Redis' => Illuminate\Support\Facades\Redis::class,
         'PDF' => Elibyy\TCPDF\Facades\TCPDF::class,
+        'Markdown' => Illuminate\Mail\Markdown::class,
         //        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
 

@@ -1,26 +1,10 @@
 <?php
 
-namespace App\Actions\Fortify;
-
-use Illuminate\Http\Request;
-use Laravel\Fortify\LoginRateLimiter;
-
-class PopulateSessionPipeline
+namespace App\Http\Responses;
+use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
+class LoginResponse implements LoginResponseContract
 {
-    /**
-     * Create a new class instance.
-     *
-     * @return void
-     */
-    public function __construct(protected LoginRateLimiter $limiter)
-    {
-
-    }
-
-    /**
-     * Populate the session with the rate limiter data.
-     */
-    public function handle(Request $request, callable $next): mixed
+    public function toResponse($request)
     {
         $user = $request->user();
         $company = $user->company;
@@ -40,8 +24,9 @@ class PopulateSessionPipeline
         //        ]);
         $request->session()->put('ip', $request->ip());
 
-        $this->limiter->clear($request);
 
-        return $next($request);
+        $home = auth()->user()->hasRole('admin') ? '/admin' :  '/dashboard';
+
+        return redirect()->intended($home);
     }
 }

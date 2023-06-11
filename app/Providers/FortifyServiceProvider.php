@@ -17,7 +17,9 @@ use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
-
+use App\Http\Responses\LoginResponse;
+use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
+use Laravel\Fortify\Contracts\TwoFactorLoginResponse as TwoFactorLoginResponseContract;
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
@@ -33,20 +35,21 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->app->singleton(LoginResponseContract::class, LoginResponse::class);
+        $this->app->singleton(TwoFactorLoginResponseContract::class, LoginResponse::class);
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
-        Fortify::authenticateThrough(function (Request $request) {
-            return array_filter([
-                config('fortify.limiters.login') ? null : EnsureLoginIsNotThrottled::class,
-                Features::enabled(Features::twoFactorAuthentication()) ? RedirectIfTwoFactorAuthenticatable::class : null,
-                AttemptToAuthenticate::class,
-                PrepareAuthenticatedSession::class,
-                PopulateSessionPipeline::class,
-            ]);
-        });
+//        Fortify::authenticateThrough(function (Request $request) {
+//            return array_filter([
+//                config('fortify.limiters.login') ? null : EnsureLoginIsNotThrottled::class,
+//                Features::enabled(Features::twoFactorAuthentication()) ? RedirectIfTwoFactorAuthenticatable::class : null,
+//                AttemptToAuthenticate::class,
+//                PrepareAuthenticatedSession::class,
+//            ]);
+//        });
 
         RateLimiter::for('login', function (Request $request) {
             $email = (string) $request->email;

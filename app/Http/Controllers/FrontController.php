@@ -2,26 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Mail\Markdown;
+use League\CommonMark\Parser\MarkdownParser;
+
 class FrontController extends Controller
 {
     public function index()
     {
-        return view('welcome');
+        return view('front.welcome');
     }
 
     public function privacy()
     {
-        return view('front.privacy', [
-            'title' => 'Privacy Policy',
-            'description' => 'Privacy Policy',
+        $html= Markdown::parse(file_get_contents(resource_path('markdown/policy.md')));
+        return view('front.markdown', [
+            'title' => 'Política de Privacidade',
+            'text' => $html,
         ]);
     }
 
     public function terms()
     {
-        return view('front.terms', [
-            'title' => 'Terms of Service',
-            'description' => 'Terms of Service',
+       $html= Markdown::parse(file_get_contents(resource_path('markdown/terms.md')));
+        return view('front.markdown', [
+            'title' => 'Termos de serviço',
+            'text' => $html,
         ]);
     }
 
