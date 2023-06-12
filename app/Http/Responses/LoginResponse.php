@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Responses;
+
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
+
 class LoginResponse implements LoginResponseContract
 {
     public function toResponse($request)
@@ -18,15 +20,14 @@ class LoginResponse implements LoginResponseContract
             'profile_photo_url' => $user->profile_photo_url,
             'name' => $user->name,
             'email' => $user->email,
-            'banned_at'=> $user->banned_at,
+            'banned_at' => $user->banned_at,
         ]);
         //        $request->session()->put('two_factor', [
         //            'enabled' => ! is_null($user->two_factor_secret),
         //        ]);
         $request->session()->put('ip', $request->ip());
 
-
-        $home = auth()->user()->hasRole('admin') ? '/admin' :  '/dashboard';
+        $home = auth()->user()->hasRole('admin') ? '/admin' : '/dashboard';
 
         return redirect()->intended($home);
     }

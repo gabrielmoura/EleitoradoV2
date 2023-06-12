@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Livewire\Profile;
+
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Livewire\Component;
 
@@ -24,6 +25,7 @@ class ProfileInformation extends Component
 
         session()->flash('status', 'Profile successfully updated');
     }
+
     public function render()
     {
         return view('livewire.profile.profile-information');

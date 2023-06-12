@@ -38,7 +38,6 @@ class User extends Authenticatable
         'banned_at',
     ];
 
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -75,17 +74,12 @@ class User extends Authenticatable
         //        'company'
     ];
 
-    /**
-     * @return Company
-     */
     public function getCompanyAttribute(): Company
     {
         return $this->company()->first();
     }
 
     /**
-     * @param Builder $query
-     * @return void
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */

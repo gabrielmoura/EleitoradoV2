@@ -22,7 +22,7 @@ trait PermissionTrait
 
     public function givePermissionTo(int $permission): void
     {
-//        $this->permissions()->create(['name' => $permission]);
+        //        $this->permissions()->create(['name' => $permission]);
         $this->permissions()->attach($permission);
     }
 

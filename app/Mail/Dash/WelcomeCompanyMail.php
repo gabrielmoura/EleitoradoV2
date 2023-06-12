@@ -35,12 +35,11 @@ class WelcomeCompanyMail extends Mailable
                 name: config('app.name'),
             ),
             replyTo: $this->user->company->email,
-            subject: 'Bem vindo a ' . $this->companyName,
+            subject: 'Bem vindo a '.$this->companyName,
             metadata: [
                 'company_id' => $this->user->company->id,
                 'user_id' => $this->user->id,
             ],
-
 
         );
     }

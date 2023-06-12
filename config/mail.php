@@ -102,10 +102,10 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'no-reply@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
-//    'reply_to' => [
-//        'address' => env('MAIL_REPLY_TO_ADDRESS', ''),
-//        'name' => env('MAIL_REPLY_TO_NAME', ''),
-//    ],
+    //    'reply_to' => [
+    //        'address' => env('MAIL_REPLY_TO_ADDRESS', ''),
+    //        'name' => env('MAIL_REPLY_TO_NAME', ''),
+    //    ],
 
     /*
     |--------------------------------------------------------------------------

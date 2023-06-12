@@ -30,7 +30,7 @@ class AjaxController extends Controller
 
     public function requestReportGroup(Request $request): JsonResponse
     {
-        if (RateLimiter::tooManyAttempts('export-pdf:' . $request->user()->id, $perMinute = 1)) {
+        if (RateLimiter::tooManyAttempts('export-pdf:'.$request->user()->id, $perMinute = 1)) {
             abort(429, 'Too Many Attempts.');
         }
         $this->validate($request, [
@@ -55,13 +55,13 @@ class AjaxController extends Controller
             checked: $request->input('checked'),
             lazy: false);
 
-        $data->chunk(100)->each(fn($item) => $batch->add(new ExportPeopleAddressJob(
+        $data->chunk(100)->each(fn ($item) => $batch->add(new ExportPeopleAddressJob(
             data: $item,
             filename: 'puxada',
             company_id: $company_id,
             group_by_name: $request->input('group_name')
         )));
-        RateLimiter::hit('export-pdf:' . $request->user()->id);
+        RateLimiter::hit('export-pdf:'.$request->user()->id);
 
         return response()->json(['batch' => $batch->id]);
     }
@@ -120,6 +120,7 @@ class AjaxController extends Controller
             return response()->json(['message' => 'ok']);
         } catch (\Throwable $throwable) {
             report($throwable);
+
             return response()->json(['message' => 'error']);
         }
 
@@ -138,6 +139,7 @@ class AjaxController extends Controller
             return response()->json(['message' => 'ok']);
         } catch (\Throwable $throwable) {
             report($throwable);
+
             return response()->json(['message' => 'error']);
         }
     }

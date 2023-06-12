@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Mail\Markdown;
-use League\CommonMark\Parser\MarkdownParser;
 
 class FrontController extends Controller
 {
@@ -14,7 +13,8 @@ class FrontController extends Controller
 
     public function privacy()
     {
-        $html= Markdown::parse(file_get_contents(resource_path('markdown/policy.md')));
+        $html = Markdown::parse(file_get_contents(resource_path('markdown/policy.md')));
+
         return view('front.markdown', [
             'title' => 'Política de Privacidade',
             'text' => $html,
@@ -23,7 +23,8 @@ class FrontController extends Controller
 
     public function terms()
     {
-       $html= Markdown::parse(file_get_contents(resource_path('markdown/terms.md')));
+        $html = Markdown::parse(file_get_contents(resource_path('markdown/terms.md')));
+
         return view('front.markdown', [
             'title' => 'Termos de serviço',
             'text' => $html,

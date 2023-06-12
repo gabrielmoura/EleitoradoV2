@@ -40,6 +40,7 @@ class UserController extends Controller
             $user = User::create($data);
             $role = Role::where('name', $data['role'])->firstOrFail();
             $user->assignRole($role->id);
+
             return $user;
         });
 
@@ -65,27 +66,25 @@ class UserController extends Controller
             flash()->addSuccess('Usuário atualizado com sucesso.');
         }
 
-        return redirect()->route('dash.users.index');
+        return redirect()->route('dash.user.index');
     }
 
-    public function show($pid)
+    public function show(User $user)
     {
-        $company = User::find($pid);
-
-        return view('dash.company.show', compact('company'));
+        return view('dash.user.show', compact('user'));
     }
 
     public function edit(User $user)
     {
-        $form = ['method' => 'PATCH', 'action' => route('dash.user.update',[ 'user' => $user->id])];
+        $form = ['method' => 'PATCH', 'action' => route('dash.user.update', ['user' => $user->id])];
         $roles = DB::table('roles')->whereNot('name', 'admin')->get();
 
         return view('dash.user.form', compact('form', 'roles', 'user'));
     }
 
-    public function destroy($pid)
+    public function destroy(User $user)
     {
-        User::find($pid)->deleteOrFail();
+        $user->deleteOrFail();
 
         return redirect()->route('dash.company.index');
     }

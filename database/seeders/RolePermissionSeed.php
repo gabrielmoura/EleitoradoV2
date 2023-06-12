@@ -20,7 +20,7 @@ class RolePermissionSeed extends Seeder
         $permissions = collect(['person', 'group', 'event', 'demand_type', 'demand', 'user', 'cron'])->map(function ($item) {
             $value = [];
             foreach (['create_', 'update_', 'read_', 'delete_'] as $prefix) {
-                $value[] = ['name' => $prefix . $item];
+                $value[] = ['name' => $prefix.$item];
             }
 
             return $value;
@@ -51,7 +51,7 @@ class RolePermissionSeed extends Seeder
                 'name' => 'Administrador',
                 'email' => 'admin@example.com',
                 'password' => 'admin',
-                'company_id' => $company->id
+                'company_id' => $company->id,
             ]);
             $user->assignRole($roleAdmin->id);
         }

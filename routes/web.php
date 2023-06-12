@@ -31,7 +31,7 @@ Route::get('/auth/redirect/{provider}', [SocialController::class, 'redirect'])->
 Route::get('/auth/callback/{provider}', [SocialController::class, 'callback'])->name('social.callback');
 
 Route::group(['prefix' => 'webhook', 'name' => 'webhook.'], function () {
-// Use queue to process webhooks
+    // Use queue to process webhooks
     //    Route::post('/stripe', [WebhookController::class, 'stripe'])->name('stripe');
 });
 

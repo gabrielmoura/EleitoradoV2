@@ -37,7 +37,7 @@
                                             <div class="form-group">
                                                 <input type="email" class="form-control form-control-user"
                                                        id="exampleInputEmail" aria-describedby="emailHelp"
-                                                       name="email" value="{{ old('email') }}"
+                                                       name="email" value="{{ request('email')??old('email') }}"
                                                        placeholder="Enter Email Address" required>
                                             </div>
                                             <div class="form-group">

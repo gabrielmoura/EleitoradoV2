@@ -14,9 +14,13 @@ use Livewire\Component;
 class TwoFactorAuth extends Component
 {
     use ConfirmsPasswords;
+
     public $showingConfirmation = false;
+
     public $showQrCode = false;
+
     public $showRecoveryCodes = false;
+
     public $code;
 
     public function enableTwoFactorAuth(EnableTwoFactorAuthentication $enable)
@@ -52,7 +56,7 @@ class TwoFactorAuth extends Component
 
     public function getEnabledProperty()
     {
-        return !empty($this->user->two_factor_secret);
+        return ! empty($this->user->two_factor_secret);
     }
 
     public function confirmTwoFactorAuthentication(ConfirmTwoFactorAuthentication $confirm)

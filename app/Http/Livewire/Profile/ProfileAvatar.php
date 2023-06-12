@@ -13,6 +13,7 @@ class ProfileAvatar extends Component
     use WithFileUploads;
 
     public $photo;
+
     public $user;
 
     public function mount(): void
@@ -22,7 +23,7 @@ class ProfileAvatar extends Component
 
     protected $listeners = [
         'upload:finished' => 'updatePhoto',
-        'upload:errored' => 'updatedError'
+        'upload:errored' => 'updatedError',
     ];
 
     public function updatePhoto(): void
@@ -38,7 +39,7 @@ class ProfileAvatar extends Component
 
     public function updatedError($name = null): void
     {
-        flash()->addError('Profile photo update failed' . $name);
+        flash()->addError('Profile photo update failed'.$name);
     }
 
     public function deleteProfilePhoto(): void

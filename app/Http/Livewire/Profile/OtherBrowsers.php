@@ -44,9 +44,6 @@ class OtherBrowsers extends Component
 
     /**
      * Log out from other browser sessions.
-     *
-     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
-     * @return void
      */
     public function logoutOtherBrowserSessions(StatefulGuard $guard): void
     {
@@ -56,19 +53,19 @@ class OtherBrowsers extends Component
 
         $this->resetErrorBag();
 
-//        if (! Hash::check($this->password, Auth::user()->password)) {
-//            throw ValidationException::withMessages([
-//                'password' => [__('This password does not match our records.')],
-//            ]);
-//        }
-//
-//        $guard->logoutOtherDevices($this->password);
+        //        if (! Hash::check($this->password, Auth::user()->password)) {
+        //            throw ValidationException::withMessages([
+        //                'password' => [__('This password does not match our records.')],
+        //            ]);
+        //        }
+        //
+        //        $guard->logoutOtherDevices($this->password);
 
         $this->deleteOtherSessionRecords();
 
-//        request()->session()->put([
-//            'password_hash_'.Auth::getDefaultDriver() => Auth::user()->getAuthPassword(),
-//        ]);
+        //        request()->session()->put([
+        //            'password_hash_'.Auth::getDefaultDriver() => Auth::user()->getAuthPassword(),
+        //        ]);
 
         $this->confirmingLogout = false;
 
@@ -78,8 +75,6 @@ class OtherBrowsers extends Component
 
     /**
      * Delete the other browser session records from storage.
-     *
-     * @return void
      */
     protected function deleteOtherSessionRecords(): void
     {
@@ -95,8 +90,6 @@ class OtherBrowsers extends Component
 
     /**
      * Get the current sessions.
-     *
-     * @return Collection
      */
     public function getSessionsProperty(): Collection
     {
@@ -107,7 +100,7 @@ class OtherBrowsers extends Component
         return DB::connection(config('session.connection'))->table(config('session.table', 'sessions'))
             ->where('user_id', Auth::user()->getAuthIdentifier())
             ->orderBy('last_activity', 'desc')
-            ->get()->map(fn($session) => (object) [
+            ->get()->map(fn ($session) => (object) [
                 'agent' => $this->createAgent($session),
                 'ip_address' => $session->ip_address,
                 'is_current_device' => $session->id === request()->session()->getId(),
@@ -119,7 +112,6 @@ class OtherBrowsers extends Component
      * Create a new agent instance from the given session.
      *
      * @param  mixed  $session
-     * @return \Jenssegers\Agent\Agent
      */
     protected function createAgent($session): Agent
     {

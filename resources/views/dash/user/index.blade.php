@@ -41,12 +41,16 @@
                     </td>
                     <td>
                         @if($user->banned_at== null)
-                            <button class="btn btn-warning" type="button" onclick="helpers.banUser({{$user->id}})">Banir</button>
+                            <button class="btn btn-warning" type="button" onclick="helpers.banUser({{$user->id}})">
+                                Banir
+                            </button>
                         @else
-                            <button class="btn btn-warning" type="button" onclick="helpers.unBanUser({{$user->id}})">Desbanir</button>
+                            <button class="btn btn-warning" type="button" onclick="helpers.unBanUser({{$user->id}})">
+                                Desbanir
+                            </button>
                         @endif
                         <a class="btn btn-secondary" href="{{route('dash.user.edit',['user'=>$user->id])}}">Editar</a>
-                        <button class="btn btn-primary">Ver</button>
+                        <a class="btn btn-primary" href="{{route('dash.user.show',['user'=>$user->id])}}">Ver</a>
                     </td>
                 </tr>
             @endforeach

@@ -4,11 +4,11 @@ namespace App\Service\Enum;
 
 enum RoleOptions
 {
-
     const ADMIN = 'admin';
-    const USER = 'user';
-    const MANAGER = 'manager';
 
+    const USER = 'user';
+
+    const MANAGER = 'manager';
 
     public static function getRoleOption(?string $role): string
     {
