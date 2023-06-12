@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\Tools\GetCep;
 use App\Events\Export\PDF\ExportedPeopleAddress;
 use App\Events\Export\PDF\FailedExportPeopleAddress;
-use App\Exceptions\GetCepException;
 use App\Jobs\Export\PDF\ExportPeopleAddressJob;
 use App\Models\Person;
 use App\Repositories\AnalyticsRepository;
+use App\ServiceHttp\CepService\CepService;
 use Illuminate\Bus\Batch;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -21,19 +20,16 @@ class AjaxController extends Controller
     {
     }
 
-    /**
-     * @throws GetCepException
-     */
     public function getCep(Request $request): JsonResponse
     {
         $this->validate($request, ['cep' => 'min:8|max:9']);
 
-        return response()->json(GetCep::find($request->input('cep'))->getCached());
+        return response()->json(CepService::find($request->input('cep')));
     }
 
     public function requestReportGroup(Request $request): JsonResponse
     {
-        if (RateLimiter::tooManyAttempts('export-pdf:'.$request->user()->id, $perMinute = 5)) {
+        if (RateLimiter::tooManyAttempts('export-pdf:' . $request->user()->id, $perMinute = 1)) {
             abort(429, 'Too Many Attempts.');
         }
         $this->validate($request, [
@@ -58,13 +54,13 @@ class AjaxController extends Controller
             checked: $request->input('checked'),
             lazy: false);
 
-        $data->chunk(100)->each(fn ($item) => $batch->add(new ExportPeopleAddressJob(
+        $data->chunk(100)->each(fn($item) => $batch->add(new ExportPeopleAddressJob(
             data: $item,
             filename: 'puxada',
             company_id: $company_id,
             group_by_name: $request->input('group_name')
         )));
-        RateLimiter::hit('export-pdf:'.$request->user()->id);
+        RateLimiter::hit('export-pdf:' . $request->user()->id);
 
         return response()->json(['batch' => $batch->id]);
     }
@@ -82,6 +78,25 @@ class AjaxController extends Controller
                 'checked_at' => now(),
                 'checked_by' => auth()->user()->id,
             ]);
+        } catch (\Throwable $throwable) {
+            report($throwable);
+
+            return response()->json(['message' => 'error']);
+        }
+
+        return response()->json(['message' => 'ok']);
+    }
+
+    public function unCheckPersonToGroup(Request $request): JsonResponse
+    {
+        $this->validate($request, [
+            'personId' => ['required', 'string', 'max:20'],
+            'groupId' => ['required', 'string', 'max:20'],
+        ]);
+        $personId = $request->input('personId');
+        $groupId = $request->input('groupId');
+        try {
+            Person::find($personId)->groups()->detach($groupId);
         } catch (\Throwable $throwable) {
             report($throwable);
 

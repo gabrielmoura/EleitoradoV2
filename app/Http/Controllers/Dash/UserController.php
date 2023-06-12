@@ -7,7 +7,6 @@ use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Mail\Company\WelcomeCompanyMail;
 use App\Models\User;
-use App\Traits\CompanySessionTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -17,9 +16,9 @@ class UserController extends Controller
 
     public function index()
     {
-        $companies = DB::table('users')->get();
+        $users = User::tenant()->with('roles')->paginate(10);
 
-        return view('dash.company.index', compact('companies'));
+        return view('dash.user.index', compact('users'));
     }
 
     public function create()
@@ -45,7 +44,7 @@ class UserController extends Controller
             toastr()->success('Usuário criado com sucesso.');
         }
 
-        return redirect()->route('dash.company.index');
+        return redirect()->route('dash.user.index');
     }
 
     public function update(UserUpdateRequest $request, $pid)
@@ -53,7 +52,7 @@ class UserController extends Controller
         $data = $request->validated();
         User::wherePid($pid)->firstOrFail()->update($data);
 
-        return redirect()->route('dash.company.index');
+        return redirect()->route('dash.users.index');
     }
 
     public function show($pid)

@@ -48,9 +48,10 @@
                     <h3>Grupos Associados</h3>
                     <table class="table table-responsive-md table-bordered ml-3">
                         <tbody>
-                        @forelse($person->groups as $group)
+                        @forelse($person->groups->take(10) as $group)
                             <tr>
                                 <td>{{$group->name}}</td>
+                                <td>{{date('d-m-Y', strtotime($group->pivot->checked_at))}}</td>
                                 <td>
                                     <button class="btn btn-danger btn-sm"
                                             onclick="helpers.checkPersonAndGroup('{{$person->id}}','{{$group->id}}')"
@@ -58,7 +59,8 @@
                                     </button>
 
                                     <button class="btn btn-danger btn-sm" data-toggle="modal"
-                                            data-target="#modal-delete-{{$group->id}}">Remover
+                                            onclick="helpers.unCheckPersonAndGroup('{{$person->id}}','{{$group->id}}')"
+                                    >Remover
                                     </button>
 
                                 </td>
@@ -75,7 +77,7 @@
                     <h3>Eventos Frequentados</h3>
                     <table class="table table-responsive-md table-bordered ml-3">
                         <tbody>
-                        @forelse($person->events as $event)
+                        @forelse($person->events->take(10) as $event)
                             <tr>
                                 <td>{{$event->name}}</td>
                             </tr>

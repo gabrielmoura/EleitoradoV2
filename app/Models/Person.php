@@ -74,7 +74,8 @@ class Person extends Model implements HasMedia
 
     public function groups(): BelongsToMany
     {
-        return $this->belongsToMany(Group::class, 'group_people', 'person_id', 'group_id');
+        return $this->belongsToMany(Group::class, 'group_people', 'person_id', 'group_id')
+            ->withPivot('checked_at', 'checked_by');
     }
 
     public function events(): BelongsToMany
@@ -92,14 +93,14 @@ class Person extends Model implements HasMedia
         return Attribute::make(
             get: function (?string $value) {
                 if (strlen($value) === 8) {
-                    return $value = '5521'.$value;
+                    return $value = '5521' . $value;
                 } elseif (strlen($value) === 10) {
-                    return $value = '55'.$value;
+                    return $value = '55' . $value;
                 } else {
                     return $value;
                 }
             },
-            //            set: fn (string $value) => $value,
+        //            set: fn (string $value) => $value,
         );
     }
 
@@ -108,22 +109,22 @@ class Person extends Model implements HasMedia
         return Attribute::make(
             get: function (?string $value) {
                 if (strlen($value) === 9) {
-                    return $value = '5521'.$value;
+                    return $value = '5521' . $value;
                 } elseif (strlen($value) === 11) {
-                    return $value = '55'.$value;
+                    return $value = '55' . $value;
                 } else {
                     return $value;
                 }
             },
-            //            set: fn (string $value) => $value,
+        //            set: fn (string $value) => $value,
         );
     }
 
     protected function pid(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => Ulid::fromString($value),
-            set: fn (Ulid|string $value) => $value instanceof Ulid ? $value->toRfc4122() : Ulid::fromString($value)->toRfc4122(),
+            get: fn(string $value) => Ulid::fromString($value),
+            set: fn(Ulid|string $value) => $value instanceof Ulid ? $value->toRfc4122() : Ulid::fromString($value)->toRfc4122(),
         );
     }
 
@@ -141,7 +142,7 @@ class Person extends Model implements HasMedia
     {
         parent::boot();
         static::creating(function ($model) {
-            if (! app()->runningInConsole()) {
+            if (!app()->runningInConsole()) {
                 $model->tenant_id = session()->get('tenant_id');
                 $model->pid = Str::ulid()->toRfc4122();
             }

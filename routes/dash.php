@@ -9,6 +9,7 @@ use App\Http\Controllers\Dash\EventController;
 use App\Http\Controllers\Dash\GroupController;
 use App\Http\Controllers\Dash\HomeController;
 use App\Http\Controllers\Dash\PersonController;
+use App\Http\Controllers\Dash\UserController;
 use Illuminate\Support\Facades\Route;
 
 //use App\Http\Controllers\Dash\TagGroupController;
@@ -22,6 +23,7 @@ Route::get('/group/{group}/history', [GroupController::class, 'history'])->name(
 Route::resource('/event', EventController::class)->only(['index', 'show'])->names('event')->whereUlid('event');
 Route::resource('/demand', DemandController::class)->only(['index', 'show'])->names('demand')->whereUlid('demand');
 Route::resource('/demandType', DemandTypeController::class)->only(['index'])->names('demandType')->whereUlid('demandType');
+Route::resource('/users', UserController::class)->names('user')->whereUlid('user');
 
 //Route::get('/voter/{voter}/history', [PersonController::class, 'history'])->name('voter.history');
 //Route::resource('/user', UserController::class)->names('user');

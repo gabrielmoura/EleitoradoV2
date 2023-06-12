@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Service\Trait\PermissionTrait;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -73,7 +75,13 @@ class User extends Authenticatable
         return $this->company()->first();
     }
 
-    public function company(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function scopeTenant(Builder $query): void
+    {
+        $company_id = session()->get('company.id') ?? false;
+        $query->where('company_id', '=', $company_id);
+    }
+
+    public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class, 'company_id', 'id');
     }

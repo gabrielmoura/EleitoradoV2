@@ -39,7 +39,7 @@
                     </a>
                     @cannot('user')
                         <div class="sidenav-menu-heading">Administrativo</div>
-                        <a class="nav-link" href="#">
+                        <a class="nav-link {{request()->routeIs('dash.user.*')?'active':null}}" href="{{route('dash.user.index')}}">
                             <div class="nav-link-icon">
                                 <i class="fa fa-envelope-o"></i>
                             </div>
