@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Dash\User\UserBannedEvent;
 use App\Events\Export\PDF\ExportedPeopleAddress;
 use App\Events\Export\PDF\FailedExportPeopleAddress;
 use App\Jobs\Export\PDF\ExportPeopleAddressJob;
@@ -116,6 +117,8 @@ class AjaxController extends Controller
             $userId = $request->input('userId');
             $user = User::tenant()->findOrFail($userId);
             $user->update(['banned_at' => now()]);
+
+            event(new UserBannedEvent($user));
 
             return response()->json(['message' => 'ok']);
         } catch (\Throwable $throwable) {

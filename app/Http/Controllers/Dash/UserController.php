@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Dash;
 
-use App\Events\Dash\User\UserBannedEvent;
 use App\Events\Dash\User\UserCreatedEvent;
 use App\Events\Dash\User\UserUpdatedEvent;
 use App\Http\Controllers\Controller;
@@ -57,13 +56,20 @@ class UserController extends Controller
         $data = $request->validated();
 
         $user = User::find($pid);
+        $res = DB::transaction(function () use ($data, $user) {
+            $data['company_id'] = auth()->user()->company_id;
+            $res = $user->update($data);
+            $role = Role::where('name', $data['role'])->firstOrFail();
+            $user->syncRoles([$role->id]);
 
-        if ($user->update($data)) {
-            if ($request->has('banned') && $request->get('banned') == 'on') {
-                event(new UserBannedEvent($user));
-            }
+            return $res;
+        });
+
+        if ($res) {
             event(new UserUpdatedEvent($user));
             flash()->addSuccess('Usuário atualizado com sucesso.');
+        } else {
+            flash()->addWarning('Usuário não atualizado.');
         }
 
         return redirect()->route('dash.user.index');

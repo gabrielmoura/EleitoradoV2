@@ -34,7 +34,8 @@
                     <td>{{$user->name}}</td>
                     <td>{{$user->email}}</td>
                     <td>
-                        <span class="badge bg-blue">{{$user->roles->first()->name}}</span>
+                        <span
+                            class="badge bg-blue">{{\App\Service\Enum\RoleOptions::getRoleOption($user->roles->first()->name)}}</span>
                         @if($user->banned_at!= null)
                             <span class="badge bg-danger">BAN</span>
                         @endif
