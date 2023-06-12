@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Dash;
 
+use App\Events\Dash\User\UserBannedEvent;
+use App\Events\Dash\User\UserCreatedEvent;
+use App\Events\Dash\User\UserUpdatedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
-use App\Mail\Company\WelcomeCompanyMail;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-    //    use CompanySessionTrait;
-
     public function index()
     {
         $users = User::tenant()->with('roles')->paginate(10);
@@ -23,25 +24,28 @@ class UserController extends Controller
 
     public function create()
     {
-        $form = ['method' => 'POST', 'route' => ['dash.user.store']];
+        $form = ['method' => 'POST', 'action' => route('dash.user.store')];
+        $roles = DB::table('roles')->whereNot('name', 'admin')->get();
 
-        return view('dash.user.form', compact('form'));
+        return view('dash.user.form', compact('form', 'roles'));
     }
 
     public function store(UserStoreRequest $request)
     {
         $data = $request->validated();
-
-        $transaction = DB::transaction(function () use ($data) {
-            $data['company_id'] = $this->getCompanyId();
+        $password = Str::password(length: 8, letters: true, numbers: true, symbols: true, spaces: false);
+        $transaction = DB::transaction(function () use ($data, $password) {
+            $data['password'] = $password;
+            $data['company_id'] = auth()->user()->company_id;
             $user = User::create($data);
-            $user->assignRole('employees');
-
+            $role = Role::where('name', $data['role'])->firstOrFail();
+            $user->assignRole($role->id);
             return $user;
         });
+
         if ($transaction) {
-            Mail::to($transaction)->send(new WelcomeCompanyMail($this->getCompanyName(), $request->user()->toArray()));
-            toastr()->success('Usuário criado com sucesso.');
+            event(new UserCreatedEvent($transaction, $password));
+            flash()->addSuccess('Usuário criado com sucesso.');
         }
 
         return redirect()->route('dash.user.index');
@@ -50,29 +54,38 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, $pid)
     {
         $data = $request->validated();
-        User::wherePid($pid)->firstOrFail()->update($data);
+
+        $user = User::find($pid);
+
+        if ($user->update($data)) {
+            if ($request->has('banned') && $request->get('banned') == 'on') {
+                event(new UserBannedEvent($user));
+            }
+            event(new UserUpdatedEvent($user));
+            flash()->addSuccess('Usuário atualizado com sucesso.');
+        }
 
         return redirect()->route('dash.users.index');
     }
 
     public function show($pid)
     {
-        $company = User::wherePid($pid)->firstOrFail();
+        $company = User::find($pid);
 
         return view('dash.company.show', compact('company'));
     }
 
-    public function edit($pid)
+    public function edit(User $user)
     {
-        $company = User::wherePid($pid)->firstOrFail();
-        $form = ['method' => 'PATCH', 'route' => ['dash.user.update', 'user' => $pid]];
+        $form = ['method' => 'PATCH', 'action' => route('dash.user.update',[ 'user' => $user->id])];
+        $roles = DB::table('roles')->whereNot('name', 'admin')->get();
 
-        return view(null, compact('company', 'form'));
+        return view('dash.user.form', compact('form', 'roles', 'user'));
     }
 
     public function destroy($pid)
     {
-        User::wherePid($pid)->firstOrFail()->deleteOrFail();
+        User::find($pid)->deleteOrFail();
 
         return redirect()->route('dash.company.index');
     }

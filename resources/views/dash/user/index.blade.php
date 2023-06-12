@@ -29,21 +29,29 @@
             </tr>
             </tfoot>
             <tbody>
-            @foreach($users as $event)
+            @foreach($users as $user)
                 <tr>
-                    <td>{{$event->name}}</td>
-                    <td>{{$event->email}}</td>
+                    <td>{{$user->name}}</td>
+                    <td>{{$user->email}}</td>
                     <td>
-                        <span class="badge badge-danger">{{$event->roles->first()->name}}</span>
+                        <span class="badge bg-blue">{{$user->roles->first()->name}}</span>
+                        @if($user->banned_at!= null)
+                            <span class="badge bg-danger">BAN</span>
+                        @endif
                     </td>
                     <td>
-                        <button class="btn btn-warning">Banir</button>
-                        <button class="btn btn-secondary">Editar</button>
+                        @if($user->banned_at== null)
+                            <button class="btn btn-warning" type="button" onclick="helpers.banUser({{$user->id}})">Banir</button>
+                        @else
+                            <button class="btn btn-warning" type="button" onclick="helpers.unBanUser({{$user->id}})">Desbanir</button>
+                        @endif
+                        <a class="btn btn-secondary" href="{{route('dash.user.edit',['user'=>$user->id])}}">Editar</a>
                         <button class="btn btn-primary">Ver</button>
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
+        {{$users->links()}}
     </div>
 </x-app-layout>

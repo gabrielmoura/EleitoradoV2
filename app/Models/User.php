@@ -12,6 +12,8 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class User extends Authenticatable
 {
@@ -33,7 +35,9 @@ class User extends Authenticatable
         'password',
         'company_id',
         'social',
+        'banned_at',
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -58,6 +62,7 @@ class User extends Authenticatable
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'social' => 'collection',
+        'banned_at' => 'datetime',
     ];
 
     /**
@@ -70,11 +75,20 @@ class User extends Authenticatable
         //        'company'
     ];
 
-    public function getCompanyAttribute()
+    /**
+     * @return Company
+     */
+    public function getCompanyAttribute(): Company
     {
         return $this->company()->first();
     }
 
+    /**
+     * @param Builder $query
+     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function scopeTenant(Builder $query): void
     {
         $company_id = session()->get('company.id') ?? false;

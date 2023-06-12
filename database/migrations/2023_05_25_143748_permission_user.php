@@ -15,11 +15,15 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->json('meta')->nullable();
-            $table->foreignId('user_id')->constrained('users');
+
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+
             $table->foreignId('permission_id')->nullable()
-                ->constrained('permissions');
+                ->constrained('permissions')->onDelete('set null');
+
             $table->foreignId('role_id')->nullable()
-                ->constrained('roles');
+                ->constrained('roles')->onDelete('set null');
+
             $table->index(['user_id', 'permission_id', 'role_id']);
         });
     }

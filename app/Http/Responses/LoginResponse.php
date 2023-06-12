@@ -18,6 +18,7 @@ class LoginResponse implements LoginResponseContract
             'profile_photo_url' => $user->profile_photo_url,
             'name' => $user->name,
             'email' => $user->email,
+            'banned_at'=> $user->banned_at,
         ]);
         //        $request->session()->put('two_factor', [
         //            'enabled' => ! is_null($user->two_factor_secret),

@@ -7,7 +7,7 @@ window.helpers = {
             personId,
             groupId
         }).then(function (response) {
-            console.log(response.data);
+
             flasher.success('Checado com sucesso!');
         })
             .catch(function (error) {
@@ -20,13 +20,13 @@ window.helpers = {
             group_name,
             checked: true
         }).then(function (response) {
-            console.log(response.data);
+
             flasher.success('Relatório solicitado com sucesso!');
         }).catch(function (error) {
 
-            if (error.response.status === 429){
+            if (error.response.status === 429) {
                 flasher.error('Muitas solicitações, tente novamente mais tarde!');
-            }else{
+            } else {
                 flasher.error('Erro ao solicitar relatório!');
             }
         });
@@ -48,11 +48,37 @@ window.helpers = {
             personId,
             groupId
         }).then(function (response) {
-            console.log(response.data);
+
             flasher.success('Desmarcado com sucesso!');
         }).catch(function (error) {
             console.log(error);
             flasher.error('Erro ao desmarcar!');
+        });
+    },
+    banUser: function (userId) {
+        axios.post(route('ajax.banUser', undefined, undefined, Ziggy), {
+            userId
+        }).then(function (response) {
+            flasher.success('Banido com sucesso!');
+            setInterval(function () {
+                location.reload();
+            }, 500);
+        }).catch(function (error) {
+            console.log(error);
+            flasher.error('Erro ao banir!');
+        });
+    },
+    unBanUser: function (userId) {
+        axios.post(route('ajax.unBanUser', undefined, undefined, Ziggy), {
+            userId
+        }).then(function (response) {
+            flasher.success('Desbanido com sucesso!');
+            setInterval(function () {
+                location.reload();
+            }, 500);
+        }).catch(function (error) {
+            console.log(error);
+            flasher.error('Erro ao desbanir!');
         });
     }
 };

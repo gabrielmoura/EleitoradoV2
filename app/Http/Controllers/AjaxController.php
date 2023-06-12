@@ -6,6 +6,7 @@ use App\Events\Export\PDF\ExportedPeopleAddress;
 use App\Events\Export\PDF\FailedExportPeopleAddress;
 use App\Jobs\Export\PDF\ExportPeopleAddressJob;
 use App\Models\Person;
+use App\Models\User;
 use App\Repositories\AnalyticsRepository;
 use App\ServiceHttp\CepService\CepService;
 use Illuminate\Bus\Batch;
@@ -104,5 +105,40 @@ class AjaxController extends Controller
         }
 
         return response()->json(['message' => 'ok']);
+    }
+
+    public function banUser(Request $request)
+    {
+        $this->validate($request, [
+            'userId' => ['required', 'int'],
+        ]);
+        try {
+            $userId = $request->input('userId');
+            $user = User::tenant()->findOrFail($userId);
+            $user->update(['banned_at' => now()]);
+
+            return response()->json(['message' => 'ok']);
+        } catch (\Throwable $throwable) {
+            report($throwable);
+            return response()->json(['message' => 'error']);
+        }
+
+    }
+
+    public function unBanUser(Request $request)
+    {
+        $this->validate($request, [
+            'userId' => ['required', 'int'],
+        ]);
+        try {
+            $userId = $request->input('userId');
+            $user = User::tenant()->findOrFail($userId);
+            $user->update(['banned_at' => null]);
+
+            return response()->json(['message' => 'ok']);
+        } catch (\Throwable $throwable) {
+            report($throwable);
+            return response()->json(['message' => 'error']);
+        }
     }
 }

@@ -30,6 +30,11 @@ Route::resource('/auth/invite', InviteController::class)->only(['index', 'store'
 Route::get('/auth/redirect/{provider}', [SocialController::class, 'redirect'])->name('social.redirect');
 Route::get('/auth/callback/{provider}', [SocialController::class, 'callback'])->name('social.callback');
 
+Route::group(['prefix' => 'webhook', 'name' => 'webhook.'], function () {
+// Use queue to process webhooks
+    //    Route::post('/stripe', [WebhookController::class, 'stripe'])->name('stripe');
+});
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),

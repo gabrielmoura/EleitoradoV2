@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
@@ -18,7 +18,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        User::class => UserPolicy::class,
     ];
 
     /**
@@ -29,13 +29,13 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::before(function (User $user, string $ability, $arguments) {
-            if (! config('permission.cache.enabled')) {
+            if (!config('permission.cache.enabled')) {
                 return $user->hasPermissionTo($ability) || $user->hasRole('admin');
             } else {
-                if (Cache::has(config('permission.cache.prefix').'roles') && Cache::has(config('permission.cache.prefix').'permissions')) {
+                if (Cache::has(config('permission.cache.prefix') . 'roles') && Cache::has(config('permission.cache.prefix') . 'permissions')) {
                     // Com Cache
-                    $rolesArray = Cache::get(config('permission.cache.prefix').'roles');
-                    $permissionsArray = Cache::get(config('permission.cache.prefix').'permissions');
+                    $rolesArray = Cache::get(config('permission.cache.prefix') . 'roles');
+                    $permissionsArray = Cache::get(config('permission.cache.prefix') . 'permissions');
                 } else {
                     // Sem Cache
                     $roles = Role::all();
@@ -50,8 +50,8 @@ class AuthServiceProvider extends ServiceProvider
                             $rolesArray[$role->name][] = $user->hasRole($role->name) ? $user->id : null;
                         }
                     });
-                    Cache::set(config('permission.cache.prefix').'permissions', $permissionsArray, config('permission.cache.ttl'));
-                    Cache::set(config('permission.cache.prefix').'roles', $rolesArray, config('permission.cache.ttl'));
+                    Cache::set(config('permission.cache.prefix') . 'permissions', $permissionsArray, config('permission.cache.ttl'));
+                    Cache::set(config('permission.cache.prefix') . 'roles', $rolesArray, config('permission.cache.ttl'));
                 }
 
                 return in_array($user->id, $permissionsArray[$ability] ?? [])

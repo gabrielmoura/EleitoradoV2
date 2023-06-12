@@ -20,9 +20,10 @@ trait PermissionTrait
             })->exists();
     }
 
-    public function givePermissionTo(string $permission): void
+    public function givePermissionTo(int $permission): void
     {
-        $this->permissions()->create(['name' => $permission]);
+//        $this->permissions()->create(['name' => $permission]);
+        $this->permissions()->attach($permission);
     }
 
     public function revokePermissionTo(string $permission): void
@@ -30,9 +31,9 @@ trait PermissionTrait
         $this->permissions()->where('name', $permission)->delete();
     }
 
-    public function assignRole(string $role): void
+    public function assignRole(int $role): void
     {
-        $this->roles()->create(['name' => $role]);
+        $this->roles()->attach($role);
     }
 
     public function removeRole(string $role): void
@@ -42,7 +43,7 @@ trait PermissionTrait
 
     public function syncRoles(array $roles): void
     {
-        //        $this->roles()->delete();
+        $this->roles()->detach();
         foreach ($roles as $role) {
             $this->assignRole($role);
         }
@@ -50,7 +51,7 @@ trait PermissionTrait
 
     public function syncPermissions(array $permissions): void
     {
-        //        $this->permissions()->delete();
+        $this->permissions()->detach();
         foreach ($permissions as $permission) {
             $this->givePermissionTo($permission);
         }

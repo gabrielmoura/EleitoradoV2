@@ -25,4 +25,5 @@ sail up -d
 
 ```bash
 php artisan optimize
+php artisan event:cache
 ```

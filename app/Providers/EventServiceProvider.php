@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Events\Dash\User\UserCreatedEvent;
 use App\Events\Demand\DemandClosedEvent;
 use App\Events\Demand\DemandCreatedEvent;
 use App\Events\Export\PDF\ExportedPeopleAddress;
 use App\Events\Export\PDF\FailedExportPeopleAddress;
 use App\Events\System\GeneratedInviteEvent;
+use App\Listeners\Dash\User\UserCreatedNotificationListener;
 use App\Listeners\Demand\DemandClosedMail;
 use App\Listeners\Demand\DemandCreatedMail;
 use App\Listeners\Export\PDF\ExportedPeopleAddressNotification;
@@ -50,6 +52,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         GeneratedInviteEvent::class => [
             GeneratedInviteNotification::class,
+        ],
+        UserCreatedEvent::class => [
+            UserCreatedNotificationListener::class,
         ],
 
     ];
