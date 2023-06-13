@@ -3,6 +3,7 @@
 //use App\Http\Controllers\Dash\CheckinController;
 //use App\Http\Controllers\Dash\CompanyController;
 //use App\Http\Controllers\Dash\EventController;
+use App\Http\Controllers\Dash\BirthdaysController;
 use App\Http\Controllers\Dash\DemandController;
 use App\Http\Controllers\Dash\DemandTypeController;
 use App\Http\Controllers\Dash\EventController;
@@ -24,6 +25,7 @@ Route::resource('/event', EventController::class)->only(['index', 'show'])->name
 Route::resource('/demand', DemandController::class)->only(['index', 'show'])->names('demand')->whereUlid('demand');
 Route::resource('/demandType', DemandTypeController::class)->only(['index'])->names('demandType')->whereUlid('demandType');
 Route::resource('/users', UserController::class)->names('user')->whereNumber('user');
+Route::get('/birthdays', [BirthdaysController::class, 'index'])->name('birthdays');
 
 //Route::get('/voter/{voter}/history', [PersonController::class, 'history'])->name('voter.history');
 //Route::resource('/user', UserController::class)->names('user');
