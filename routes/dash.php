@@ -25,7 +25,7 @@ Route::get('/group/{group}/history', [GroupController::class, 'history'])->name(
 Route::resource('/event', EventController::class)->only(['index', 'show'])->names('event')->whereUlid('event');
 Route::resource('/demand', DemandController::class)->only(['index', 'show'])->names('demand')->whereUlid('demand');
 Route::resource('/demandType', DemandTypeController::class)->only(['index'])->names('demandType')->whereUlid('demandType');
-Route::resource('/users', UserController::class)->names('user')->whereNumber('user');
+Route::resource('/users', UserController::class)->names('user')->whereNumber('user')->middleware('can:manager');
 Route::get('/birthdays', [BirthdaysController::class, 'index'])->name('birthdays');
 
 Route::group(['middleware' => ['can:invoicing'], 'prefix' => 'pay'], function () {

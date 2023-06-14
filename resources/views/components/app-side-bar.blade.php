@@ -13,55 +13,57 @@
                         </div>
                         Home
                     </a>
+                    @cannot('admin')
 
-                    <a class="nav-link {{request()->routeIs('dash.person*')?'active':null}}"
-                       href="{{route('dash.person.index')}}">
-                        <div class="nav-link-icon">
-                            <i class="fad fa-male fa-lg"></i>
-                        </div>
-                        Pessoas
-                    </a>
-                    <a class="nav-link {{request()->routeIs('dash.group.*')?'active':null}}"
-                       href="{{route('dash.group.index')}}">
-                        <div class="nav-link-icon">
-                            <i class="fad fa-users fa-lg"
-                               ></i>
-                        </div>
-                        Grupos
-                    </a>
-                    <a class="nav-link {{request()->routeIs('dash.event.*')?'active':null}}"
-                       href="{{route('dash.event.index')}}">
-                        <div class="nav-link-icon">
-                            <i class="fad fa-calendar-check fa-lg"
-                               ></i>
-                        </div>
-                        Eventos
-                    </a>
-                    <a class="nav-link {{request()->routeIs('dash.demand.*')?'active':null}}"
-                       href="{{route('dash.demand.index')}}">
-                        <div class="nav-link-icon">
-                            <i class="fad fa-hand-holding-magic fa-lg"
-                              ></i>
-                        </div>
-                        Demandas
-                    </a>
-                    <a class="nav-link {{request()->routeIs('dash.demandType.*')?'active':null}}"
-                       href="{{route('dash.demandType.index')}}">
-                        <div class="nav-link-icon">
-                            <i class="fad fa-hand-holding-box fa-lg"></i>
-                        </div>
-                        Tipos de Demanda
-                    </a>
+                        <a class="nav-link {{request()->routeIs('dash.person*')?'active':null}}"
+                           href="{{route('dash.person.index')}}">
+                            <div class="nav-link-icon">
+                                <i class="fad fa-male fa-lg"></i>
+                            </div>
+                            Pessoas
+                        </a>
+                        <a class="nav-link {{request()->routeIs('dash.group.*')?'active':null}}"
+                           href="{{route('dash.group.index')}}">
+                            <div class="nav-link-icon">
+                                <i class="fad fa-users fa-lg"
+                                ></i>
+                            </div>
+                            Grupos
+                        </a>
+                        <a class="nav-link {{request()->routeIs('dash.event.*')?'active':null}}"
+                           href="{{route('dash.event.index')}}">
+                            <div class="nav-link-icon">
+                                <i class="fad fa-calendar-check fa-lg"
+                                ></i>
+                            </div>
+                            Eventos
+                        </a>
+                        <a class="nav-link {{request()->routeIs('dash.demand.*')?'active':null}}"
+                           href="{{route('dash.demand.index')}}">
+                            <div class="nav-link-icon">
+                                <i class="fad fa-hand-holding-magic fa-lg"
+                                ></i>
+                            </div>
+                            Demandas
+                        </a>
+                        <a class="nav-link {{request()->routeIs('dash.demandType.*')?'active':null}}"
+                           href="{{route('dash.demandType.index')}}">
+                            <div class="nav-link-icon">
+                                <i class="fad fa-hand-holding-box fa-lg"></i>
+                            </div>
+                            Tipos de Demanda
+                        </a>
 
-                    <a class="nav-link {{request()->routeIs('dash.birthdays')?'active':null}}"
-                       href="{{route('dash.birthdays')}}">
-                        <div class="nav-link-icon">
-                            <i class="fad fa-birthday-cake fa-lg"></i>
-                        </div>
-                        Aniversariantes
-                    </a>
+                        <a class="nav-link {{request()->routeIs('dash.birthdays')?'active':null}}"
+                           href="{{route('dash.birthdays')}}">
+                            <div class="nav-link-icon">
+                                <i class="fad fa-birthday-cake fa-lg"></i>
+                            </div>
+                            Aniversariantes
+                        </a>
+                    @endcannot
 
-                    @cannot('user')
+                    @can('manager')
                         <div class="sidenav-menu-heading">Administrativo</div>
                         <a class="nav-link {{request()->routeIs('dash.user.*')?'active':null}}"
                            href="{{route('dash.user.index')}}">
@@ -70,7 +72,7 @@
                             </div>
                             Usuários
                         </a>
-                    @endcannot
+                    @endcan
                 </div>
             </div>
         </div>

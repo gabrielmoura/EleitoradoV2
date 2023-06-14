@@ -48,13 +48,28 @@ class RolePermissionSeed extends Seeder
 
         if (app()->environment('local')) {
             $company = Company::create(['name' => 'Empresa 1', 'email' => 'company@example.com']);
-            $user = User::create([
+            $adminUser = User::create([
                 'name' => 'Administrador',
                 'email' => 'admin@example.com',
                 'password' => 'admin',
+            ]);
+            $adminUser->assignRole($roleAdmin->id);
+
+            $managerUser = User::create([
+                'name' => 'Gerente',
+                'email' => 'manager@example.com',
+                'password' => 'manager',
                 'company_id' => $company->id,
             ]);
-            $user->assignRole($roleAdmin->id);
+            $managerUser->assignRole($roleManager->id);
+
+            $user = User::create([
+                'name' => 'Usuário',
+                'email' => 'user@example.com',
+                'password' => 'user',
+                'company_id' => $company->id,
+            ]);
+            $user->assignRole($roleUser->id);
         }
     }
 }

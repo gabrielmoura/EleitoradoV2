@@ -71,8 +71,10 @@
                 </form>
             </div>
         </li>
+        @cannot('admin')
         <livewire:alerts-center/>
         <livewire:message-center/>
+        @endcannot
 
         <!-- User Dropdown-->
         <li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">

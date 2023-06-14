@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\Dash\User\UserCreatedEvent;
+use App\Events\Dash\User\UserUpdatedEvent;
 use App\Events\Demand\DemandClosedEvent;
 use App\Events\Demand\DemandCreatedEvent;
 use App\Events\Export\PDF\ExportedPeopleAddress;
@@ -10,6 +11,7 @@ use App\Events\Export\PDF\FailedExportPeopleAddress;
 use App\Events\System\GeneratedInviteEvent;
 use App\Events\System\PlanCreated;
 use App\Listeners\Dash\User\UserCreatedNotificationListener;
+use App\Listeners\Dash\User\UserUpdatedClearPermissionCache;
 use App\Listeners\Demand\DemandClosedMail;
 use App\Listeners\Demand\DemandCreatedMail;
 use App\Listeners\Export\PDF\ExportedPeopleAddressNotification;
@@ -60,6 +62,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         PlanCreated::class => [
             PlanCreatedUpdateStripeListener::class,
+        ],
+        UserUpdatedEvent::class => [
+            UserUpdatedClearPermissionCache::class,
         ],
 
     ];
