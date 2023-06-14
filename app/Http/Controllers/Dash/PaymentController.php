@@ -10,19 +10,13 @@ use Laravel\Cashier\Subscription;
 
 class PaymentController extends Controller
 {
-    // Criar um fluxo de pagamento
-    // Selecionar o plano
-    // Selecionar a forma de pagamento
-    // Criar o cliente
-    // Criar a assinatura
-    // Criar o webhook
-    // Criar o webhook para o checkout
     public function index()
     {
         // Listar os Planos
         $this->authorize('invoicing');
+        $plans = Plan::all();
 
-        return view('dash.payment.plans.index');
+        return view('dash.payment.plans.index', compact('plans'));
     }
 
     public function show(Plan $plan, Request $request)
@@ -65,7 +59,7 @@ class PaymentController extends Controller
         return view('dash.payment.plans.success');
     }
 
-    public function paymentMethod()
+    public function paymentMethod(): void
     {
         $this->authorize('invoicing');
 
@@ -78,8 +72,6 @@ class PaymentController extends Controller
             'currency' => 'usd',
             'id' => 'gold']
         );
-
-        return view('dash.payment.paymentMethod');
     }
 
     public function allSubscriptions()

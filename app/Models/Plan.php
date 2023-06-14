@@ -27,6 +27,7 @@ class Plan extends Model
         'currency',
         'description',
         'metadata',
+        'features',
     ];
 
     protected $casts = [
@@ -35,6 +36,7 @@ class Plan extends Model
         'updated_at' => 'datetime:Y-m-d',
         'price_decimal' => 'decimal:2',
         'price' => 'integer',
+        'features' => 'collection',
     ];
 
     public function getRouteKeyName(): string
@@ -43,9 +45,9 @@ class Plan extends Model
     }
 
     protected $dispatchesEvents = [
-        'created' => \App\Events\System\PlanCreated::class,
-        'updated' => \App\Events\System\PlanUpdated::class,
-        'deleted' => \App\Events\System\PlanDeleted::class,
+        //        'created' => \App\Events\System\PlanCreated::class,
+        //        'updated' => \App\Events\System\PlanUpdated::class,
+        //        'deleted' => \App\Events\System\PlanDeleted::class,
     ];
 
     protected static function boot(): void

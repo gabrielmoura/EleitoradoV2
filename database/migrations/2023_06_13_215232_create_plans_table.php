@@ -18,12 +18,13 @@ return new class extends Migration
             $table->string('slug');
             $table->tinyInteger('interval_count')->default(1);
             $table->string('billing_method')->nullable();
-            $table->string('billing_period');
+            $table->enum('billing_period', ['day', 'week', 'month', 'year'])->default('month');
             $table->integer('price')->comment('in cents');
             $table->decimal('price_decimal')->nullable();
             $table->string('currency');
             $table->string('description');
             $table->json('metadata')->nullable();
+            $table->json('features')->comment('Funcionalidades')->default([]);
             $table->timestamps();
         });
     }

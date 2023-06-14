@@ -3,11 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\Company;
-use App\Models\Permission;
-use App\Models\Role;
 use App\Models\User;
 use App\Service\Enum\RoleOptions;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class RolePermissionSeed extends Seeder
 {
@@ -16,6 +17,8 @@ class RolePermissionSeed extends Seeder
      */
     public function run(): void
     {
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
         //'history_', 'restore_'
         $permissions = collect(['person', 'group', 'event', 'demand_type', 'demand', 'user', 'cron'])->map(function ($item) {
             $value = [];
@@ -31,19 +34,16 @@ class RolePermissionSeed extends Seeder
             }
         }
         $roleAdmin = Role::create(['name' => RoleOptions::ADMIN]);
-        $roleAdmin->permissions()->attach(Permission::all());
+        $roleAdmin->givePermissionTo(Permission::all());
 
         $roleManager = Role::create(['name' => RoleOptions::MANAGER]);
-        $roleManager->permissions()->attach(
-            Permission::all()
-        );
+        $roleManager->givePermissionTo(Permission::all());
 
         $roleUser = Role::create(['name' => RoleOptions::USER]);
-        $roleUser->permissions()->attach(
-            Permission::whereNot('name', 'like', '%delete_%')
-                ->whereNot('name', 'like', '%cron%')
-                ->whereNot('name', 'like', '%user%')->get()
-        );
+        $roleUser->givePermissionTo(Permission::whereNot('name', 'like', '%delete_%')
+            ->whereNot('name', 'like', '%cron%')
+            ->whereNot('name', 'like', '%user%')->get());
+
         Permission::create(['name' => 'invoicing']);
 
         if (app()->environment('local')) {
@@ -53,7 +53,7 @@ class RolePermissionSeed extends Seeder
                 'email' => 'admin@example.com',
                 'password' => 'admin',
             ]);
-            $adminUser->assignRole($roleAdmin->id);
+            $adminUser->assignRole($roleAdmin);
 
             $managerUser = User::create([
                 'name' => 'Gerente',
@@ -61,7 +61,8 @@ class RolePermissionSeed extends Seeder
                 'password' => 'manager',
                 'company_id' => $company->id,
             ]);
-            $managerUser->assignRole($roleManager->id);
+            $managerUser->assignRole($roleManager);
+            $managerUser->givePermissionTo(Permission::where('name', 'invoicing')->get());
 
             $user = User::create([
                 'name' => 'Usuário',
@@ -69,7 +70,7 @@ class RolePermissionSeed extends Seeder
                 'password' => 'user',
                 'company_id' => $company->id,
             ]);
-            $user->assignRole($roleUser->id);
+            $user->assignRole($roleUser);
         }
     }
 }

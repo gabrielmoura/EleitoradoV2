@@ -115,7 +115,7 @@
                                 </tbody>
                             </table>
                         @else
-                            <h4>You are not subscribed to any plan</h4>
+                            <h4>Você não está inscrito em nenhum plano</h4>
                         @endif
 
 

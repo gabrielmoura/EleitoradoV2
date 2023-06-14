@@ -71,10 +71,10 @@
                 </form>
             </div>
         </li>
-        @cannot('admin')
-        <livewire:alerts-center/>
-        <livewire:message-center/>
-        @endcannot
+        @role(['manager','user'])
+            <livewire:alerts-center/>
+            <livewire:message-center/>
+        @endrole
 
         <!-- User Dropdown-->
         <li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
@@ -99,12 +99,11 @@
                     <div class="dropdown-item-icon"><i data-feather="settings"></i></div>
                     Account
                 </a>
-                <form action="{{route('logout')}}" method="POST" class="dropdown-item">
+                <a class="dropdown-item" href="javascript:{}" onclick="document.getElementById('logout-form').submit();">
+                    <i class="dropdown-item-icon" data-feather="log-out"></i>
+                    Logout</a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
-                    <button type="submit" style="border: none;background-color:#ffffff;padding:0">
-                        <i class="dropdown-item-icon" data-feather="log-out"></i>
-                        Logout
-                    </button>
                 </form>
             </div>
         </li>

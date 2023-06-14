@@ -179,6 +179,8 @@ return [
 
         App\Providers\RepositoryProvider::class,
         App\Providers\JobMiddlewareProvider::class,
+
+        Spatie\Permission\PermissionServiceProvider::class,
     ])->toArray(),
 
     /*

@@ -24,16 +24,16 @@
     </style>
     <form action="{{ route('dash.payment.store',$plan->slug) }}" method="POST" id="subscribe-form">
         @csrf
-        <span><b>Your Subscription is </b> {{ strtoupper($plan->name) }}</span>
+        <span><b>O plano escolhido é </b> {{ strtoupper($plan->name) }}</span>
         <span style="float: right">{{formatCurrency($plan->price/100,$plan->currency)}}</span>
         <br>
 
         <input type="hidden" name="plan_id" value="{{ $plan->plan_id }}">
-        <label for="card-holder-name">Card Holder Name</label> <br>
+        <label for="card-holder-name">Nome do Titular</label> <br>
         <input id="card-holder-name" type="text" class="form-control">
 
         <div class="form-row">
-            <label for="card-element">Credit or debit card</label>
+            <label for="card-element">Cartão de crédito ou débito</label>
             <div id="card-element" class="form-control">
             </div>
             <!-- Used to display form errors. -->
@@ -50,7 +50,7 @@
         <br>
         <div class="form-group text-center">
             <button id="card-button" data-secret="{{ $intent->client_secret }}"
-                    class="btn btn-lg btn-success btn-block">Process Subscription
+                    class="btn btn-lg btn-success btn-block">Pagar
             </button>
         </div>
     </form>

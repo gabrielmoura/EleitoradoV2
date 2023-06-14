@@ -63,7 +63,7 @@
                         </a>
                     @endcannot
 
-                    @can('manager')
+                    @role('manager')
                         <div class="sidenav-menu-heading">Administrativo</div>
                         <a class="nav-link {{request()->routeIs('dash.user.*')?'active':null}}"
                            href="{{route('dash.user.index')}}">
@@ -71,6 +71,15 @@
                                 <i class="fad fa-user-shield fa-lg"></i>
                             </div>
                             Usuários
+                        </a>
+                    @endrole
+                    @can('invoicing')
+                        <a class="nav-link {{request()->routeIs('dash.invoicing.*')?'active':null}}"
+                           href="{{route('dash.payment.index')}}">
+                            <div class="nav-link-icon">
+                                <i class="fad fa-file-invoice-dollar fa-lg"></i>
+                            </div>
+                            Faturamento
                         </a>
                     @endcan
                 </div>

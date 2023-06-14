@@ -71,5 +71,9 @@ class Kernel extends HttpKernel
 
         'ajaxOnly' => \App\Http\Middleware\AjaxOnly::class,
         'verifyBanned' => \App\Http\Middleware\VerifyBanned::class,
+
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 }

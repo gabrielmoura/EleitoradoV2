@@ -10,7 +10,7 @@ class LoginResponse implements LoginResponseContract
     {
         $user = $request->user();
         $isAdmin = $user->hasRole('admin');
-        if (!$isAdmin) {
+        if (! $isAdmin) {
             $company = $user->company;
             $request->session()->put('tenant_id', $company->tenant_id);
             $request->session()->put('company', [
