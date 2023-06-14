@@ -32,10 +32,10 @@ class AuthServiceProvider extends ServiceProvider
             if (! config('permission.cache.enabled')) {
                 return $user->hasPermissionTo($ability) || $user->hasRole('admin');
             } else {
-                if (Cache::has(config('permission.cache.prefix').'roles') && Cache::has(config('permission.cache.prefix').'permissions')) {
+                if (Cache::has(config('permission.cache.prefix').':roles') && Cache::has(config('permission.cache.prefix').':permissions')) {
                     // Com Cache
-                    $rolesArray = Cache::get(config('permission.cache.prefix').'roles');
-                    $permissionsArray = Cache::get(config('permission.cache.prefix').'permissions');
+                    $rolesArray = Cache::get(config('permission.cache.prefix').':roles');
+                    $permissionsArray = Cache::get(config('permission.cache.prefix').':permissions');
                 } else {
                     // Sem Cache
                     $roles = Role::all();
@@ -50,8 +50,8 @@ class AuthServiceProvider extends ServiceProvider
                             $rolesArray[$role->name][] = $user->hasRole($role->name) ? $user->id : null;
                         }
                     });
-                    Cache::set(config('permission.cache.prefix').'permissions', $permissionsArray, config('permission.cache.ttl'));
-                    Cache::set(config('permission.cache.prefix').'roles', $rolesArray, config('permission.cache.ttl'));
+                    Cache::set(config('permission.cache.prefix').':permissions', $permissionsArray, config('permission.cache.ttl'));
+                    Cache::set(config('permission.cache.prefix').':roles', $rolesArray, config('permission.cache.ttl'));
                 }
 
                 return in_array($user->id, $permissionsArray[$ability] ?? [])

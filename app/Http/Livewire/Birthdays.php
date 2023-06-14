@@ -9,11 +9,14 @@ use Livewire\Component;
 class Birthdays extends Component
 {
     public $filter_by = 'month';
+
     public Carbon $date_reference;
+
     public string $date;
+
     private Person $person;
 
-    public function mount(Person $person):void
+    public function mount(Person $person): void
     {
         $this->person = $person;
         $this->date_reference = now();
@@ -21,7 +24,7 @@ class Birthdays extends Component
 
     public function render()
     {
-        if (!empty($this->date)) {
+        if (! empty($this->date)) {
             $this->date_reference = Carbon::parse($this->date);
         }
 

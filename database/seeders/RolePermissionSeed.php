@@ -44,6 +44,7 @@ class RolePermissionSeed extends Seeder
                 ->whereNot('name', 'like', '%cron%')
                 ->whereNot('name', 'like', '%user%')->get()
         );
+        Permission::create(['name' => 'invoicing']);
 
         if (app()->environment('local')) {
             $company = Company::create(['name' => 'Empresa 1', 'email' => 'company@example.com']);

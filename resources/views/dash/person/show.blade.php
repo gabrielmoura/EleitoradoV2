@@ -50,7 +50,7 @@
                         <tbody>
                         @forelse($person->groups->take(10) as $group)
                             <tr>
-                                <td>{{$group->name}}</td>
+                                <td><a href="{{route('dash.group.show',['group'=>$group->pid])}}">{{$group->name}}</a></td>
                                 <td>{{date('d-m-Y', strtotime($group->pivot->checked_at))}}</td>
                                 <td>
                                     <button class="btn btn-danger btn-sm"

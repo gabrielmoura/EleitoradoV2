@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('type')->nullable();
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();
+            $table->integer('estimated_public')->nullable();
         });
     }
 

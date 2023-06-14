@@ -10,8 +10,9 @@ trait PermissionTrait
             ->exists();
     }
 
-    public function hasPermissionTo(string $permission): bool
+    public function hasPermissionTo(string $permission)
     {
+        // is equal to user
         return $this->with('roles.permissions', 'permissions')
             ->whereHas('roles.permissions', function ($query) use ($permission) {
                 $query->where('name', $permission);

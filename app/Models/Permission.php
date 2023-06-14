@@ -20,4 +20,15 @@ class Permission extends Model
     {
         return $this->belongsToMany(User::class, 'permission_user');
     }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::created(function ($model) {
+            app()['cache']->forget(config('permission.cache.prefix'));
+        });
+        static::updated(function ($model) {
+            app()['cache']->forget(config('permission.cache.prefix'));
+        });
+    }
 }

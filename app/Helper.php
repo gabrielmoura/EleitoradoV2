@@ -50,3 +50,12 @@ if (! function_exists('temp_path')) {
         return app()->storagePath('app/tmp/'.$path);
     }
 }
+
+if (! function_exists('formatCurrency')) {
+    function formatCurrency($value, string $currency, string $locale = 'pt-BR'): string
+    {
+        $cash = new NumberFormatter($locale, NumberFormatter::CURRENCY);
+
+        return $cash->formatCurrency($value, $currency);
+    }
+}

@@ -29,10 +29,17 @@ return new class extends Migration
 
             $table->nullableTimestamps();
         });
+
+        Schema::create('temporary_uploads', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('session_id');
+            $table->timestamps();
+        });
     }
 
     public function down(): void
     {
+        Schema::dropIfExists('temporary_uploads');
         Schema::dropIfExists('media');
     }
 };

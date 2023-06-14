@@ -26,8 +26,8 @@ class Permission extends Command
      */
     public function handle()
     {
-        Cache::forget(config('permission.cache.prefix').'roles');
-        Cache::forget(config('permission.cache.prefix').'permissions');
+        Cache::forget(config('permission.cache.prefix').':roles');
+        Cache::forget(config('permission.cache.prefix').':permissions');
         $this->info('Cache resetado com sucesso!');
     }
 }

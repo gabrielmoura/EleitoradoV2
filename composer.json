@@ -6,10 +6,12 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "ext-intl" : "*",
         "elibyy/tcpdf-laravel": "^10.0",
         "guzzlehttp/guzzle": "^7.2",
         "http-interop/http-factory-guzzle": "^1.2",
         "laravel-notification-channels/telegram": "^4.0",
+        "laravel/cashier": "^14.12",
         "laravel/framework": "^10.10",
         "laravel/horizon": "^5.16",
         "laravel/jetstream": "^3.2",
@@ -86,5 +88,11 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": {
+        "blx32/laravel-medialibrary": {
+            "type": "path",
+            "url": "3PartyPackages/laravel-medialibrary"
+        }
+    }
 }

@@ -33,6 +33,13 @@ class Event extends Model implements HasMedia
         'person_id',
         'group_id',
         'demands_id',
+        'estimated_public',
+    ];
+
+    protected $casts = [
+        'estimated_public' => 'integer',
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
     ];
 
     public function address(): BelongsTo
@@ -75,6 +82,6 @@ class Event extends Model implements HasMedia
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults();
+        return LogOptions::defaults()->logFillable();
     }
 }

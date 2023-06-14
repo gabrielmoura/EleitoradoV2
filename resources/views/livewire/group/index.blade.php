@@ -145,86 +145,87 @@
             <x-table-pagination :items="$groups" :per-page="$perPage"/>
         </div>
     </div>
+
+    @can('create_group')
+        <!-- Create Modal -->
+        <div wire:ignore.self class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="studentModalLabel">Create Student</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                                wire:click="closeModal"></button>
+                    </div>
+                    <form wire:submit.prevent="store">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label>Nome</label>
+                                <input type="text" wire:model.debounce.500ms="name" class="form-control">
+                                @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label>Descrição</label>
+                                <input type="text" wire:model.debounce.500ms="description" class="form-control">
+                                @error('description') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" wire:click="closeModal"
+                                    data-bs-dismiss="modal">Close
+                            </button>
+                            <button type="submit" class="btn btn-primary"
+                                    wire:target="store"
+                                    wire:loading.attr="disabled"
+                                    :disabled="$disabled">Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endcan
+
+    @can('update_group')
+        <!-- Update Modal -->
+        <div wire:ignore.self class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateModalLabel">Edit Student</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click="closeModal"
+                                aria-label="Close"></button>
+                    </div>
+                    <form wire:submit.prevent="update">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label>Nome</label>
+                                <input type="text" wire:model="name" class="form-control">
+                                @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label>Descrição</label>
+                                <input type="text" wire:model="description" class="form-control">
+                                @error('description') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" wire:click="closeModal"
+                                    data-bs-dismiss="modal">Close
+                            </button>
+                            <button type="submit" class="btn btn-primary"
+                                    wire:target="update"
+                                    wire:loading.attr="disabled"
+                                    :disabled="$disabled">Update
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endcan
 </div>
 
-@can('create_group')
-    <!-- Create Modal -->
-    <div wire:ignore.self class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="studentModalLabel">Create Student</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                            wire:click="closeModal"></button>
-                </div>
-                <form wire:submit.prevent="store">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label>Nome</label>
-                            <input type="text" wire:model.debounce.500ms="name" class="form-control">
-                            @error('name') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label>Descrição</label>
-                            <input type="text" wire:model.debounce.500ms="description" class="form-control">
-                            @error('description') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                                data-bs-dismiss="modal">Close
-                        </button>
-                        <button type="submit" class="btn btn-primary"
-                                wire:target="store"
-                                wire:loading.attr="disabled"
-                                :disabled="$disabled">Save
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-@endcan
-
-@can('update_group')
-    <!-- Update Modal -->
-    <div wire:ignore.self class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updateModalLabel">Edit Student</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click="closeModal"
-                            aria-label="Close"></button>
-                </div>
-                <form wire:submit.prevent="update">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label>Nome</label>
-                            <input type="text" wire:model="name" class="form-control">
-                            @error('name') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label>Descrição</label>
-                            <input type="text" wire:model="description" class="form-control">
-                            @error('description') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                                data-bs-dismiss="modal">Close
-                        </button>
-                        <button type="submit" class="btn btn-primary"
-                                wire:target="update"
-                                wire:loading.attr="disabled"
-                                :disabled="$disabled">Update
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-@endcan
 

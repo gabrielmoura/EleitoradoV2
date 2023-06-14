@@ -16,7 +16,7 @@ return [
         'enabled' => env('PERMISSION_CACHE_ENABLED', true),
         'store' => 'default',
         'expiration' => 60 * 60 * 24, // 24 hours
-        'prefix' => 'permission_',
+        'prefix' => 'permission',
         'forget_on_refresh' => true,
     ],
 

@@ -8,12 +8,14 @@ use App\Events\Demand\DemandCreatedEvent;
 use App\Events\Export\PDF\ExportedPeopleAddress;
 use App\Events\Export\PDF\FailedExportPeopleAddress;
 use App\Events\System\GeneratedInviteEvent;
+use App\Events\System\PlanCreated;
 use App\Listeners\Dash\User\UserCreatedNotificationListener;
 use App\Listeners\Demand\DemandClosedMail;
 use App\Listeners\Demand\DemandCreatedMail;
 use App\Listeners\Export\PDF\ExportedPeopleAddressNotification;
 use App\Listeners\Export\PDF\FailedExportedPeopleAddressNotification;
 use App\Listeners\System\GeneratedInviteNotification;
+use App\Listeners\System\PlanCreatedUpdateStripeListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -55,6 +57,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserCreatedEvent::class => [
             UserCreatedNotificationListener::class,
+        ],
+        PlanCreated::class => [
+            PlanCreatedUpdateStripeListener::class,
         ],
 
     ];

@@ -70,7 +70,7 @@ class Demand extends Model implements HasMedia
 
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults();
+        return LogOptions::defaults()->logFillable();
         // Chain fluent methods for configuration options
     }
 }
