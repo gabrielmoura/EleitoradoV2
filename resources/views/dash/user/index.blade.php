@@ -2,9 +2,14 @@
     <x-slot name="header">
         <x-header-compact>
             <x-slot:content>
-                <h2 class="h4 font-weight-bold">
-                    Usuários
-                </h2>
+                <div class="col-auto mb-3">
+                    <h1 class="page-header-title">
+                        <div class="page-header-icon">
+                            <i class="fad fa-user-shield fa-lg"></i>
+                        </div>
+                        Usuários
+                    </h1>
+                </div>
             </x-slot:content>
         </x-header-compact>
     </x-slot>

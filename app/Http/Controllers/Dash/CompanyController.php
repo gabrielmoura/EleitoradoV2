@@ -8,16 +8,17 @@ use App\Models\Company;
 
 class CompanyController extends Controller
 {
-    public function show($pid)
+    public function index()
     {
-        $company = Company::find($pid);
+        $company = auth()->user()->company;
 
         return view('dash.company.show', compact('company'));
     }
 
     public function edit($pid)
     {
-        $company = Company::find($pid);
+        // Definir Configurações da Empresa
+        $company = auth()->user()->company;
         $form = ['method' => 'PATCH', 'route' => ['dash.company.update', 'company' => $pid]];
 
         return view('dash.company.form', compact('company', 'form'));
