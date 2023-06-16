@@ -17,9 +17,9 @@ class UserController extends Controller
 
     public function index()
     {
-        $companies = DB::table('users')->get();
+        $users = DB::table('users')->get();
 
-        return view('admin.company.index', compact('companies'));
+        return view('admin.user.index', compact('users'));
     }
 
     public function store(UserStoreRequest $request)

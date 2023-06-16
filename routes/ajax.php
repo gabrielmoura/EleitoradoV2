@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Adm\InviteController;
 use App\Http\Controllers\AjaxController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,3 +10,5 @@ Route::post('/checkPersonToGroup', [AjaxController::class, 'checkPersonToGroup']
 Route::post('/unCheckPersonToGroup', [AjaxController::class, 'unCheckPersonToGroup'])->name('unCheckPersonToGroup');
 Route::post('/banUser', [AjaxController::class, 'banUser'])->name('banUser');
 Route::post('/unBanUser', [AjaxController::class, 'unBanUser'])->name('unBanUser');
+Route::post('/reqInviteTo', [InviteController::class, 'toAjax'])
+    ->middleware('role:admin')->name('reqInviteTo');

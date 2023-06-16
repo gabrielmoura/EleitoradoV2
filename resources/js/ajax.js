@@ -80,5 +80,20 @@ window.helpers = {
             console.log(error);
             flasher.error('Erro ao desbanir!');
         });
-    }
+    },
+    reqInviteTo: function (email, company_id, role) {
+        axios.post(route('ajax.reqInviteTo', undefined, undefined, Ziggy), {
+            email,
+            company_id,
+            role
+        }).then(function (response) {
+            flasher.success('Convite enviado com sucesso!');
+            setInterval(function () {
+                location.reload();
+            }, 500);
+        }).catch(function (error) {
+            console.log(error);
+            flasher.error('Erro ao enviar!');
+        });
+    },
 };

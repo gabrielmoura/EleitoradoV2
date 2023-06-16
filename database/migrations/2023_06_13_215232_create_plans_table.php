@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('currency');
             $table->string('description');
             $table->json('metadata')->nullable();
-            $table->json('features')->comment('Funcionalidades')->default([]);
+            $table->json('features')->comment('Funcionalidades')->default('{}');
             $table->timestamps();
         });
     }

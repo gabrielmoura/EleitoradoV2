@@ -37,6 +37,6 @@ class PlanCreatedUpdateStripeListener implements ShouldQueue
             'id' => $event->plan->name,
         ]
         );
-        $event->plan->update(['plan_id' => $plan->id]);
+        $event->plan->update(['plan_id' => $plan->product]);
     }
 }

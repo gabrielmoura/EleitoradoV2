@@ -2,7 +2,13 @@
 
 namespace App\Providers;
 
+use App\Mail\JobFailedMailable;
+use App\Models\Company;
+use Illuminate\Queue\Events\JobFailed;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Cashier\Cashier;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,5 +28,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Cashier::useCustomerModel(Company::class);
+        Queue::failing(function (JobFailed $event) {
+            Mail::to(config('mail.to.address'))->queue(new JobFailedMailable($event));
+        });
     }
 }

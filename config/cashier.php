@@ -1,8 +1,9 @@
 <?php
 
+use App\Actions\Tools\TcpPdfInvoiceRenderer;
 use Laravel\Cashier\Console\WebhookCommand;
-use Laravel\Cashier\Invoices\DompdfInvoiceRenderer;
 
+//use Laravel\Cashier\Invoices\DompdfInvoiceRenderer;
 return [
 
     /*
@@ -61,7 +62,7 @@ return [
     |
     */
 
-    'currency' => env('CASHIER_CURRENCY', 'usd'),
+    'currency' => env('CASHIER_CURRENCY', 'brl'),
 
     /*
     |--------------------------------------------------------------------------
@@ -74,7 +75,7 @@ return [
     |
     */
 
-    'currency_locale' => env('CASHIER_CURRENCY_LOCALE', 'en'),
+    'currency_locale' => env('CASHIER_CURRENCY_LOCALE', 'pt_BR'),
 
     /*
     |--------------------------------------------------------------------------
@@ -101,12 +102,21 @@ return [
     */
 
     'invoices' => [
-        'renderer' => env('CASHIER_INVOICE_RENDERER', DompdfInvoiceRenderer::class),
+        'renderer' => env('CASHIER_INVOICE_RENDERER', TcpPdfInvoiceRenderer::class),
 
         'options' => [
             // Supported: 'letter', 'legal', 'A4'
             'paper' => env('CASHIER_PAPER', 'letter'),
         ],
+    ],
+
+    'vendor' => [
+        'name' => env('CASHIER_VENDOR_NAME', 'Sua Empresa'),
+        'address' => env('CASHIER_VENDOR_ADDRESS', 'Rua da Empresa, 123'),
+        'phone' => env('CASHIER_VENDOR_PHONE', '(11) 1234-5678'),
+        'url' => env('CASHIER_VENDOR_URL', 'https://suaempresa.com.br'),
+        'logo' => env('CASHIER_VENDOR_LOGO', 'https://suaempresa.com.br/logo.png'),
+        'document' => env('CASHIER_VENDOR_DOCUMENT', 'CNPJ: 12.345.678/0001-90'),
     ],
 
     /*

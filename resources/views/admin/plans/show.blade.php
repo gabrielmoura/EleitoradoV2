@@ -5,17 +5,23 @@
                 <div class="col-auto mb-3">
                     <h1 class="page-header-title">
                         <div class="page-header-icon">
-                            <i class="fad fa-industry-alt fa-lg"></i>
+                            <i class="fad fa-money-check-edit fa-lg"></i>
                         </div>
-                        Empresas
+                        Plano : {{$plan->get('plan')->name}}
                     </h1>
                 </div>
             </x-slot:content>
         </x-header-compact>
     </x-slot>
-    <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <form action="{{route('admin.company.store')}}" class="form">
+    <div class="container">
+        <code>
+            {{$plan->get('plan')}}
+        </code>
+        <br><br><br>
+        <code>
+            {{$plan->get('gw')}}
+        </code>
 
-        </form>
+
     </div>
 </x-app-layout>

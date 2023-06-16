@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Invoice</title>
+    <title>Fatura</title>
 
     <style>
         body {
@@ -51,23 +51,23 @@
         <tr valign="top">
             <td width="160">
                 <span style="font-size: 28px;">
-                    Receipt
+                    Recibo
                 </span>
 
                 <!-- Invoice Info -->
                 <p>
                     @isset ($product)
-                        <strong>Product:</strong> {{ $product }}<br>
+                        <strong>Produto:</strong> {{ $product }}<br>
                     @endisset
 
-                    <strong>Date:</strong> {{ $invoice->date()->toFormattedDateString() }}<br>
+                    <strong>Data:</strong> {{ $invoice->date()->toFormattedDateString() }}<br>
 
                     @if ($dueDate = $invoice->dueDate())
-                        <strong>Due date:</strong> {{ $dueDate->toFormattedDateString() }}<br>
+                        <strong>Data de vencimento:</strong> {{ $dueDate->toFormattedDateString() }}<br>
                     @endif
 
                     @if ($invoiceId = $id ?? $invoice->number)
-                        <strong>Invoice Number:</strong> {{ $invoiceId }}<br>
+                        <strong>Número da Fatura:</strong> {{ $invoiceId }}<br>
                     @endif
                 </p>
             </td>
@@ -118,7 +118,7 @@
             </td>
             <td width="50%">
                 <!-- Customer Details -->
-                <strong>Recipient</strong><br>
+                <strong>Recebedor</strong><br>
 
                 {{ $invoice->customer_name ?? $invoice->customer_email }}<br>
 
@@ -179,15 +179,15 @@
                 <!-- Invoice Table -->
                 <table width="100%" class="table" border="0">
                     <tr>
-                        <th align="left">Description</th>
+                        <th align="left">Descrição</th>
                         <th align="left">Qty</th>
-                        <th align="left">Unit price</th>
+                        <th align="left">Preço unitário</th>
 
                         @if ($invoice->hasTax())
-                            <th align="right">Tax</th>
+                            <th align="right">Imposto</th>
                         @endif
 
-                        <th align="right">Amount</th>
+                        <th align="right">Quantia</th>
                     </tr>
 
                     <!-- Display The Invoice Line Items -->
@@ -261,9 +261,9 @@
                             <td></td>
                             <td colspan="{{ $invoice->hasTax() ? 3 : 2 }}" align="right">
                                 @if ($invoice->isTaxExempt())
-                                    Tax is exempted
+                                    Imposto está isento
                                 @else
-                                    Tax to be paid on reverse charge basis
+                                    Imposto a pagar em regime de autoliquidação
                                 @endif
                             </td>
                             <td align="right"></td>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanyStoreRequest;
 use App\Http\Requests\CompanyUpdateRequest;
 use App\Models\Company;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
@@ -14,13 +15,34 @@ class CompanyController extends Controller
     {
         $companies = DB::table('companies')->get();
 
-        return view('admin.company.show', compact('companies'));
+        return view('admin.company.index', compact('companies'));
     }
 
-    public function store(CompanyStoreRequest $request)
+    public function store(Request $request)
     {
         $data = $request->validated();
-        Company::create($data);
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => ['required', 'email'],
+            'phone' => ['string', 'nullable'],
+            'doc' => ['string'],
+            'doc_type' => ['string', 'in:br_cnpj,br_cpf', 'required_with:doc'],
+        ]);
+
+        $collection = collect($request->only(['name', 'email', 'phone']));
+        if ($request->has('doc') && $request->has('doc_type')) {
+            //https://stripe.com/docs/api/customers/create
+            $collection->put('tax_id_data', [
+                'type' => $request->doc_type,
+                'value' => $request->doc,
+            ]);
+        }
+
+        $company = Company::create($collection->toArray());
+
+
+        // https://laravel.com/docs/10.x/billing#creating-customers
+        $company->createAsStripeCustomer();
 
         return redirect()->route('admin.company.index');
     }
@@ -40,10 +62,8 @@ class CompanyController extends Controller
         return redirect()->route('admin.company.index');
     }
 
-    public function show($pid)
+    public function show(Company $company)
     {
-        $company = Company::wherePid($pid)->firstOrFail();
-
         return view('admin.company.show', compact('company'));
     }
 

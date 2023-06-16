@@ -23,8 +23,8 @@ return [
     //    'header_logo_width'   => '', // PDF_HEADER_LOGO_WIDTH
     //    'path_cache'          => '', // K_PATH_CACHE
     //    'blank_image'         => '', // K_BLANK_IMAGE
-    //    'creator'             => '', // PDF_CREATOR
-    //    'author'              => '', // PDF_AUTHOR
+    'creator' => 'SRMOURA', // PDF_CREATOR
+    'author' => config('app.name'), // PDF_AUTHOR
     //    'header_title'        => '', // PDF_HEADER_TITLE
     //    'header_string'       => '', // PDF_HEADER_STRING
     //    'page_units'          => '', // PDF_UNIT

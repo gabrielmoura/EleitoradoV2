@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Laravel\Cashier\Billable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
@@ -19,6 +20,7 @@ class Company extends Model implements HasMedia
     use LogsActivity;
     use Notifiable;
     use InteractsWithMedia;
+    use Billable;
 
     protected $casts = [
         'created_at' => 'datetime',
@@ -39,6 +41,8 @@ class Company extends Model implements HasMedia
         'conf',
         'banned',
         //        'tenant_id',
+        'doc',
+        'doc_type'
     ];
 
     protected static function boot(): void

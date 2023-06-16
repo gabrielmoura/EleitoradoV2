@@ -15,8 +15,8 @@
                     </a>
 
                     @role('admin')
-                    <a class="nav-link {{request()->routeIs('admin.company.*')?'active':null}}"
-                       href="{{route('admin.company.index')}}">
+                    <a class="nav-link {{request()->routeIs('admin.plan.*')?'active':null}}"
+                       href="{{route('admin.plan.index')}}">
                         <div class="nav-link-icon">
                             <i class="fad fa-money-check-edit fa-lg"></i>
                         </div>

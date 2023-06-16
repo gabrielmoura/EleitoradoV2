@@ -18,9 +18,11 @@ use App\Listeners\Export\PDF\ExportedPeopleAddressNotification;
 use App\Listeners\Export\PDF\FailedExportedPeopleAddressNotification;
 use App\Listeners\System\GeneratedInviteNotification;
 use App\Listeners\System\PlanCreatedUpdateStripeListener;
+use App\Listeners\System\StripeInvoiceMailerListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Laravel\Cashier\Events\WebhookReceived;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -65,6 +67,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserUpdatedEvent::class => [
             UserUpdatedClearPermissionCache::class,
+        ],
+        WebhookReceived::class => [
+            StripeInvoiceMailerListener::class,
         ],
 
     ];

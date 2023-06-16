@@ -1,58 +1,70 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="h4 font-weight-bold">
-            {{ __('Eventos') }}
-        </h2>
+        <x-header-compact>
+            <x-slot:content>
+                <div class="col-auto mb-3">
+                    <h1 class="page-header-title">
+                        <div class="page-header-icon">
+                            <i class="fad fa-industry-alt fa-lg"></i>
+                        </div>
+                        Empresas
+                    </h1>
+                </div>
+            </x-slot:content>
+        </x-header-compact>
     </x-slot>
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <a class="btn btn-lg btn-success" href="{{route('dash.event.create')}}">Cadastrar Novo</a>
-        <table id="dataTable" class="table table-striped table-bordered display nowrap" cellspacing="0">
-            <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Inicio</th>
-                <th>Fim</th>
-                <th>Descrição</th>
-                <th>Ação</th>
-            </tr>
-            </thead>
-            <tfoot>
-            <tr>
-                <th>Nome</th>
-                <th>Inicio</th>
-                <th>Fim</th>
-                <th>Descrição</th>
-                <th>Ação</th>
-            </tr>
-            </tfoot>
-            <tbody>
-            @foreach($events as $event)
-                <tr>
-                    <td>{{$event->name}}</td>
-                    <td>{{$event->start_time}}</td>
-                    <td>{{$event->end_time}}</td>
-                    <td>{{$event->description}}</td>
-
-                    <td>
-                        <a href="{{route('dash.event.show',['event'=>$event->pid])}}">
-                            <span class="badge bg-primary"><i class="fa fa-eye"></i> Ver</span>
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="d-md-flex justify-content-between mb-3">
+                    <div class="d-md-flex">
+                        <div class="mb-3 mb-md-0 input-group">
+                        </div>
+                        <a href="{{route('admin.company.create')}}"
+                           class="btn btn-primary btn-sm ms-0 ms-md-2">Criar
                         </a>
+                    </div>
 
-                        <a href="{{route('dash.event.edit',['event'=>$event->pid])}}">
-                            <span class="badge bg-primary"><i class="fa fa-edit"></i> Editar</span>
-                        </a>
+                    <div class="d-md-flex">
+                    </div>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
 
-                        @hasrole('manager')
-                        <form action="{{route('dash.event.destroy',['event'=>$event->pid])}}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit">Remover</button>
-                        </form>
-                        @endhasrole
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
+                        <th scope="col" class="">
+                            <div class="d-flex align-items-center">
+                                <span>Nome</span>
+                            </div>
+                        </th>
+                        <th>Descrição</th>
+                        <th width="150px">Ação</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($companies as $company)
+                        <tr>
+                            <td>{{ $company->name }}</td>
+                            <td>{{ $company->description??null }}</td>
+                            <td class="d-flex">
+                                <a href="{{route('admin.company.show', $company->id)}}"
+                                   class="btn btn-black btn-sm m-1">
+                                    Ver
+                                </a>
+
+                                <a href="{{route('admin.company.edit', $company->id)}}}}"
+                                   class="btn btn-primary btn-sm m-1">Edit
+                                </a>
+
+                                <button class="btn btn-danger btn-sm m-1">
+                                    Desativar
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </x-app-layout>

@@ -2,7 +2,6 @@
 
 namespace App\Mail\System;
 
-use App\Models\Company;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
@@ -34,7 +33,7 @@ class InvitedMail extends Mailable
     {
         return new Envelope(
             from: new Address(
-                address: 'no-reply@'.config('app.domain'),
+                address: config('mail.from.address'),
                 name: config('app.name'),
             ),
             subject: 'Convite para o sistema',

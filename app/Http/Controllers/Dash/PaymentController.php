@@ -21,15 +21,18 @@ class PaymentController extends Controller
 
     public function show(Plan $plan, Request $request)
     {
+        if ($request->user()->company->subscribedToProduct($plan->plan_id, 'default')) {
+            return redirect()->route('dash.payment.planSelected');
+        }
         // Checkout, escolhido o plano ir para esta pagina
-        $intent = auth()->user()->createSetupIntent();
+        $intent = auth()->user()->company->createSetupIntent();
 
         return view('dash.payment.plans.show', compact('plan', 'intent'));
     }
 
     public function store(Request $request)
     {
-        $user = auth()->user();
+        $user = auth()->user()->company;
         $user->createOrGetStripeCustomer();
 
         $paymentMethod = $request->payment_method ?? null;
@@ -50,7 +53,7 @@ class PaymentController extends Controller
 
         $request->session()->flash('alert-success', 'You are subscribed to this plan');
 
-        return to_route('payment.success');
+        return to_route('dash.payment.success');
     }
 
     public function subscriptionSuccess(Request $request)
@@ -76,11 +79,11 @@ class PaymentController extends Controller
 
     public function allSubscriptions()
     {
-        if (auth()->user()->onTrial('default')) {
+        if (auth()->user()->company->onTrial('default')) {
             dd('trial');
         }
 
-        $subscriptions = Subscription::where('user_id', auth()->id())->get();
+        $subscriptions = Subscription::where('company_id', auth()->user()->company->id)->get();
 
         return view('dash.payment.subscriptions.index', compact('subscriptions'));
     }
@@ -89,7 +92,7 @@ class PaymentController extends Controller
     {
         $subscriptionName = $request->subscriptionName;
         if ($subscriptionName) {
-            $user = auth()->user();
+            $user = auth()->user()->company;
             $user->subscription($subscriptionName)->cancel();
 
             return 'subsc is canceled';
@@ -100,7 +103,7 @@ class PaymentController extends Controller
 
     public function resumeSubscriptions(Request $request)
     {
-        $user = auth()->user();
+        $user = auth()->user()->company;
         $subscriptionName = $request->subscriptionName;
         if ($subscriptionName) {
             $user->subscription($subscriptionName)->resume();

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -34,7 +35,7 @@ class Plan extends Model
         'metadata' => 'collection',
         'created_at' => 'datetime:Y-m-d',
         'updated_at' => 'datetime:Y-m-d',
-        'price_decimal' => 'decimal:2',
+        //        'price_decimal' => 'decimal:2',
         'price' => 'integer',
         'features' => 'collection',
     ];
@@ -45,10 +46,86 @@ class Plan extends Model
     }
 
     protected $dispatchesEvents = [
-        //        'created' => \App\Events\System\PlanCreated::class,
+        'created' => \App\Events\System\PlanCreated::class,
         //        'updated' => \App\Events\System\PlanUpdated::class,
         //        'deleted' => \App\Events\System\PlanDeleted::class,
     ];
+
+    protected function priceDecimal(): Attribute
+    {
+        return Attribute::make(
+            get: fn (?string $value) => $value ? number_format($value, 2, ',', '.') : null,
+            set: fn (?string $value) => $this->attributes['price_decimal'] = $value ? str_replace(',', '.', $value) : null
+        );
+    }
+
+    public function features(): Attribute
+    {
+        return Attribute::make(
+            //            get: fn(?string $value) => $value ? json_decode($value, true) : null,
+            set: fn (?string $value) => $this->attributes['features'] = $value ? json_encode(array_values(array_filter(explode(',', $value)))) : null
+        );
+    }
+
+    //    public function getFeaturesAttribute($value): array
+    //    {
+    //        return json_decode($value, true);
+    //    }
+    //
+    //    public function setFeaturesAttribute($value): void
+    //    {
+    //        $this->attributes['features'] = json_encode($value);
+    //    }
+    //
+    //    public function getMetadataAttribute($value): array
+    //    {
+    //        return json_decode($value, true);
+    //    }
+    //
+    //    public function setMetadataAttribute($value): void
+    //    {
+    //        $this->attributes['metadata'] = json_encode($value);
+    //    }
+    //
+    //    public function getBillingMethodAttribute($value): string
+    //    {
+    //        return $value === 'send_invoice' ? 'Fatura' : 'Cartão';
+    //    }
+    //
+    //    public function getBillingPeriodAttribute($value): string
+    //    {
+    //        return $value === 'month' ? 'Mensal' : 'Anual';
+    //    }
+    //
+    //    public function getIntervalCountAttribute($value): string
+    //    {
+    //        return $value === '1' ? '1' : '2';
+    //    }
+    //
+    //    public function getCurrencyAttribute($value): string
+    //    {
+    //        return $value === 'brl' ? 'R$' : 'US$';
+    //    }
+    //
+    //    public function getPriceAttribute($value): string
+    //    {
+    //        return number_format($value / 100, 2, ',', '.');
+    //    }
+    //
+    //    public function getPriceDecimalAttribute($value): string
+    //    {
+    //        return number_format($value / 100, 2, ',', '.');
+    //    }
+    //
+    //    public function setPriceAttribute($value): void
+    //    {
+    //        $this->attributes['price'] = (int) $value * 100;
+    //    }
+    //
+    //    public function setPriceDecimalAttribute($value): void
+    //    {
+    //        $this->attributes['price'] = (int) $value * 100;
+    //    }
 
     protected static function boot(): void
     {

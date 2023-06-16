@@ -15,6 +15,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\RateLimiter;
+use Symfony\Component\HttpFoundation\Response;
 
 class AjaxController extends Controller
 {
@@ -32,7 +33,7 @@ class AjaxController extends Controller
     public function requestReportGroup(Request $request): JsonResponse
     {
         if (RateLimiter::tooManyAttempts('export-pdf:'.$request->user()->id, $perMinute = 1)) {
-            abort(429, 'Too Many Attempts.');
+            abort(Response::HTTP_TOO_MANY_REQUESTS, 'Too Many Attempts.');
         }
         $this->validate($request, [
             'group_name' => ['required', 'string', 'max:150'],

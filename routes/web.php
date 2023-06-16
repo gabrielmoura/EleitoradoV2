@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Auth\InviteController;
 use App\Http\Controllers\Auth\SocialController;
-use App\Http\Controllers\Dash\Export\PeopleAddressController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -17,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::group(['middleware' => 'cache.headers:public;max_age=2592000;etag', 'name' => 'front.'], function () {
+Route::group(['middleware' => 'cache.headers:public;max_age=2592000;etag', 'as' => 'front.'], function () {
     Route::get('/', [FrontController::class, 'index'])->name('index');
     Route::get('/privacy', [FrontController::class, 'privacy'])->name('privacy');
     Route::get('/terms', [FrontController::class, 'terms'])->name('terms');
@@ -25,10 +24,11 @@ Route::group(['middleware' => 'cache.headers:public;max_age=2592000;etag', 'name
     Route::get('/faq', [FrontController::class, 'faq'])->name('faq');
 });
 
-Route::get('/get/{id}', [PeopleAddressController::class, 'response'])->name('getFile');
-Route::resource('/auth/invite', InviteController::class)->only(['index', 'store'])->names('auth.invite');
-Route::get('/auth/redirect/{provider}', [SocialController::class, 'redirect'])->name('social.redirect');
-Route::get('/auth/callback/{provider}', [SocialController::class, 'callback'])->name('social.callback');
+Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
+    Route::resource('/invite', InviteController::class)->only(['index', 'store'])->names('invite');
+    Route::get('/redirect/{provider}', [SocialController::class, 'redirect'])->name('social.redirect');
+    Route::get('/callback/{provider}', [SocialController::class, 'callback'])->name('social.callback');
+});
 
 Route::group(['prefix' => 'webhook', 'name' => 'webhook.'], function () {
     // Use queue to process webhooks

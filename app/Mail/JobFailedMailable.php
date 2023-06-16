@@ -1,24 +1,23 @@
 <?php
 
-namespace App\Mail\System;
+namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Queue\SerializesModels;
 
-class WelcomeMail extends Mailable
+class JobFailedMailable extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(public JobFailed $event)
     {
-        //
     }
 
     /**
@@ -27,11 +26,7 @@ class WelcomeMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address(
-                address: config('mail.from.address'),
-                name: config('app.name'),
-            ),
-            subject: 'Welcome Mail',
+            subject: 'Um trabalho falhou',
         );
     }
 
@@ -41,17 +36,7 @@ class WelcomeMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            markdown: 'emails.job-failed',
         );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
     }
 }

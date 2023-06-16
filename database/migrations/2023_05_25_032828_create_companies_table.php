@@ -19,13 +19,21 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('address')->nullable();
-            $table->string('email')->nullable();
+            $table->string('email');
             $table->string('phone')->nullable();
             $table->string('website')->nullable();
             $table->string('logo')->nullable();
             $table->json('meta')->nullable();
             $table->json('conf')->nullable();
             $table->boolean('banned')->comment('Banido')->default(false);
+
+            $table->string('stripe_id')->nullable()->index();
+            $table->string('pm_type')->nullable();
+            $table->string('pm_last_four', 4)->nullable();
+            $table->timestamp('trial_ends_at')->nullable();
+
+            $table->string('doc')->nullable();
+            $table->string('doc_type')->nullable();
         });
     }
 
