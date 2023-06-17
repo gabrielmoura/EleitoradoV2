@@ -17,7 +17,10 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = DB::table('users')->get();
+        //users with company
+        $users = DB::table('users')->leftJoin('companies', 'users.company_id', '=', 'companies.id')
+            ->select('users.*', 'companies.name as company_name')
+            ->get();
 
         return view('admin.user.index', compact('users'));
     }

@@ -44,5 +44,18 @@ class StripeInvoiceMailerListener implements ShouldQueue
             // Now we can send the invoice!
             Mail::to($billable)->queue(new InvoiceFinalizedMail($invoice, $company));
         }
+        //invoice.payment_succeeded
+        if ($event->payload['type'] === 'invoice.payment_succeeded') {
+            // Let's find the relevant user/billable
+            $stripeCustomerId = $event->payload['data']['object']['customer'];
+            $billable = Cashier::findBillable($stripeCustomerId);
+
+            // Get the Laravel\Cashier\Invoice object
+            $invoice = $billable->findInvoice($event->payload['data']['object']['id']);
+            $company = Company::whereStripeId($stripeCustomerId)->first();
+
+            // Now we can send the invoice!
+            Mail::to($billable)->queue(new InvoiceFinalizedMail($invoice, $company));
+        }
     }
 }

@@ -1,14 +1,14 @@
 <x-mail::message>
-# Subscription invoice
+# Fatura de assinatura
 
-A new invoice for your subscription is available.
+Uma nova fatura para sua assinatura está disponível.
 
-See the attached invoice, or visit your billing portal.
+Consulte a fatura em anexo ou visite a página de faturamento.
 
 <x-mail::button :url="config('app.url')">
-Billing portal
+Página de Faturamento
 </x-mail::button>
 
-Thanks,<br>
+Atenciosamente,<br>
 {{ config('app.name') }}
 </x-mail::message>

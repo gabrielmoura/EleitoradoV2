@@ -14,8 +14,38 @@
         </x-header-compact>
     </x-slot>
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <form action="{{route('admin.company.store')}}" class="form">
-
+        <form action="{{route('admin.company.store')}}" class="form" method="POST">
+            @csrf
+            <div class="row">
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <input type="text" name="name" id="name" class="form-control" value="{{old('name')}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" value="{{old('email')}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Telefone</label>
+                    <input type="text" name="phone" id="phone" class="form-control" value="{{old('phone')}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="doc_type">Tipo de documento</label>
+                    <select name="doc_type" id="doc_type" class="form-control" value="{{old('doc_type')}}" required>
+                        <option value="br_cnpj">CNPJ</option>
+                        <option value="br_cpf">CPF</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="doc">Documento</label>
+                    <input type="text" name="doc" id="doc" class="form-control" value="{{old('doc')}}" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <button class="btn btn-primary " type="submit">Salvar</button>
+                </div>
+            </div>
         </form>
     </div>
 </x-app-layout>

@@ -37,6 +37,11 @@
                                 <span>Nome</span>
                             </div>
                         </th>
+                        <th scope="col" class="">
+                            <div class="d-flex align-items-center">
+                                <span>Empresa</span>
+                            </div>
+                        </th>
                         <th>Descrição</th>
                         <th width="150px">Ação</th>
                     </tr>
@@ -45,6 +50,7 @@
                     @foreach($users as $user)
                         <tr>
                             <td>{{ $user->name }}</td>
+                            <td>{{ $user->company_name }}</td>
                             <td>{{ $user->description??null }}</td>
                             <td class="d-flex">
                                 <a href="{{route('admin.user.show', $user->id)}}"

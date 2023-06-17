@@ -32,8 +32,7 @@ return new class extends Migration
             $table->string('pm_last_four', 4)->nullable();
             $table->timestamp('trial_ends_at')->nullable();
 
-            $table->string('doc')->nullable();
-            $table->string('doc_type')->nullable();
+            $table->json('tax_id_data')->nullable();
         });
     }
 

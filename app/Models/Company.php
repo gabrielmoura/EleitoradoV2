@@ -28,6 +28,7 @@ class Company extends Model implements HasMedia
         'deleted_at' => 'datetime',
         'meta' => 'collection',
         'conf' => 'collection',
+        'tax_id_data' => 'array',
     ];
 
     protected $fillable = [
@@ -41,8 +42,7 @@ class Company extends Model implements HasMedia
         'conf',
         'banned',
         //        'tenant_id',
-        'doc',
-        'doc_type',
+        'tax_id_data',
     ];
 
     protected static function boot(): void

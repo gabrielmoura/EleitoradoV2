@@ -19,7 +19,7 @@ class CompanyController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validated();
+//        $data = $request->validated();
         $this->validate($request, [
             'name' => 'required',
             'email' => ['required', 'email'],
@@ -40,7 +40,10 @@ class CompanyController extends Controller
         $company = Company::create($collection->toArray());
 
         // https://laravel.com/docs/10.x/billing#creating-customers
-        $company->createAsStripeCustomer();
+        $company->createAsStripeCustomer([
+            'preferred_locales' => ['pt-BR'],
+        ]);
+        $company->createTaxId($request->doc_type, $request->doc);
 
         return redirect()->route('admin.company.index');
     }

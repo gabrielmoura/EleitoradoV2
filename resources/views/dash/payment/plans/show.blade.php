@@ -28,7 +28,7 @@
         <span style="float: right">{{formatCurrency($plan->price/100,$plan->currency)}}</span>
         <br>
 
-        <input type="hidden" name="plan_id" value="{{ $plan->plan_id }}">
+        <input type="hidden" name="plan_id" value="{{ $plan->name }}">
         <label for="card-holder-name">Nome do Titular</label> <br>
         <input id="card-holder-name" type="text" class="form-control">
 
