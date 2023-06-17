@@ -75,16 +75,16 @@ class PersonTable extends DataTableComponent
                         ];
                     }),
             ]),
-            Column::make('Remoção', 'pid')
-                ->label(
-                    fn ($row) => /** @lang text */ '<form action='.route('dash.person.destroy', ['voter' => $row->pid])." method='POST'>
-                            <input type='hidden' name='_method' value='DELETE'>
-                            <input type='hidden' name='_token' value=".csrf_token().">
-                            <button type='submit'>Remover</button>
-                        </form>"
-                )
-                ->html()
-                ->hideIf(! \Auth::user()->hasRole('manager')),
+            //            Column::make('Remoção', 'pid')
+            //                ->label(
+            //                    fn ($row) => /** @lang text */ '<form action='.route('dash.person.destroy', ['voter' => $row->pid])." method='POST'>
+            //                            <input type='hidden' name='_method' value='DELETE'>
+            //                            <input type='hidden' name='_token' value=".csrf_token().">
+            //                            <button type='submit'>Remover</button>
+            //                        </form>"
+            //                )
+            //                ->html()
+            //                ->hideIf(! \Auth::user()->hasRole('manager')),
         ];
     }
 

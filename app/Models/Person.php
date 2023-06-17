@@ -65,6 +65,8 @@ class Person extends Model implements HasMedia
         'sex' => 'string',
         'pid' => 'string',
         'phone_verified_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     public function address(): BelongsTo
