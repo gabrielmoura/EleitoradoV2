@@ -4,93 +4,55 @@ namespace App\ServiceHttp\UTalk\Entities;
 
 class LastMessage
 {
-    //export interface LastMessage {
-    //  prefix: string
-    //  header: string
-    //  content: string
-    //  footer: string
-    //  file: string
-    //  thumbnail: string
-    //  contacts: Contact2[]
-    //  messageType: string
-    //  sentByOrganizationMember: SentByOrganizationMember
-    //  isPrivate: boolean
-    //  location: string
-    //  question: Question
-    //  source: string
-    //  inReplyTo: string
-    //  messageState: string
-    //  eventAtUTC: string
-    //  chat: string
-    //  fromContact: string
-    //  templateId: string
-    //  buttons: Button[]
-    //  botInstance: string
-    //}
-    public string $prefix;
-
-    public string $header;
+    public ?string $prefix;
 
     public string $content;
-
-    public string $footer;
-
-    public string $file;
-
-    public string $thumbnail;
 
     public array $contacts;
 
     public string $messageType;
 
-    public SentByOrganizationMember $sentByOrganizationMember;
+    public ?array $sentByOrganizationMember;
 
     public bool $isPrivate;
 
-    public string $location;
-
-    public Question $question;
-
     public string $source;
-
-    public string $inReplyTo;
 
     public string $messageState;
 
     public string $eventAtUTC;
 
-    public string $chat;
-
-    public string $fromContact;
-
-    public string $templateId;
+    public array $chat;
 
     public array $buttons;
 
-    public string $botInstance;
+    public string $id;
+
+    public string $createdAtUTC;
 
     public function __construct(array $data)
     {
-        $this->prefix = data_get($data, 'prefix');
-        $this->header = data_get($data, 'header');
-        $this->content = data_get($data, 'content');
-        $this->footer = data_get($data, 'footer');
-        $this->file = data_get($data, 'file');
-        $this->thumbnail = data_get($data, 'thumbnail');
-        $this->contacts = data_get($data, 'contacts');
-        $this->messageType = data_get($data, 'messageType');
-        $this->sentByOrganizationMember = new SentByOrganizationMember(data_get($data, 'sentByOrganizationMember'));
-        $this->isPrivate = data_get($data, 'isPrivate');
-        $this->location = data_get($data, 'location');
-        $this->question = new Question(data_get($data, 'question'));
-        $this->source = data_get($data, 'source');
-        $this->inReplyTo = data_get($data, 'inReplyTo');
-        $this->messageState = data_get($data, 'messageState');
-        $this->eventAtUTC = data_get($data, 'eventAtUTC');
-        $this->chat = data_get($data, 'chat');
-        $this->fromContact = data_get($data, 'fromContact');
-        $this->templateId = data_get($data, 'templateId');
-        $this->buttons = data_get($data, 'buttons');
-        $this->botInstance = data_get($data, 'botInstance');
+        $this->prefix = data_get($data, 'Prefix',null);
+        $this->content = data_get($data, 'Content');
+        $this->contacts = data_get($data, 'Contacts');
+        $this->messageType = data_get($data, 'MessageType');
+        $this->sentByOrganizationMember = data_get($data, 'SentByOrganizationMember');
+        $this->isPrivate = data_get($data, 'IsPrivate');
+        $this->source = data_get($data, 'Source');
+        $this->messageState = data_get($data, 'MessageState');
+        $this->eventAtUTC = data_get($data, 'EventAtUTC');
+        $this->chat = data_get($data, 'Chat');
+        $this->buttons = data_get($data, 'Buttons');
+        $this->id = data_get($data, 'Id');
+        $this->createdAtUTC = data_get($data, 'CreatedAtUTC');
+    }
+
+    /**
+     * Retorna o remetente da mensagem (Contact|Member)
+     * @return string (Contact|Member)
+     */
+    public function getSource(): string
+    {
+        return $this->source;
     }
 }

@@ -2,8 +2,12 @@
 
 namespace App\ServiceHttp\UTalk;
 
+use App\ServiceHttp\UTalk\Endpoints\HasChannel;
 use App\ServiceHttp\UTalk\Endpoints\HasChat;
+use App\ServiceHttp\UTalk\Endpoints\HasMember;
 use App\ServiceHttp\UTalk\Endpoints\HasMessage;
+use App\ServiceHttp\UTalk\Endpoints\HasSector;
+use App\ServiceHttp\UTalk\Endpoints\HasWebhook;
 use App\ServiceHttp\UTalk\Endpoints\UtalkException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
@@ -25,6 +29,10 @@ class UtalkService
 {
     use HasChat;
     use HasMessage;
+    use HasMember;
+    use HasChannel;
+    use HasSector;
+    use HasWebhook;
 
     public PendingRequest $api;
 

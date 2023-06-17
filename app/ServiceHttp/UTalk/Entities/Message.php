@@ -4,59 +4,54 @@ namespace App\ServiceHttp\UTalk\Entities;
 
 class Message
 {
-    public string $_t;
+    public $prefix;
 
-    public string $id;
+    public $header;
 
-    public string $createdAtUTC;
+    public $content;
 
-    public string $prefix;
+    public $footer;
 
-    public string $header;
+    public $file;
 
-    public string $content;
+    public $thumbnail;
 
-    public string $footer;
+    public $contacts;
 
-    public string $file;
+    public $messageType;
 
-    public string $thumbnail;
+    public $sentByOrganizationMember;
 
-    public array $contacts;
+    public $isPrivate;
 
-    public string $messageType;
+    public $location;
 
-    public SentByOrganizationMember2 $sentByOrganizationMember;
+    public $question;
 
-    public bool $isPrivate;
+    public $source;
 
-    public string $location;
+    public $inReplyTo;
 
-    public Question2 $question;
+    public $messageState;
 
-    public string $source;
+    public $eventAtUTC;
 
-    public string $inReplyTo;
+    public $chat;
 
-    public string $messageState;
+    public $fromContact;
 
-    public string $eventAtUTC;
+    public $templateId;
 
-    public string $chat;
+    public $buttons;
 
-    public string $fromContact;
+    public $botInstance;
 
-    public string $templateId;
+    public $id;
 
-    public array $buttons;
-
-    public string $botInstance;
+    public $createdAtUTC;
 
     public function __construct(array $data)
     {
-        $this->_t = data_get($data, '_t');
-        $this->id = data_get($data, 'id');
-        $this->createdAtUTC = data_get($data, 'createdAtUTC');
         $this->prefix = data_get($data, 'prefix');
         $this->header = data_get($data, 'header');
         $this->content = data_get($data, 'content');
@@ -73,10 +68,12 @@ class Message
         $this->inReplyTo = data_get($data, 'inReplyTo');
         $this->messageState = data_get($data, 'messageState');
         $this->eventAtUTC = data_get($data, 'eventAtUTC');
-        $this->chat = data_get($data, 'chat');
+        $this->chat = data_get($data, 'chat'); // Channel ID
         $this->fromContact = data_get($data, 'fromContact');
         $this->templateId = data_get($data, 'templateId');
         $this->buttons = data_get($data, 'buttons');
         $this->botInstance = data_get($data, 'botInstance');
+        $this->id = data_get($data, 'id'); // ID CHAT
+        $this->createdAtUTC = data_get($data, 'createdAtUTC');
     }
 }

@@ -4,8 +4,8 @@ namespace App\ServiceHttp\UTalk\Endpoints;
 
 trait HasMessage
 {
-    public function message(): SendMessage
+    public function message(): Message
     {
-        return new SendMessage();
+        return new Message();
     }
 }
