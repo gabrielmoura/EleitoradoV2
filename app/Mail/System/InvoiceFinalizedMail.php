@@ -59,7 +59,7 @@ class InvoiceFinalizedMail extends Mailable
     {
         return [
             Attachment::fromData(
-                data: fn() => $this->invoice->pdf([
+                data: fn () => $this->invoice->pdf([
                     'vendor' => config('cashier.vendor.name'),
                     'product' => config('app.name'),
                     'street' => config('cashier.vendor.street'),
@@ -69,7 +69,7 @@ class InvoiceFinalizedMail extends Mailable
                     'url' => config('cashier.vendor.url'),
                     'vendorVat' => config('cashier.vendor.document'),
                 ]),
-                name: 'invoice-' . $this->invoice->toArray()['number'] . '.pdf'
+                name: 'invoice-'.$this->invoice->toArray()['number'].'.pdf'
             ),
         ];
     }

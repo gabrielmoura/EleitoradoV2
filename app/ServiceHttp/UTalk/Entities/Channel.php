@@ -7,6 +7,7 @@ class Channel
     public string $phoneNumber;
 
     public string $state;
+
     public string $channelType;
 
     public string $platform;

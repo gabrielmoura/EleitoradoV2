@@ -5,7 +5,9 @@ namespace App\ServiceHttp\UTalk\Entities;
 class Event
 {
     public string $type;
+
     public string $eventDate;
+
     public PayloadEvent $payload;
 
     public function __construct(array $data)
@@ -22,5 +24,4 @@ class Event
     {
         return $this->type;
     }
-
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CompanyStoreRequest;
 use App\Http\Requests\CompanyUpdateRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
@@ -39,7 +38,6 @@ class CompanyController extends Controller
         }
 
         $company = Company::create($collection->toArray());
-
 
         // https://laravel.com/docs/10.x/billing#creating-customers
         $company->createAsStripeCustomer();

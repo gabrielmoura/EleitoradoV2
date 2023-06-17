@@ -32,7 +32,7 @@ class LastMessage
 
     public function __construct(array $data)
     {
-        $this->prefix = data_get($data, 'Prefix',null);
+        $this->prefix = data_get($data, 'Prefix', null);
         $this->content = data_get($data, 'Content');
         $this->contacts = data_get($data, 'Contacts');
         $this->messageType = data_get($data, 'MessageType');
@@ -49,6 +49,7 @@ class LastMessage
 
     /**
      * Retorna o remetente da mensagem (Contact|Member)
+     *
      * @return string (Contact|Member)
      */
     public function getSource(): string

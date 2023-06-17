@@ -4,7 +4,6 @@ namespace App\ServiceHttp\UTalk\Entities;
 
 class Member
 {
-
     public string $displayName;
 
     public string $emailAddress;

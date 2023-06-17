@@ -17,7 +17,7 @@ class Chat extends UtalkBase
                 'includeMessages' => 0,
             ]);
         $req->onError(function (RequestException $e) {
-            throw new UtalkException($e->response->json() ?? 'HTTP request returned status code ' . $e->response->status(), $e->response->status());
+            throw new UtalkException($e->response->json() ?? 'HTTP request returned status code '.$e->response->status(), $e->response->status());
         });
 
         return $this->transform(
@@ -40,7 +40,7 @@ class Chat extends UtalkBase
                 'sectorId' => $sectorId,
             ]);
         $req->onError(function (RequestException $e) {
-            throw new UtalkException($e->response->json() ?? 'HTTP request returned status code ' . $e->response->status(), $e->response->status());
+            throw new UtalkException($e->response->json() ?? 'HTTP request returned status code '.$e->response->status(), $e->response->status());
         });
 
         return new ChatEntity($req->json());
@@ -63,7 +63,7 @@ class Chat extends UtalkBase
                 'Behavior' => 'GetSliceOnly',
             ]);
         $req->onError(function (RequestException $e) {
-            throw new UtalkException($e->response->json() ?? 'HTTP request returned status code ' . $e->response->status(), $e->response->status());
+            throw new UtalkException($e->response->json() ?? 'HTTP request returned status code '.$e->response->status(), $e->response->status());
         });
 
         return $this->transform(

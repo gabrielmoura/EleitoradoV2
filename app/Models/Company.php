@@ -42,7 +42,7 @@ class Company extends Model implements HasMedia
         'banned',
         //        'tenant_id',
         'doc',
-        'doc_type'
+        'doc_type',
     ];
 
     protected static function boot(): void

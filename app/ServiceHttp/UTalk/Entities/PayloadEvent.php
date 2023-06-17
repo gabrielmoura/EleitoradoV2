@@ -5,21 +5,34 @@ namespace App\ServiceHttp\UTalk\Entities;
 class PayloadEvent
 {
     public $type;
-    public $content;
-    public $organization;
-    public $contact;
-    public $channel;
-    public $sector;
-    public $organizationMembers;
-    public ?LastMessage $lastMessage;
-    public $open;
-    public $private;
-    public $waiting;
-    public $unread;
-    public $eventAtUTC;
-    public $id;
-    public $createdAtUTC;
 
+    public $content;
+
+    public $organization;
+
+    public $contact;
+
+    public $channel;
+
+    public $sector;
+
+    public $organizationMembers;
+
+    public ?LastMessage $lastMessage;
+
+    public $open;
+
+    public $private;
+
+    public $waiting;
+
+    public $unread;
+
+    public $eventAtUTC;
+
+    public $id;
+
+    public $createdAtUTC;
 
     public function __construct(array $payload)
     {

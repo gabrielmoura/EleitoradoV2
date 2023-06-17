@@ -33,6 +33,11 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
 Route::group(['prefix' => 'webhook', 'name' => 'webhook.'], function () {
     // Use queue to process webhooks
     //    Route::post('/stripe', [WebhookController::class, 'stripe'])->name('stripe');
+    Route::any('/utalk', function () {
+        event(new \App\Events\WebHook\UtalkWebhookEvent(request()->all()));
+
+        return response()->noContent();
+    })->name('utalk');
 });
 
 Route::middleware([
