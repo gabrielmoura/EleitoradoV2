@@ -1,4 +1,34 @@
 <x-app-layout>
+    <x-slot name="header">
+        <x-header-compact>
+            <x-slot:content>
+                <div class="col-auto mb-3">
+                    <h1 class="page-header-title">
+                        <div class="page-header-icon">
+                            <i class="fad fa-barcode"></i>
+                        </div>
+                        Pagamentos: Plano Atual
+                    </h1>
+                </div>
+
+                <div class="col-12 col-xl-auto mb-3">
+                    <a class="btn btn-sm btn-light text-primary" href="{{route('dash.payment.index')}}">
+                        <i class="fad fa-file-invoice-dollar fa-lg me-1"></i>
+                        Listar Planos
+                    </a>
+                    <a class="btn btn-sm btn-light text-primary"
+                       href="{{route('dash.payment.planSelected')}}">
+                        <i class="fad fa-shopping-cart fa-lg me-1"></i>
+                        Ver Plano Atual
+                    </a>
+                    <a class="btn btn-sm btn-light text-primary" href="{{route('dash.payment.allInvoices')}}">
+                        <i class="fad fa-receipt fa-lg me-1"></i>
+                        Ver Faturas
+                    </a>
+                </div>
+            </x-slot:content>
+        </x-header-compact>
+    </x-slot>
     <style>
         /* The switch - the box around the slider */
         .switch {
@@ -92,7 +122,7 @@
                                 <tbody>
                                 @foreach ($subscriptions as $subscription)
                                     <tr>
-                                        <td>{{ $subscription->plan?->name }}</td>
+                                        <td>{{ $subscription->stripe_price }}</td>
                                         <td>{{ $subscription->name }}</td>
                                         <td>{{ $subscription->plan?->price }}</td>
                                         <td>{{ $subscription->quantity }}</td>

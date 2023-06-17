@@ -88,6 +88,17 @@ class PaymentController extends Controller
         return view('dash.payment.subscriptions.index', compact('subscriptions'));
     }
 
+    public function allInvoices()
+    {
+        $user = auth()->user()->company;
+        if ($user->onTrial('default')) {
+            dd('trial');
+        }
+        $invoices = $user->invoicesIncludingPending();
+
+        return view('dash.payment.invoices.index', compact('invoices'));
+    }
+
     public function cancelSubscriptions(Request $request)
     {
         $subscriptionName = $request->subscriptionName;

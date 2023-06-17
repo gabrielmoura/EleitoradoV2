@@ -38,6 +38,7 @@ class HomeController extends Controller
             ]);
 
         $personChart->labels($group->keys());
+        $personChart->title('Pessoas e Grupos');
 
         return view('dash.dashboard', compact('personChart'));
     }

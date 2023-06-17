@@ -1,4 +1,35 @@
 <x-app-layout>
+    <x-slot name="header">
+        <x-header-compact>
+            <x-slot:content>
+                <div class="col-auto mb-3">
+                    <h1 class="page-header-title">
+                        <div class="page-header-icon">
+                            <i class="fad fa-barcode"></i>
+                        </div>
+                        Pagamentos: Planos
+                    </h1>
+                </div>
+
+                <div class="col-12 col-xl-auto mb-3">
+                    <a class="btn btn-sm btn-light text-primary" href="{{route('dash.payment.index')}}">
+                        <i class="fad fa-file-invoice-dollar fa-lg me-1"></i>
+                        Listar Planos
+                    </a>
+                    <a class="btn btn-sm btn-light text-primary"
+                       href="{{route('dash.payment.planSelected')}}">
+                        <i class="fad fa-shopping-cart fa-lg me-1"></i>
+                        Ver Plano Atual
+                    </a>
+                    <a class="btn btn-sm btn-light text-primary" href="{{route('dash.payment.allInvoices')}}">
+                        <i class="fad fa-receipt fa-lg me-1"></i>
+                        Ver Faturas
+                    </a>
+                </div>
+            </x-slot:content>
+        </x-header-compact>
+    </x-slot>
+
     <div class="pricing-columns">
         <div class="row justify-content-center">
             @forelse($plans as $plan)

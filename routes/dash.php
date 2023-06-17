@@ -40,6 +40,8 @@ Route::group(['middleware' => ['can:invoicing'], 'prefix' => 'subscription', 'as
     Route::post('/cancel', [PaymentController::class, 'cancelSubscriptions'])->name('cancel');
     Route::get('/success', [PaymentController::class, 'subscriptionSuccess'])->name('success');
 
+    Route::get('/invoices', [PaymentController::class, 'allInvoices'])->name('allInvoices');
+
     Route::get('/{plan}', [PaymentController::class, 'show'])->name('show');
     Route::post('/{plan}/checkout', [PaymentController::class, 'store'])->name('store');
 });
