@@ -24,7 +24,7 @@ class PersonUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'email' => ['string', 'email', 'max:255'],
             'cellphone' => ['nullable', 'string', 'max:13'],
             'telephone' => ['nullable', 'string', 'max:12'],
             'cpf' => ['nullable', 'string', 'max:30'],
@@ -33,6 +33,21 @@ class PersonUpdateRequest extends FormRequest
             'sex' => ['nullable', 'string', 'max:1'],
             'observation' => ['nullable', 'string'],
 
+            /** Dados Eleitorais */
+            'voter_zone' => 'nullable|string|max:255',
+            'voter_section' => 'nullable|string|max:255',
+            'voter_registration' => 'nullable|string|max:255',
+            'skinColor' => 'nullable|string|max:255',
+            'maritalStatus' => 'nullable|string|max:255',
+            'educationLevel' => 'nullable|string|max:255',
+            'occupation' => 'nullable|string|max:255',
+            'religion' => 'nullable|string|max:255',
+            'housing' => 'nullable|string|max:255',
+            'sexualOrientation' => 'nullable|string|max:255',
+            'genderIdentity' => 'nullable|string|max:255',
+            'deficiencyType' => 'nullable|string|max:255',
+
+            /** Endereço */
             'street' => ['nullable', 'string', 'max:255'],
             'number' => ['nullable', 'string', 'max:255'],
             'complement' => ['nullable', 'string', 'max:255'],
