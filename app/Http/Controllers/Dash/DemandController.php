@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dash;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Demand\DemandStoreRequest;
 use App\Http\Requests\Demand\DemandUpdateRequest;
+use App\Models\Demand;
 use App\Repositories\DemandRepository;
 
 class DemandController extends Controller
@@ -51,9 +52,9 @@ class DemandController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Demand $demand)
     {
-        //
+        return view('dash.demand.show', compact('demand'));
     }
 
     /**

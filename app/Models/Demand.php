@@ -8,6 +8,7 @@ use App\Models\Scopes\TenantScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -44,13 +45,30 @@ class Demand extends Model implements HasMedia
 
     public function type(): BelongsTo
     {
-        return $this->belongsTo(DemandType::class);
+        return $this->belongsTo(DemandType::class, 'demand_type_id', 'id');
     }
+
+    public function getRouteKeyName(): string
+    {
+        return 'pid';
+    }
+//    protected function pid(): Attribute
+//    {
+//        return Attribute::make(
+//            get: fn (string $value) => Ulid::fromString($value),
+//            set: fn (Ulid|string $value) => $value instanceof Ulid ? $value->toRfc4122() : Ulid::fromString($value)->toRfc4122(),
+//        );
+//    }
 
     protected static function booted(): void
     {
         static::addGlobalScope(new TenantScope);
     }
+
+    protected $dispatchesEvents = [
+        'created' => DemandCreatedEvent::class,
+        //        'updated' => \App\Events\System\DemandClosedEvent::class,
+    ];
 
     protected static function boot(): void
     {
@@ -58,8 +76,8 @@ class Demand extends Model implements HasMedia
         static::creating(function ($model) {
             if (! app()->runningInConsole()) {
                 $model->tenant_id = session()->get('tenant_id');
+                $model->pid = Str::ulid()->toRfc4122();
             }
-            event(new DemandCreatedEvent($model));
         });
         static::updating(function ($model) {
             if ($model->status == 'closed') {

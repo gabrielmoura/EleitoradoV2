@@ -18,11 +18,9 @@ class EventController extends Controller
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show($pid)
+    public function show(Event $event)
     {
-        $event = Event::findPid($pid)
-            ->with('persons', 'address')
-            ->firstOrFail();
+        $event->with('persons', 'address');
 
         return view('dash.event.show', compact('event'));
     }

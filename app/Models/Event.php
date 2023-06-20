@@ -57,12 +57,16 @@ class Event extends Model implements HasMedia
         return $query->where('pid', Ulid::fromString($pid)->toRfc4122());
     }
 
-    protected function pid(): Attribute
+    public function getRouteKeyName(): string
     {
-        return Attribute::make(
-            get: fn (?string $value) => $value ? Ulid::fromString($value) : null,
-        );
+        return 'pid';
     }
+//    protected function pid(): Attribute
+//    {
+//        return Attribute::make(
+//            get: fn (?string $value) => $value ? Ulid::fromString($value) : null,
+//        );
+//    }
 
     protected static function booted(): void
     {

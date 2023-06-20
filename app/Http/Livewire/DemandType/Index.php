@@ -24,6 +24,8 @@ class Index extends Component
 
     public string|null $responsible;
 
+    public string|null $description;
+
     public int|null $updateDemandTypeId;
 
     public function render()
@@ -37,7 +39,8 @@ class Index extends Component
 
     protected $rules = [
         'name' => ['required', 'string', 'min:3', 'max:255'],
-        'responsible' => ['required', 'string', 'min:3', 'max:255'],
+        'responsible' => ['nullable', 'string', 'email', 'max:100'],
+        'description' => ['nullable', 'string', 'min:3', 'max:255'],
     ];
 
     protected $listeners = ['refresh' => '$refresh'];
@@ -60,6 +63,7 @@ class Index extends Component
     {
         $this->name = '';
         $this->responsible = '';
+        $this->description = '';
         $this->updateDemandTypeId = null;
     }
 
@@ -72,9 +76,22 @@ class Index extends Component
         $validatedData = $this->validate();
         //        $validatedData['tenant_id'] = session()->get('tenant_id');
         $group = DemandType::create($validatedData);
-        $this->emit('demandTypeStored', $group->id);
-        flash()->addSuccess('Demand Type successfully created.');
-        $this->closeModal();
+        if ($group->wasRecentlyCreated) {
+            $this->resetInput();
+            $this->emit('demandTypeStored', $group->id);
+            flash()->addSuccess('Demand Type successfully created.');
+            $this->closeModal();
+        }
+    }
+
+    public function edit($id): void
+    {
+        $this->authorize('update_demand_type');
+        $group = DemandType::findOrFail($id);
+        $this->updateDemandTypeId = $id;
+        $this->name = $group->name;
+        $this->responsible = $group->responsible;
+        $this->description = $group->description;
     }
 
     public function update(): void
@@ -84,6 +101,7 @@ class Index extends Component
         $group->update([
             'name' => $this->name,
             'responsible' => $this->responsible,
+            'description' => $this->description,
         ]);
         session()->flash('message', 'Demand Type successfully updated.');
         $this->closeModal();

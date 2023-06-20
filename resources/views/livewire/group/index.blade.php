@@ -125,12 +125,12 @@
                             </a>
                             @can('update_group')
                                 <button data-bs-toggle="modal" data-bs-target="#updateModal"
-                                        wire:click="edit({{$group->id}})" class="btn btn-primary btn-sm m-1">Edit
+                                        wire:click="edit({{$group->id}})" class="btn btn-primary btn-sm m-1">Editar
                                 </button>
                             @endcan
                             @can('delete_group')
-                                <button wire:click="delete({{ $group->id }})" class="btn btn-danger btn-sm m-1">
-                                    Delete
+                                <button wire:click="delete({{ $group->pid }})" class="btn btn-danger btn-sm m-1">
+                                    Deletar
                                 </button>
                             @endcan
                             <a href="/dash/group/{{$group->pid}}/history" class="btn btn-black btn-sm m-1">
@@ -153,7 +153,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="studentModalLabel">Create Student</h5>
+                        <h5 class="modal-title" id="studentModalLabel">Criar Grupo</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                                 wire:click="closeModal"></button>
                     </div>
@@ -173,12 +173,12 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                                    data-bs-dismiss="modal">Close
+                                    data-bs-dismiss="modal">Fechar
                             </button>
                             <button type="submit" class="btn btn-primary"
                                     wire:target="store"
                                     wire:loading.attr="disabled"
-                                    :disabled="$disabled">Save
+                                    :disabled="$disabled">Salvar
                             </button>
                         </div>
                     </form>
@@ -194,7 +194,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="updateModalLabel">Edit Student</h5>
+                        <h5 class="modal-title" id="updateModalLabel">Atualizar Grupo</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click="closeModal"
                                 aria-label="Close"></button>
                     </div>
@@ -213,12 +213,12 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                                    data-bs-dismiss="modal">Close
+                                    data-bs-dismiss="modal">Fechar
                             </button>
                             <button type="submit" class="btn btn-primary"
                                     wire:target="update"
                                     wire:loading.attr="disabled"
-                                    :disabled="$disabled">Update
+                                    :disabled="$disabled">Atualizar
                             </button>
                         </div>
                     </form>

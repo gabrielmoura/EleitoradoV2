@@ -32,14 +32,18 @@ class Group extends Model
     protected $casts = [
         //        'pid' => Ulid::class,
     ];
-
-    protected function pid(): Attribute
+    public function getRouteKeyName(): string
     {
-        return Attribute::make(
-            get: fn (string $value) => Ulid::fromString($value),
-            //            set: fn(Ulid|string $value) => $value instanceof Ulid ? $value->toRfc4122() : Ulid::fromString($value)->toRfc4122(),
-        );
+        return 'pid';
     }
+
+//    protected function pid(): Attribute
+//    {
+//        return Attribute::make(
+//            get: fn (string $value) => Ulid::fromString($value),
+//            //            set: fn(Ulid|string $value) => $value instanceof Ulid ? $value->toRfc4122() : Ulid::fromString($value)->toRfc4122(),
+//        );
+//    }
 
     public function persons(): BelongsToMany
     {

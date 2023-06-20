@@ -267,12 +267,12 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                                    data-bs-dismiss="modal">Close
+                                    data-bs-dismiss="modal">Fechar
                             </button>
                             <button type="submit" class="btn btn-primary"
                                     wire:target="store"
                                     wire:loading.attr="disabled"
-                                    :disabled="$disabled">Save
+                                    :disabled="$disabled">Salvar
                             </button>
                         </div>
                     </form>
@@ -401,12 +401,12 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                                    data-bs-dismiss="modal">Close
+                                    data-bs-dismiss="modal">Fechar
                             </button>
                             <button type="submit" class="btn btn-primary"
                                     wire:target="update"
                                     wire:loading.attr="disabled"
-                                    :disabled="$disabled">Update
+                                    :disabled="$disabled">Atualizar
                             </button>
                         </div>
                     </form>

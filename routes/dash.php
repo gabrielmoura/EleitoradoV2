@@ -11,20 +11,18 @@ use App\Http\Controllers\Dash\HomeController;
 use App\Http\Controllers\Dash\PaymentController;
 use App\Http\Controllers\Dash\PersonController;
 use App\Http\Controllers\Dash\UserController;
-use App\Mail\System\InvoiceFinalizedMail;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('index');
 
 Route::group(['middleware' => ['subscribed']], function () {
-    Route::resource('/person', PersonController::class)->names('person')->whereUlid('person');
+    Route::resource('/person', PersonController::class)->names('person')->whereUuid('person');
 
-    Route::resource('/group', GroupController::class)->only(['index', 'show'])->names('group')->whereUlid('group');
-    Route::get('/group/{group}/history', [GroupController::class, 'history'])->name('group.history')->whereUlid('group');
-    Route::resource('/event', EventController::class)->only(['index', 'show'])->names('event')->whereUlid('event');
-    Route::resource('/demand', DemandController::class)->only(['index', 'show'])->names('demand')->whereUlid('demand');
-    Route::resource('/demandType', DemandTypeController::class)->only(['index'])->names('demandType')->whereUlid('demandType');
+    Route::resource('/group', GroupController::class)->only(['index', 'show'])->names('group')->whereUuid('group');
+    Route::get('/group/{group}/history', [GroupController::class, 'history'])->name('group.history')->whereUuid('group');
+    Route::resource('/event', EventController::class)->only(['index', 'show'])->names('event')->whereUuid('event');
+    Route::resource('/demand', DemandController::class)->only(['index', 'show'])->names('demand')->whereUuid('demand');
+    Route::resource('/demandType', DemandTypeController::class)->only(['index', 'show'])->names('demandType')->whereUuid('demandType');
     Route::resource('/users', UserController::class)->names('user')->whereNumber('user')->middleware('role:manager');
     Route::get('/birthdays', [BirthdaysController::class, 'index'])->name('birthdays');
 
@@ -67,15 +65,4 @@ Route::get('/invoice/preview', function () {
     }
 
     return new Response('No invoice found', 404);
-});
-Route::get('/invoice/test', function () {
-    $user = Auth::user()->company; // fetch the authenticated user
-
-    $invoice = $user->invoices()->first(); // get the first invoice
-
-    if ($invoice) {
-        Mail::to($user)->queue(new InvoiceFinalizedMail($invoice, $user));
-    }
-
-    return response()->json(['message' => 'Email sent!'], 200);
 });

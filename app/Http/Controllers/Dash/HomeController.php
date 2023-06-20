@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Dash;
 
+use App\Charts\Dash\DemandsCompletedChart;
 use App\Charts\PersonChart;
 use App\Http\Controllers\Controller;
+use App\Models\Demand;
 use App\Models\Group;
 use App\Models\Person;
 use Illuminate\Http\Request;
@@ -14,6 +16,7 @@ class HomeController extends Controller
     {
         $person = Person::all()->pluck('created_at')->groupBy(fn ($date) => $date->translatedFormat('M'))->map(fn ($item) => $item->count());
         $group = Group::all()->pluck('created_at')->groupBy(fn ($date) => $date->translatedFormat('M'))->map(fn ($item) => $item->count());
+        $demand = Demand::with('type')->get();
 
         $personChart = new PersonChart;
 
@@ -40,6 +43,32 @@ class HomeController extends Controller
         $personChart->labels($group->keys());
         $personChart->title('Pessoas e Grupos');
 
-        return view('dash.dashboard', compact('personChart'));
+        $demandChart = new DemandsCompletedChart;
+        $demandChart->dataset('Demandas', 'line', $demand->pluck('created_at')->groupBy(fn ($date) => $date->translatedFormat('M'))->map(fn ($item) => $item->count())->values())
+            ->options([
+                'fill' => true,
+                'borderColor' => '#51C1C0',
+                'backgroundColor' => '#51C1C0',
+                'borderWidth' => 2,
+                'pointRadius' => 2,
+                'pointHoverRadius' => 2,
+            ]);
+        $demandChart->labels($demand->pluck('created_at')->groupBy(fn ($date) => $date->translatedFormat('M'))->map(fn ($item) => $item->count())->keys());
+        $demandChart->title('Demandas');
+
+        $demandChartType = new DemandsCompletedChart;
+        $demandChartType->dataset('Demandas', 'line', $demand->pluck('type')->groupBy(fn ($date) => $date->name)->map(fn ($item) => $item->count())->values())
+            ->options([
+                'fill' => true,
+                'borderColor' => '#51C1C0',
+                'backgroundColor' => '#51C1C0',
+                'borderWidth' => 2,
+                'pointRadius' => 2,
+                'pointHoverRadius' => 2,
+            ]);
+        $demandChartType->labels($demand->pluck('type')->groupBy(fn ($date) => $date->name)->map(fn ($item) => $item->count())->keys());
+        $demandChartType->title('Demandas por Tipo');
+
+        return view('dash.dashboard', compact('personChart', 'demandChart', 'demandChartType'));
     }
 }

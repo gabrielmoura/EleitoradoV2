@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dash;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Demand\DemandUpdateRequest;
 use App\Http\Requests\DemandType\DemandTypeStoreRequest;
+use App\Models\DemandType;
 
 class DemandTypeController extends Controller
 {
@@ -35,9 +36,9 @@ class DemandTypeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(DemandType $demandType)
     {
-        //
+        return view('dash.demandType.show', compact('demandType'));
     }
 
     /**

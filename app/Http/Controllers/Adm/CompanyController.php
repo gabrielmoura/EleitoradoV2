@@ -19,7 +19,7 @@ class CompanyController extends Controller
 
     public function store(Request $request)
     {
-//        $data = $request->validated();
+        //        $data = $request->validated();
         $this->validate($request, [
             'name' => 'required',
             'email' => ['required', 'email'],

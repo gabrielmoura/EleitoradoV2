@@ -17,10 +17,8 @@ class GroupController extends Controller
         return view('dash.group.index');
     }
 
-    public function show($pid)
+    public function show(Group $group)
     {
-        $group = Group::findPid($pid)->first();
-
         return view('dash.group.show', compact('group'));
     }
 

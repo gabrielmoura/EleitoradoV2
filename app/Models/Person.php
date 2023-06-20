@@ -150,6 +150,10 @@ class Person extends Model implements HasMedia
             }
         });
     }
+    public function getRouteKeyName(): string
+    {
+        return 'pid';
+    }
 
     public function getActivitylogOptions(): LogOptions
     {

@@ -20,12 +20,22 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                Contagem por Mês
+
                 {!! $personChart->container() !!}
+
+            </div>
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                {!! $demandChart->container() !!}
+
+            </div>
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                {!! $demandChartType->container() !!}
 
             </div>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.6/highcharts.js" charset="utf-8"></script>
     {!! $personChart->script() !!}
+    {!! $demandChart->script() !!}
+    {!! $demandChartType->script() !!}
 </x-app-layout>

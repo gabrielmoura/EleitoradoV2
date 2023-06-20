@@ -108,6 +108,13 @@
                             <span>Responsável</span>
                         </div>
                     </th>
+                    <th scope="col" class="">
+                        <div class="d-flex align-items-center" wire:click="orderBy('description')"
+                             wire:change="orderBy"
+                             wire:change="orderAsc" style="cursor:pointer;">
+                            <span>Descrição</span>
+                        </div>
+                    </th>
                     <th width="150px">Action</th>
                 </tr>
                 </thead>
@@ -125,6 +132,7 @@
                         @endif
                         <td>{{ $group->name }}</td>
                         <td>{{ $group->responsible }}</td>
+                        <td>{{ $group->description }}</td>
                         <td class="d-flex">
                             <a href="{{route('dash.demandType.show',['demandType'=>$group->pid])}}"
                                class="btn btn-black btn-sm m-1">
@@ -132,12 +140,12 @@
                             </a>
                             @can('update_demand_type')
                                 <button data-bs-toggle="modal" data-bs-target="#updateModal"
-                                        wire:click="edit({{$group->id}})" class="btn btn-primary btn-sm m-1">Edit
+                                        wire:click="edit({{$group->id}})" class="btn btn-primary btn-sm m-1">Editar
                                 </button>
                             @endcan
                             @can('delete_demand_type')
                                 <button wire:click="delete({{ $group->id }})" class="btn btn-danger btn-sm m-1">
-                                    Delete
+                                    Deletar
                                 </button>
                             @endcan
                             <a href="/dash/group/{{$group->pid}}/history" class="btn btn-black btn-sm m-1">
@@ -152,85 +160,94 @@
             <x-table-pagination :items="$demandTypes" :per-page="$perPage"/>
         </div>
     </div>
+    @can('create_demand_type')
+        <!-- Create Modal -->
+        <div wire:ignore.self class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="studentModalLabel">Criar Tipos de Demanda</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                                wire:click="closeModal"></button>
+                    </div>
+                    <form wire:submit.prevent="store">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label>Nome</label>
+                                <input type="text" wire:model.debounce.500ms="name" class="form-control">
+                                @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label>Email do Responsável</label>
+                                <input type="email" wire:model.debounce.500ms="responsible" class="form-control">
+                                @error('responsible') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label>Descrição</label>
+                                <input type="text" wire:model.debounce.500ms="description" class="form-control">
+                                @error('description') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" wire:click="closeModal"
+                                    data-bs-dismiss="modal">Fechar
+                            </button>
+                            <button type="submit" class="btn btn-primary"
+                                    wire:target="store"
+                                    wire:loading.attr="disabled"
+                                    :disabled="$disabled">Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endcan
+
+    @can('update_demand_type')
+        <!-- Update Modal -->
+        <div wire:ignore.self class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateModalLabel">Editar Tipos de Demanda</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click="closeModal"
+                                aria-label="Close"></button>
+                    </div>
+                    <form wire:submit.prevent="update">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label>Nome</label>
+                                <input type="text" wire:model="name" class="form-control">
+                                @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label>Responsável</label>
+                                <input type="text" wire:model="responsible" class="form-control">
+                                @error('responsible') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label>Descrição</label>
+                                <input type="text" wire:model.debounce.500ms="description" class="form-control">
+                                @error('description') <span class="text-danger">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" wire:click="closeModal"
+                                    data-bs-dismiss="modal">Fechar
+                            </button>
+                            <button type="submit" class="btn btn-primary"
+                                    wire:target="update"
+                                    wire:loading.attr="disabled"
+                                    :disabled="$disabled">Atualizar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endcan
 </div>
-
-@can('create_demand_type')
-    <!-- Create Modal -->
-    <div wire:ignore.self class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="studentModalLabel">Create Student</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                            wire:click="closeModal"></button>
-                </div>
-                <form wire:submit.prevent="store">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label>Nome</label>
-                            <input type="text" wire:model.debounce.500ms="name" class="form-control">
-                            @error('name') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label>Responsável</label>
-                            <input type="text" wire:model.debounce.500ms="responsible" class="form-control">
-                            @error('responsible') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                                data-bs-dismiss="modal">Close
-                        </button>
-                        <button type="submit" class="btn btn-primary"
-                                wire:target="store"
-                                wire:loading.attr="disabled"
-                                :disabled="$disabled">Save
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-@endcan
-
-@can('update_demand_type')
-    <!-- Update Modal -->
-    <div wire:ignore.self class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="updateModalLabel">Edit Student</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" wire:click="closeModal"
-                            aria-label="Close"></button>
-                </div>
-                <form wire:submit.prevent="update">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label>Nome</label>
-                            <input type="text" wire:model="name" class="form-control">
-                            @error('name') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label>Responsável</label>
-                            <input type="text" wire:model="responsible" class="form-control">
-                            @error('responsible') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" wire:click="closeModal"
-                                data-bs-dismiss="modal">Close
-                        </button>
-                        <button type="submit" class="btn btn-primary"
-                                wire:target="update"
-                                wire:loading.attr="disabled"
-                                :disabled="$disabled">Update
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-@endcan
