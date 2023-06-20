@@ -57,7 +57,7 @@
                 </div>
             </div>
             <!-- Save changes button-->
-            <button class="btn btn-primary" type="submit">Save changes</button>
+            <button class="btn btn-primary" type="submit">Salvar alterações</button>
             <x-action-message class="mr-3" on="saved">
                 Save
             </x-action-message>

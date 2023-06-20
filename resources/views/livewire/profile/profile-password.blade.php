@@ -24,7 +24,7 @@
                        autocomplete="new-password">
                 <x-input-error for="password_confirmation" class="mt-2"/>
             </div>
-            <button class="btn btn-primary" type="submit">Save</button>
+            <button class="btn btn-primary" type="submit">Salvar</button>
         </form>
     </div>
 </div>
