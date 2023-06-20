@@ -65,11 +65,11 @@
     <div class="container-xl px-4 mt-4" x-data="{partial:'info'}">
         <nav class="nav nav-borders">
             <a x-bind:class="partial==='info' ? 'nav-link active ms-0' : 'nav-link'" href="#" @click="partial = 'info'">Perfil</a>
-            <a x-bind:class="partial==='billing' ? 'nav-link active ms-0' : 'nav-link'" href="#">Pagamentos</a>
+            {{--            <a x-bind:class="partial==='billing' ? 'nav-link active ms-0' : 'nav-link'" href="#">Pagamentos</a>--}}
             <a x-bind:class="partial==='security' ? 'nav-link active ms-0' : 'nav-link'" href="#"
                @click="partial = 'security'">Segurança</a>
-            <a x-bind:class="partial==='notification' ? 'nav-link active ms-0' : 'nav-link'" href="#"
-               @click="partial = 'notification'">Notificações</a>
+            {{--            <a x-bind:class="partial==='notification' ? 'nav-link active ms-0' : 'nav-link'" href="#"--}}
+            {{--               @click="partial = 'notification'">Notificações</a>--}}
         </nav>
         <hr class="mt-0 mb-4">
 

@@ -41,7 +41,7 @@ class CompanyController extends Controller
 
         // https://laravel.com/docs/10.x/billing#creating-customers
         $company->createAsStripeCustomer([
-            'preferred_locales' => ['pt-BR'],
+            'preferred_locales' => [str_replace('_', '-', app()->getLocale())],
         ]);
         $company->createTaxId($request->doc_type, $request->doc);
 

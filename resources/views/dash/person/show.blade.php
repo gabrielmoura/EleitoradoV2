@@ -19,17 +19,19 @@
                         <img width="250px" height="250px" class="avatar-img img-thumbnail" alt="{{$person->name}}"
                              src="{{$person->image}}">
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-4">
+                        <h2>Dados Pessoais</h2>
                         Nascimento: {{$person->birth_date}} |
                         Sexo: {{\App\Service\Enum\PersonOptions::getSexOption($person->sex)}}<br>
                         Email: {{$person->email}}<br>
                         Data de Cadastro: {{$person->created_at}}<br>
                         Data de Atualização: {{$person->updated_at}}<br>
                         Telefone: {{$person?->telephone}} | Celular: {{$person?->cellphone}} @if($person->cellphone)
-                            <a href="https://api.whatsapp.com/send?phone={{$person->cellphone}}"
+                            <a href="https://api.whatsapp.com/send?phone={{numberClear($person->cellphone)}}"
                                title="(Enviar mensagem no WhatsApp)"><i
                                     class="fab fa-whatsapp"></i></a>
-                            <a href="https://t.me/+{{$person->cellphone}}" title="(Enviar mensagem no Telegram)"><i
+                            <a href="https://t.me/+{{numberClear($person->cellphone)}}"
+                               title="(Enviar mensagem no Telegram)"><i
                                     class="fab fa-telegram"></i></a>
                         @endif<br>
                         Endereço Completo: {{$person->address->street}} - {{$person->address->number}}
@@ -38,9 +40,32 @@
                             <a href="https://www.google.com/maps/search/?api=1&query={{$person->address->latitude}},{{$person->address->longitude}}">(Visualizar
                                 no Mapa)</a>
                         @endif <br>
-                        Título de Eleitor: {{$person->voter_title}}<br>
+
+
+                    </div>
+                    <div class="col-md-4">
+                        <h2>Dados Eleitorais</h2>
+                        Título de Eleitor: {{$person->voter_registration}}<br>
                         Zona Eleitoral: {{$person->electoral_zone}}<br>
                         Seção Eleitoral: {{$person->electoral_section}}<br>
+
+                        Cor da Pele: {{\App\Service\Enum\PersonOptions::getSkinColorOption($person->skinColor)}}<br>
+                        Estado
+                        Civil: {{\App\Service\Enum\PersonOptions::getMaritalStatusOption($person->maritalStatus) }}<br>
+                        Escolaridade: {{\App\Service\Enum\PersonOptions::getEducationLevelOption($person->educationLevel) }}
+                        <br>
+                        Ocupação: {{\App\Service\Enum\PersonOptions::getOccupationOption($person->occupation) }}<br>
+                        Religião: {{\App\Service\Enum\PersonOptions::getReligionOption($person->religion) }}<br>
+                        Moradia: {{\App\Service\Enum\PersonOptions::getHouseOption($person->housing) }}<br>
+                        Orientação
+                        Sexual: {{\App\Service\Enum\PersonOptions::getSexualOrientationOption($person->sexualOrientation) }}
+                        <br>
+                        Identidade de
+                        Gênero: {{\App\Service\Enum\PersonOptions::getGenderIdentityOption($person->genderIdentity) }}
+                        <br>
+                        Tipo de
+                        Deficiência: {{\App\Service\Enum\PersonOptions::getDeficiencyTypeOption($person->deficiencyType) }}
+                        <br>
 
                     </div>
                 </div>
@@ -50,7 +75,8 @@
                         <tbody>
                         @forelse($person->groups->take(10) as $group)
                             <tr>
-                                <td><a href="{{route('dash.group.show',['group'=>$group->pid])}}">{{$group->name}}</a></td>
+                                <td><a href="{{route('dash.group.show',['group'=>$group->pid])}}">{{$group->name}}</a>
+                                </td>
                                 <td>{{date('d-m-Y', strtotime($group->pivot->checked_at))}}</td>
                                 <td>
                                     <button class="btn btn-danger btn-sm"

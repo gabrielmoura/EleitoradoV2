@@ -1,10 +1,12 @@
 <div class="card mb-4">
-    <div class="card-header">Privacidade da conta</div>
+    <div class="card-header">Sessões do navegador</div>
     <div class="card-body">
         <p class="small text-muted">
-            Ao definir sua conta como privada, suas informações de perfil e postagens não ficarão visíveis para usuários
-            fora de seus grupos de usuários.
+            {{ __('Manage and log out your active sessions on other browsers and devices.') }}
         </p>
+        <div class="max-w-xl text-sm text-gray-600">
+            {{ __('If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.') }}
+        </div>
 
         @if (count($this->sessions) > 0)
             <div class="mt-5 space-y-6">

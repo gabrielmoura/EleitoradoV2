@@ -14,7 +14,7 @@ class ProfileInformation extends Component
         $this->state = auth()->user()->withoutRelations()->toArray();
     }
 
-    public function updateProfileInformation(UpdateUserProfileInformation $updater)
+    public function updateProfileInformation(UpdateUserProfileInformation $updater): void
     {
         $this->resetErrorBag();
 
@@ -23,7 +23,7 @@ class ProfileInformation extends Component
             $this->state
         );
 
-        session()->flash('status', 'Profile successfully updated');
+        flash()->addSuccess('Perfil atualizado com sucesso');
     }
 
     public function render()

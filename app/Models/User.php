@@ -36,6 +36,7 @@ class User extends Authenticatable
         'social',
         'banned_at',
         'phone',
+        'birthday'
     ];
 
     /**
@@ -62,6 +63,7 @@ class User extends Authenticatable
         'updated_at' => 'datetime',
         'social' => 'collection',
         'banned_at' => 'datetime',
+        'birthday' => 'date'
     ];
 
     /**

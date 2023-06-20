@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamp('banned_at')->nullable();
             $table->string('phone')->nullable();
+            $table->date('birthday')->nullable()->comment('Date of birth');
             $table->timestamps();
         });
     }

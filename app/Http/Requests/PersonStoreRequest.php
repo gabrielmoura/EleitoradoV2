@@ -26,8 +26,8 @@ class PersonStoreRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['string', 'email', 'max:255'],
-            'cellphone' => ['nullable', 'string', 'max:20'],
-            'telephone' => ['nullable', 'string', 'max:20'],
+            'cellphone' => ['nullable', 'string', 'max:20', 'min:11'],
+            'telephone' => ['nullable', 'string', 'max:20', 'min:10'],
             'cpf' => ['nullable', 'string', new Cpf],
             'rg' => ['nullable', 'string', 'max:30'],
             'birth_date' => ['nullable', 'date'],
