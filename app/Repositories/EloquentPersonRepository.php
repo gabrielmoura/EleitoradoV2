@@ -72,7 +72,21 @@ class EloquentPersonRepository implements PersonRepository
                 'rg',
                 'address_id',
                 'dateOfBirth',
-                'sex']);
+                'sex',
+
+                'voter_zone',
+                'voter_section',
+                'voter_registration',
+                'skinColor',
+                'maritalStatus',
+                'educationLevel',
+                'occupation',
+                'religion',
+                'housing',
+                'sexualOrientation',
+                'genderIdentity',
+                'deficiencyType',
+            ]);
             $person = Person::findPid($id)
                 ->firstOrFail();
             $person->updateOrFail($personData);
