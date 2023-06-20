@@ -52,13 +52,6 @@ class Demand extends Model implements HasMedia
     {
         return 'pid';
     }
-//    protected function pid(): Attribute
-//    {
-//        return Attribute::make(
-//            get: fn (string $value) => Ulid::fromString($value),
-//            set: fn (Ulid|string $value) => $value instanceof Ulid ? $value->toRfc4122() : Ulid::fromString($value)->toRfc4122(),
-//        );
-//    }
 
     protected static function booted(): void
     {

@@ -7,10 +7,10 @@ use App\Events\Dash\User\UserUpdatedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -55,7 +55,7 @@ class UserController extends Controller
     {
         $data = $request->validated();
 
-        $user = User::find($pid);
+        $user = User::tenant()->find($pid);
         $res = DB::transaction(function () use ($data, $user) {
             $data['company_id'] = auth()->user()->company_id;
             $res = $user->update($data);
@@ -75,8 +75,15 @@ class UserController extends Controller
         return redirect()->route('dash.user.index');
     }
 
-    public function show(User $user)
+    public function show($id)
     {
+        try {
+            $user = User::tenant()->findOrFail($id);
+        }catch (\Exception $e) {
+            report($e);
+            flash()->addWarning('Usuário não encontrado.');
+            return redirect()->route('dash.user.index');
+        }
         return view('dash.user.show', compact('user'));
     }
 
@@ -88,8 +95,14 @@ class UserController extends Controller
         return view('dash.user.form', compact('form', 'roles', 'user'));
     }
 
-    public function destroy(User $user)
+    public function destroy($id)
     {
+        try {
+            $user = User::tenant()->findOrFail($id);
+        }catch (\Exception $e) {
+            flash()->addWarning('Usuário não encontrado.');
+            return redirect()->route('dash.user.index');
+        }
         $user->deleteOrFail();
 
         return redirect()->route('dash.company.index');

@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->ulid('tenant_id')->index()->comment('Tenant id');
+            $table->uuid('pid')->index()->comment('Public id');
+            $table->uuid('tenant_id')->index()->comment('Tenant id');
             $table->foreignId('person_id')->constrained('people');
 
             /** Recebeu */

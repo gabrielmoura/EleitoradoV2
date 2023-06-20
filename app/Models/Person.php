@@ -122,14 +122,6 @@ class Person extends Model implements HasMedia
         );
     }
 
-//    protected function pid(): Attribute
-//    {
-//        return Attribute::make(
-//            get: fn (string $value) => Ulid::fromString($value),
-//            set: fn (Ulid|string $value) => $value instanceof Ulid ? $value->toRfc4122() : Ulid::fromString($value)->toRfc4122(),
-//        );
-//    }
-
     public function scopeFindPid(Builder $query, string $pid): Builder
     {
         return $query->where('pid', Ulid::fromString($pid)->toRfc4122());
@@ -150,6 +142,7 @@ class Person extends Model implements HasMedia
             }
         });
     }
+
     public function getRouteKeyName(): string
     {
         return 'pid';

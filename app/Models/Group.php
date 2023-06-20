@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Models\Scopes\TenantScope;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -32,18 +31,11 @@ class Group extends Model
     protected $casts = [
         //        'pid' => Ulid::class,
     ];
+
     public function getRouteKeyName(): string
     {
         return 'pid';
     }
-
-//    protected function pid(): Attribute
-//    {
-//        return Attribute::make(
-//            get: fn (string $value) => Ulid::fromString($value),
-//            //            set: fn(Ulid|string $value) => $value instanceof Ulid ? $value->toRfc4122() : Ulid::fromString($value)->toRfc4122(),
-//        );
-//    }
 
     public function persons(): BelongsToMany
     {

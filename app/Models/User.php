@@ -36,7 +36,7 @@ class User extends Authenticatable
         'social',
         'banned_at',
         'phone',
-        'birthday'
+        'birthday',
     ];
 
     /**
@@ -63,7 +63,7 @@ class User extends Authenticatable
         'updated_at' => 'datetime',
         'social' => 'collection',
         'banned_at' => 'datetime',
-        'birthday' => 'date'
+        'birthday' => 'date',
     ];
 
     /**
@@ -82,12 +82,17 @@ class User extends Authenticatable
     }
 
     /**
+     * @param Builder $query
+     * @return void
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     public function scopeTenant(Builder $query): void
     {
-        $company_id = session()->get('company.id') ?? false;
+        $company_id = session()->get('company.id');
+        if (!$company_id) {
+            throw new \RuntimeException('Company not found');
+        }
         $query->where('company_id', '=', $company_id);
     }
 
