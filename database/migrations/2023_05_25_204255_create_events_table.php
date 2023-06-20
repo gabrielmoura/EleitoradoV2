@@ -18,7 +18,7 @@ return new class extends Migration
             $table->uuid('tenant_id')->index()->comment('Tenant Id');
             $table->foreignId('address_id')->nullable()->constrained('addresses');
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('type')->nullable();
             $table->dateTime('start_date')->nullable();
             $table->dateTime('end_date')->nullable();

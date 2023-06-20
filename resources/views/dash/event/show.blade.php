@@ -57,8 +57,33 @@
             </div>
             <div class="card-body m-3">
                 <div class="row">
-                    <h3>Descrição</h3>
-                    <p>{{$event->description}}</p>
+                    <div class="col-md-6">
+                        <h3>Descrição</h3>
+                        <p>{{$event->description}}</p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h3>Data de Início</h3>
+                        <p>{{$event->start_date->format('d/m/y H:i')}}</p>
+                        <h3>Data de Término</h3>
+                        <p>{{$event->end_date?->format('d/m/y H:i')}}</p>
+                        <h3>Endereço</h3>
+                        <p>{{$event->address->street}}, {{$event->address->number}} - {{$event->address->district}}
+                            - {{$event->address->city}}/{{$event->address->state}}</p>
+
+                        @feature('event_group')
+                        <h3>Grupo</h3>
+                        <p>{{$event->group->name}}</p>
+                        @endfeature
+                        @feature('event_demand')
+                        <h3>Demanda</h3>
+                        <p>{{$event->demands->name}}</p>
+                        @endfeature
+                    </div>
+                </div>
+                <div class="row">
+                    <h3>Estimativa de Público</h3>
+                    <p>{{$event->estimated_public??'0'}}</p>
                     <h3>Quantidade de Pessoas</h3>
                     <p>{{$event->persons->count()}}</p>
                 </div>

@@ -61,12 +61,6 @@ class Event extends Model implements HasMedia
     {
         return 'pid';
     }
-//    protected function pid(): Attribute
-//    {
-//        return Attribute::make(
-//            get: fn (?string $value) => $value ? Ulid::fromString($value) : null,
-//        );
-//    }
 
     protected static function booted(): void
     {
