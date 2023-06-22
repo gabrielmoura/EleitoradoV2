@@ -27,6 +27,15 @@ class Kernel extends ConsoleKernel
 
         /** Métricas Trabalhos em fila */
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
+
+        /** Métricas de uso do sistema */
+
+        /** Remove arquivos Temporários */
+        $schedule->command('media-library:delete-old-temporary-uploads')->everyFiveMinutes()
+            ->environments(['production', 'staging']);
+        $schedule->command('media-library:delete-old-temporary-uploads')->everyMinute()
+            ->environments(['development', 'local']);
+
     }
 
     /**

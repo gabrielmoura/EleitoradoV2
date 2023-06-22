@@ -19,6 +19,7 @@ class CompanyController extends Controller
 
     public function store(Request $request)
     {
+
         //        $data = $request->validated();
         $this->validate($request, [
             'name' => 'required',
@@ -45,6 +46,9 @@ class CompanyController extends Controller
         ]);
 
         $company = Company::create($collection->toArray());
+        $company
+            ->addFromMediaLibraryRequest($request->avatar)
+            ->toMediaCollection('avatar');
 
         // https://laravel.com/docs/10.x/billing#creating-customers
         $company->createAsStripeCustomer([

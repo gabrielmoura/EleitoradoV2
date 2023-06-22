@@ -79,11 +79,13 @@ class UserController extends Controller
     {
         try {
             $user = User::tenant()->findOrFail($id);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             report($e);
             flash()->addWarning('Usuário não encontrado.');
+
             return redirect()->route('dash.user.index');
         }
+
         return view('dash.user.show', compact('user'));
     }
 
@@ -99,8 +101,9 @@ class UserController extends Controller
     {
         try {
             $user = User::tenant()->findOrFail($id);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             flash()->addWarning('Usuário não encontrado.');
+
             return redirect()->route('dash.user.index');
         }
         $user->deleteOrFail();

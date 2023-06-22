@@ -10,8 +10,11 @@ use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Image\Exceptions\InvalidManipulation;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Company extends Model implements HasMedia
 {
@@ -57,5 +60,21 @@ class Company extends Model implements HasMedia
     {
         return LogOptions::defaults()->logFillable();
         // Chain fluent methods for configuration options
+    }
+
+    /**
+     * Conversões de mídia
+     *
+     * @throws InvalidManipulation
+     */
+    public function registerMediaConversions(Media $media = null): void
+    {
+        /** Converte Imagem vinda de avatar para webP e reduz para 100x100 */
+        $this->addMediaConversion('cover')
+            ->performOnCollections('avatar')
+            ->format(Manipulations::FORMAT_WEBP)
+            ->width(100)->height(100)
+            ->quality(80)
+            ->queued();
     }
 }

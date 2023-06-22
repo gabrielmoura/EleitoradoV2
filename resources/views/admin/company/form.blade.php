@@ -40,6 +40,10 @@
                     <label for="doc">Documento</label>
                     <input type="text" name="doc" id="doc" class="form-control" value="{{old('doc')}}" required>
                 </div>
+                <div class="form-group">
+                    <x-media-library-attachment name="avatar" max-items="1" rules="mimes:png,jpg|max:1024" />
+                </div>
+
             </div>
             <div class="row">
                 <div class="col-md-2">

@@ -37,4 +37,9 @@ return [
     'utalk' => [
         'key' => env('UTALK_KEY'),
     ],
+    'slack' => [
+        'general' => env('SLACK_GENERAL_WEBHOOK_URL'),
+        'announcements' => env('SLACK_ANNOUNCEMENTS_WEBHOOK_URL'),
+        'tech-dev-ops' => env('SLACK_TECH_DEV_OPS_WEBHOOK_URL'),
+    ],
 ];

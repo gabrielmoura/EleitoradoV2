@@ -39,13 +39,13 @@ Route::group(['prefix' => 'webhook', 'name' => 'webhook.'], function () {
         return response()->noContent();
     })->name('utalk');
 });
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
     Route::get('/dashboard', HomeController::class)->name('dashboard');
+    Route::mediaLibrary();
 });
 
 Route::middleware([

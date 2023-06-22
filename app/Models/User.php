@@ -82,15 +82,13 @@ class User extends Authenticatable
     }
 
     /**
-     * @param Builder $query
-     * @return void
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     public function scopeTenant(Builder $query): void
     {
         $company_id = session()->get('company.id');
-        if (!$company_id) {
+        if (! $company_id) {
             throw new \RuntimeException('Company not found');
         }
         $query->where('company_id', '=', $company_id);

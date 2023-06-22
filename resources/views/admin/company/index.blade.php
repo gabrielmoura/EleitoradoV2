@@ -59,11 +59,58 @@
                                 <button class="btn btn-danger btn-sm m-1">
                                     Desativar
                                 </button>
+                                <button class="btn btn-danger btn-sm m-1" data-bs-toggle="modal"
+                                        data-bs-target="#createModal"
+                                        onclick="document.getElementById('company_id').value = {{$company->id}}"
+                                >
+                                    Convidar
+                                </button>
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Modal -->
+    <div wire:ignore.self class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="studentModalLabel">Criar Grupo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            wire:click="closeModal"></button>
+                </div>
+                <form action="{{route('admin.reqInviteTo')}}" method="POST">
+                    @csrf
+                    <input type="hidden" name="company_id" value="" id="company_id">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="email">E-mail</label>
+                            <input type="email" name="email" class="form-control" id="email"/>
+                            @error('email') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="role">Função</label>
+                            <select name="role" class="form-control" id="role">
+                                @foreach(\App\Service\Enum\RoleOptions::getRoleOptions() as $key => $role)
+                                    <option value="{{$role}}" @if($role=='admin') disabled @endif >{{$key}}</option>
+                                @endforeach
+                            </select>
+                            @error('role') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" wire:click="closeModal"
+                                data-bs-dismiss="modal">Fechar
+                        </button>
+                        <button type="submit" class="btn btn-primary">Salvar
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
