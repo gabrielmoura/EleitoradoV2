@@ -34,6 +34,8 @@ Route::group(['middleware' => ['subscribed']], function () {
     Route::resource('/appointment', AppointmentController::class)
         ->names('appointment')
         ->whereUuid('appointment');
+    Route::get('/appointment/ajax', [AppointmentController::class, 'ajax'])
+        ->name('appointment.ajax');
 });
 
 Route::group(['middleware' => ['can:invoicing'], 'prefix' => 'subscription', 'as' => 'payment.'], function () {

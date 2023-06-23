@@ -9,6 +9,10 @@ use Livewire\Component;
 
 class AppointmentList extends Component
 {
+    protected $listeners = [
+        'refresh' => '$refresh',
+    ];
+
     public function render(): Application|Factory|View
     {
         return view('livewire.appointment.appointment-list');

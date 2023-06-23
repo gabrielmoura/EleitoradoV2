@@ -22,7 +22,7 @@ class AppointmentCreate extends Component
 
     public function closeModal(): void
     {
-        $this->emit('refresh');
+        //        $this->emit('refresh');
         $this->dispatchBrowserEvent('close-modal');
         $this->app = [];
     }
@@ -58,15 +58,17 @@ class AppointmentCreate extends Component
 
     protected $rules = [
         'app.event.name' => ['required', 'string', 'min:3', 'max:255'],
-        'app.event.description' => ['required'],
+        'app.event.description' => ['nullable', 'string', 'min:3', 'max:255'],
         'app.event.start_time' => ['required', 'date', 'after:now'],
-        'app.event.end_time' => ['required', 'date', 'after:app.event.start_time'],
-        'app.address.street' => ['required'],
-        'app.address.number' => ['required'],
-        'app.address.complement' => ['required'],
-        'app.address.district' => ['required'],
-        'app.address.city' => ['required'],
-        'app.address.state' => ['required'],
+        'app.event.end_time' => ['nullable', 'date', 'after:app.event.start_time'],
+        //        'app.event.recurrence' => ['nullable', 'string', 'in:none,daily,weekly,monthly'],
+
+        'app.address.street' => ['nullable', 'string', 'min:3', 'max:255'],
+        'app.address.number' => ['nullable', 'numeric', 'min_digits:1', 'max_digits:5'],
+        'app.address.complement' => ['nullable', 'string', 'min:3', 'max:255'],
+        'app.address.district' => ['nullable', 'string', 'min:3', 'max:255'],
+        'app.address.city' => ['nullable', 'string', 'min:3', 'max:255'],
+        'app.address.state' => ['nullable', 'string', 'min:2', 'max:255'],
         'app.address.zipcode' => ['required', 'string', 'min:8', 'max:9'],
     ];
 
@@ -88,22 +90,25 @@ class AppointmentCreate extends Component
     {
 
         $this->validate();
+
         $db = DB::transaction(function () {
             $validatedData = collect($this->app);
-            if ($validatedData->has('app.address')) {
-                $address = Address::create($validatedData['app']['address']);
-                $validatedData->put('app.event.address_id', $address?->id);
+            if ($validatedData->has('address')) {
+                $address = Address::create($validatedData->get('address'));
+                $validatedData->put('event.address_id', $address?->id);
             }
 
-            return Appointment::create($validatedData['app']['event']);
+            return Appointment::create($validatedData->get('event'));
         });
         if ($db->wasRecentlyCreated) {
             flash()->addSuccess('Agendamento criado com sucesso.');
             $this->emit('saved');
+            $this->reset('app');
+            $this->emitUp('refresh');
+            $this->closeModal();
         } else {
             flash()->addWarning('Erro ao criar agendamento!');
         }
 
-        $this->reset('appointment');
     }
 }

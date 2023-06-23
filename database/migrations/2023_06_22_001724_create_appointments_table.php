@@ -23,9 +23,9 @@ return new class extends Migration
             $table->dateTime('end_time')->nullable();
             $table->dateTime('start_time');
 
-            $table->string('recurrence');
+            $table->string('recurrence')->nullable();
             $table->foreignId('address_id')->nullable()->constrained('addresses');
-            $table->json('properties');
+            $table->json('properties')->nullable();
 
             $table->foreignId('event_id')->nullable()->constrained('events');
         });

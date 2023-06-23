@@ -27,13 +27,18 @@ class AppointmentController extends Controller
     {
         abort_if(Feature::active(AppointmentFeature::class), Response::HTTP_UNAUTHORIZED);
 
-        if ($request->ajax()) {
-            $request->validate([
-                'start' => 'required|date',
-                'end' => 'required|date',
-            ]);
+        return view('dash.appointments.index');
+    }
 
-            $events = Appointment::where('start_time', '>=', $request->start)->where('end_time', '<=', $request->end)->get()->collect()->map(fn ($appointment) => [
+    public function ajax(Request $request)
+    {
+        $request->validate([
+            'start' => 'required|date',
+            'end' => 'required|date',
+        ]);
+        $events = Appointment::where('start_time', '>=', $request->start)
+            ->orWhere('end_time', '<=', $request->end)->get()
+            ->collect()->map(fn ($appointment) => [
                 'title' => $appointment->name,
                 'start' => $appointment->start_time,
                 'end' => $appointment->finish_time,
@@ -49,10 +54,7 @@ class AppointmentController extends Controller
                 //                    }
             ]);
 
-            return response()->json($events);
-        }
-
-        return view('dash.appointments.index');
+        return response()->json($events);
     }
 
     /**

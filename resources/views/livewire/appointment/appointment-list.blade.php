@@ -28,7 +28,7 @@
                     selectable: false, // permite selecionar um dia/hora
                     eventDidMount: function (info) {
                         var tooltip = new bootstrap.Tooltip(info.el, {
-                            title: info.event.extendedProps.description,
+                            title: info.event.extendedProps?.description ?? '',
                             placement: 'top',
                             trigger: 'hover',
                             container: 'body'
@@ -49,7 +49,7 @@
                         {{--window.location.href = '{{route('dash.appointment.create')}}?start_date=' + info.date.toISOString().slice(0,16);--}}
                     },
                     events: function (info, successCallback, failureCallback) {
-                        axios.get('{{route('dash.appointment.index')}}', {
+                        axios.get('{{route('dash.appointment.ajax')}}', {
                             params: {
                                 start: info.startStr,
                                 end: info.endStr,
