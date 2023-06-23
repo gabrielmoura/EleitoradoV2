@@ -46,6 +46,11 @@ class Appointment extends Model
         'updated_at' => 'datetime',
     ];
 
+    public function getRouteKeyName(): string
+    {
+        return 'pid';
+    }
+
     public function appointments(): HasMany
     {
         return $this->hasMany(Appointment::class, 'appointment_id', 'id');

@@ -33,21 +33,22 @@ class AppointmentController extends Controller
                 'end' => 'required|date',
             ]);
 
-            $events = Appointment::where('start_time', '>=', $request->start)->where('end_time', '<=', $request->end)->get()->collect()->map(fn($appointment) => [
+            $events = Appointment::where('start_time', '>=', $request->start)->where('end_time', '<=', $request->end)->get()->collect()->map(fn ($appointment) => [
                 'title' => $appointment->name,
                 'start' => $appointment->start_time,
                 'end' => $appointment->finish_time,
                 'description' => $appointment->description,
                 'url' => route('dash.appointment.show', $appointment->pid),
                 'backgroundColor' => $appointment->finish_time && $appointment->finish_time < now() ? '#f56954' : '#3c8dbc',
-//                'editable' => true,
-//                    'backgroundColor' => '#f56954',
-//                    'borderColor' => '#f56954',
-//                    'textColor' => '#fff',
-//                    extendedProps: {
-//                    status: 'done'
-//                    }
+                //                'editable' => true,
+                //                    'backgroundColor' => '#f56954',
+                //                    'borderColor' => '#f56954',
+                //                    'textColor' => '#fff',
+                //                    extendedProps: {
+                //                    status: 'done'
+                //                    }
             ]);
+
             return response()->json($events);
         }
 
@@ -77,6 +78,7 @@ class AppointmentController extends Controller
                 'city' => $request->city,
                 'state' => $request->state,
             ]);
+
             return Appointment::create([
                 'name' => $request->name,
                 'start_time' => $request->start_time,
@@ -88,17 +90,21 @@ class AppointmentController extends Controller
 
         if ($app->wasRecentlyCreated) {
             flash()->addSuccess('Agendamento criado com sucesso!');
+
             return to_route('dash.appointments.index');
         }
         flash()->addWarning('Erro ao criar agendamento!');
+
         return back()->withErrors(['error' => 'Erro ao criar agendamento!']);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Appointment $appointment)
+    public function show($pid)
     {
+        $appointment = Appointment::wherePid($pid)->first();
+
         return view('dash.appointments.show', compact('appointment'));
     }
 

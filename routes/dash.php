@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dash\AppointmentController;
 use App\Http\Controllers\Dash\BirthdaysController;
 use App\Http\Controllers\Dash\CompanyController;
 use App\Http\Controllers\Dash\DemandController;
@@ -29,6 +30,10 @@ Route::group(['middleware' => ['subscribed']], function () {
     /** Exportações */
     Route::get('/get/{id}', [PeopleAddressController::class, 'response'])->name('getFile');
 
+    /** Funcionalidades */
+    Route::resource('/appointment', AppointmentController::class)
+        ->names('appointment')
+        ->whereUuid('appointment');
 });
 
 Route::group(['middleware' => ['can:invoicing'], 'prefix' => 'subscription', 'as' => 'payment.'], function () {
@@ -66,4 +71,3 @@ Route::get('/invoice/preview', function () {
 
     return new Response('No invoice found', 404);
 });
-Route::resource('/testa', \App\Http\Controllers\Dash\AppointmentController::class)->names('appointment');
