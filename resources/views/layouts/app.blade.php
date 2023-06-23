@@ -16,6 +16,7 @@
 
     <!-- Styles -->
     @livewireStyles
+    @stack('styles')
 </head>
 <body class="nav-fixed">
 <x-app-top-bar/>
@@ -51,5 +52,6 @@
 @stack('modals')
 
 @livewireScripts
+@stack('scripts')
 </body>
 </html>

@@ -66,3 +66,4 @@ Route::get('/invoice/preview', function () {
 
     return new Response('No invoice found', 404);
 });
+Route::resource('/testa', \App\Http\Controllers\Dash\AppointmentController::class)->names('appointment');
