@@ -45,8 +45,9 @@ class Index extends Component
     public function delete($id): void
     {
         $this->authorize('delete_group');
-        Group::find($id)->delete();
-        session()->flash('message', 'Group successfully deleted.');
+        Group::findOrFail($id)->delete();
+        flash()->addSuccess('Grupo deletado com sucesso.');
+        $this->emit('refresh');
     }
 
     public function exportSelected()
@@ -63,6 +64,7 @@ class Index extends Component
             'name' => $this->name,
             'description' => $this->description,
         ]);
+        flash()->addSuccess('Grupo atualizado com sucesso.');
         $this->closeModal();
     }
 
@@ -96,7 +98,7 @@ class Index extends Component
         $validatedData['tenant_id'] = session()->get('tenant_id');
         $group = Group::create($validatedData);
         $this->emit('groupStored', $group->id);
-        flash()->addSuccess('Group successfully created.');
+        flash()->addSuccess('Grupo criado com sucesso.');
         $this->closeModal();
     }
 

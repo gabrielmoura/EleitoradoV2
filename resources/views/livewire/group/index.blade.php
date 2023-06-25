@@ -129,7 +129,7 @@
                                 </button>
                             @endcan
                             @can('delete_group')
-                                <button wire:click="delete({{ $group->pid }})" class="btn btn-danger btn-sm m-1">
+                                <button wire:click="delete({{ $group->id }})" class="btn btn-danger btn-sm m-1">
                                     Deletar
                                 </button>
                             @endcan
