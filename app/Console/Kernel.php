@@ -26,7 +26,10 @@ class Kernel extends ConsoleKernel
         //        $schedule->command('model:prune')->yearly();
 
         /** Métricas Trabalhos em fila */
-        $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        $schedule->command('horizon:snapshot')->everyFiveMinutes()
+            ->environments(['production', 'staging']);
+        $schedule->command('horizon:snapshot')->everyMinute()
+            ->environments(['development', 'local']);
 
         /** Métricas de uso do sistema */
 
@@ -43,7 +46,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
