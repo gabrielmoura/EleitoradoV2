@@ -94,9 +94,9 @@ class Person extends Model implements HasMedia
     {
         return Attribute::make(
             get: function (?string $value) {
-                if (strlen($value) === 8) {
+                if ($value !== null && strlen($value) === 8) {
                     return $value = '5521'.$value;
-                } elseif (strlen($value) === 10) {
+                } elseif ($value !== null && strlen($value) === 10) {
                     return $value = '55'.$value;
                 } else {
                     return $value;
@@ -110,9 +110,9 @@ class Person extends Model implements HasMedia
     {
         return Attribute::make(
             get: function (?string $value) {
-                if (strlen($value) === 9) {
+                if ($value !== null && strlen($value) === 9) {
                     return $value = '5521'.$value;
-                } elseif (strlen($value) === 11) {
+                } elseif ($value !== null && strlen($value) === 11) {
                     return $value = '55'.$value;
                 } else {
                     return $value;

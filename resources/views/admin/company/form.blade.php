@@ -14,34 +14,40 @@
         </x-header-compact>
     </x-slot>
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <form action="{{route('admin.company.store')}}" class="form" method="POST">
+        <form action="{{$form['route']}}" class="form" method="POST">
+            @method($form['method'])
             @csrf
             <div class="row">
                 <div class="form-group">
                     <label for="name">Nome</label>
-                    <input type="text" name="name" id="name" class="form-control" value="{{old('name')}}" required>
+                    <input type="text" name="name" id="name" class="form-control" value="{{old('name',$company->name)}}"
+                           required>
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" class="form-control" value="{{old('email')}}" required>
+                    <input type="email" name="email" id="email" class="form-control"
+                           value="{{old('email',$company->email)}}" required>
                 </div>
                 <div class="form-group">
                     <label for="phone">Telefone</label>
-                    <input type="text" name="phone" id="phone" class="form-control" value="{{old('phone')}}" required>
+                    <input type="text" name="phone" id="phone" class="form-control"
+                           value="{{old('phone',$company->phone)}}" required>
                 </div>
                 <div class="form-group">
                     <label for="doc_type">Tipo de documento</label>
-                    <select name="doc_type" id="doc_type" class="form-control" value="{{old('doc_type')}}" required>
+                    <select name="doc_type" id="doc_type" class="form-control"
+                            value="{{old('doc_type',$company->doc_type)}}">
+                        <option value="">Selecione</option>
                         <option value="br_cnpj">CNPJ</option>
                         <option value="br_cpf">CPF</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="doc">Documento</label>
-                    <input type="text" name="doc" id="doc" class="form-control" value="{{old('doc')}}" required>
+                    <input type="text" name="doc" id="doc" class="form-control" value="{{old('doc',$company->doc)}}">
                 </div>
                 <div class="form-group">
-                    <x-media-library-attachment name="avatar" max-items="1" rules="mimes:png,jpg|max:1024" />
+                    <x-media-library-attachment name="avatar" max-items="1" rules="mimes:png,jpg|max:1024"/>
                 </div>
 
             </div>

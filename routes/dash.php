@@ -32,10 +32,11 @@ Route::group(['middleware' => ['subscribed']], function () {
 
     /** Funcionalidades */
     Route::resource('/appointment', AppointmentController::class)
+        ->only('index', 'show', 'destroy')
         ->names('appointment')
         ->whereUuid('appointment');
     Route::get('/appointment/ajax', [AppointmentController::class, 'ajax'])
-        ->name('appointment.ajax');
+        ->name('appointment.ajax')->middleware('cache.headers:private;max_age=2592000;etag');
 });
 
 Route::group(['middleware' => ['can:invoicing'], 'prefix' => 'subscription', 'as' => 'payment.'], function () {

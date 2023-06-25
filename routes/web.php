@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\AlertController;
 use App\Http\Controllers\Auth\InviteController;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +30,14 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
     Route::resource('/invite', InviteController::class)->only(['index', 'store'])->names('invite');
     Route::get('/redirect/{provider}', [SocialController::class, 'redirect'])->name('social.redirect');
     Route::get('/callback/{provider}', [SocialController::class, 'callback'])->name('social.callback');
+});
+
+Route::group(['prefix' => 'user', 'middleware' => 'auth:sanctum'], function () {
+    Route::get('alerts', [AlertController::class, 'notifications'])->name('user.alert');
+    Route::get('/alerts/{notification}', [AlertController::class, 'notificationShow'])->name('user.alert.show');
+
+    Route::get('messages', [MessageController::class, 'notifications'])->name('user.message');
+    Route::get('/messages/{notification}', [MessageController::class, 'notificationShow'])->name('user.message.show');
 });
 
 Route::group(['prefix' => 'webhook', 'name' => 'webhook.'], function () {

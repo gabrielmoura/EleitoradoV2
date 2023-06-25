@@ -8,6 +8,7 @@ use App\Http\Requests\StoreAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
 use App\Models\Address;
 use App\Models\Appointment;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Laravel\Pennant\Feature;
@@ -15,11 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AppointmentController extends Controller
 {
-    public function __construct()
-    {
-
-    }
-
     /**
      * Display a listing of the resource.
      */
@@ -30,7 +26,7 @@ class AppointmentController extends Controller
         return view('dash.appointments.index');
     }
 
-    public function ajax(Request $request)
+    public function ajax(Request $request): JsonResponse
     {
         $request->validate([
             'start' => 'required|date',
@@ -106,6 +102,7 @@ class AppointmentController extends Controller
     public function show($pid)
     {
         $appointment = Appointment::wherePid($pid)->first();
+        //Deverá conter Editar e Excluir
 
         return view('dash.appointments.show', compact('appointment'));
     }

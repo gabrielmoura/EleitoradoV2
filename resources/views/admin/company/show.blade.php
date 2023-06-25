@@ -15,17 +15,55 @@
                     <button data-bs-toggle="modal" data-bs-target="#inviteModal"
                             class="btn btn-sm btn-light text-primary m-1">
                         <i class="fad fa-envelope-open fa-lg me-1"></i>
-                       Enviar Convite
+                        Enviar Convite
                     </button>
                 </div>
             </x-slot:content>
         </x-header-compact>
     </x-slot>
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <div class="row">
-            {{$company}}
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-start text-xl">{{$company->name}}</h3>
+            </div>
+            <div class="card-body m-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img width="250px" height="250px" class="avatar-img img-thumbnail" alt="{{$company->name}}"
+                             src="{{$company->getFirstMedia('avatar')?->getUrl('cover')??\Illuminate\Support\Facades\Vite::asset('resources/images/company-logo.png')}}">
+                    </div>
+                    <div class="col-md-8">
+                        <h2>Dados Pessoais</h2>
+
+                        Nome: {{$company->name}}<br>
+                        {{--                        Função: @foreach($company->roles as $role)--}}
+                        {{--                            <span--}}
+                        {{--                                class="badge bg-blue">--}}
+                        {{--                                {{\App\Service\Enum\RoleOptions::getRoleOption($role->name)}}</span>--}}
+                        {{--                        @endforeach--}}
+                        @if($company->banned_at!= null)
+                            <span class="badge bg-danger">BAN</span>
+                        @endif
+                        <br>
+                        Email: {{$company->email}}<br>
+                        Data de Cadastro: {{$company->created_at->format('d/m/y H:i')}}<br>
+                        Data de Atualização: {{$company->updated_at->format('d/m/y H:i')}}<br>
+                        Celular: {{$company?->phone}} @if($company->phone)
+                            <a href="https://api.whatsapp.com/send?phone={{numberClear($company->phone)}}"
+                               title="(Enviar mensagem no WhatsApp)"><i
+                                    class="fab fa-whatsapp"></i></a>
+                            <a href="https://t.me/+{{numberClear($company->phone)}}"
+                               title="(Enviar mensagem no Telegram)"><i
+                                    class="fab fa-telegram"></i></a>
+                        @endif<br>
+
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
 
     <div class="modal fade" id="inviteModal" tabindex="-1" aria-labelledby="inviteModalLabel"
          aria-hidden="true">

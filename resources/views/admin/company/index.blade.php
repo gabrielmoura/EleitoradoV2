@@ -52,8 +52,8 @@
                                     Ver
                                 </a>
 
-                                <a href="{{route('admin.company.edit', $company->id)}}}}"
-                                   class="btn btn-primary btn-sm m-1">Edit
+                                <a href="{{route('admin.company.edit', $company->id)}}"
+                                   class="btn btn-primary btn-sm m-1">Editar
                                 </a>
 
                                 <button class="btn btn-danger btn-sm m-1">

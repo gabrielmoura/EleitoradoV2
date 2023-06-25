@@ -158,4 +158,13 @@ class Index extends Component
             flash()->addSuccess('Demanda atualizada com sucesso.');
         }
     }
+
+    public function delete(Demand $demand): void
+    {
+        $this->authorize('delete_demand');
+
+        $demand->delete();
+        $this->emit('refresh');
+        flash()->addSuccess('Demanda excluída com sucesso.');
+    }
 }

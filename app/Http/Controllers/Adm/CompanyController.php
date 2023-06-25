@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CompanyUpdateRequest;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,10 +22,10 @@ class CompanyController extends Controller
         //        $data = $request->validated();
         $this->validate($request, [
             'name' => 'required',
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'unique:companies,email'],
             'phone' => ['string', 'nullable'],
-            'doc' => ['string'],
-            'doc_type' => ['string', 'in:br_cnpj,br_cpf', 'required_with:doc'],
+            'doc' => ['nullable', 'string'],
+            'doc_type' => ['nullable', 'string', 'in:br_cnpj,br_cpf', 'required_with:doc'],
         ]);
 
         $collection = collect($request->only(['name', 'email', 'phone']));
@@ -46,10 +45,11 @@ class CompanyController extends Controller
         ]);
 
         $company = Company::create($collection->toArray());
-        $company
-            ->addFromMediaLibraryRequest($request->avatar)
-            ->toMediaCollection('avatar');
-
+        if ($request->has('avatar')) {
+            $company
+                ->addFromMediaLibraryRequest($request->avatar)
+                ->toMediaCollection('avatar');
+        }
         // https://laravel.com/docs/10.x/billing#creating-customers
         $company->createAsStripeCustomer([
             'preferred_locales' => [str_replace('_', '-', app()->getLocale())],
@@ -61,15 +61,22 @@ class CompanyController extends Controller
 
     public function create()
     {
-        $form = ['method' => 'POST', 'route' => ['admin.company.store']];
+        $form = ['method' => 'POST', 'route' => route('admin.company.store')];
 
         return view('admin.company.form', compact('form'));
     }
 
-    public function update(CompanyUpdateRequest $request, $pid)
+    public function update(Request $request, Company $company)
     {
-        $data = $request->validated();
-        Company::wherePid($pid)->firstOrFail()->update($data);
+        $data = $request->only(['name', 'email', 'phone']);
+
+        if ($request->has('avatar')) {
+            $company->clearMediaCollection('avatar');
+            $company
+                ->addFromMediaLibraryRequest($request->avatar)
+                ->toMediaCollection('avatar');
+        }
+        $company->update($data);
 
         return redirect()->route('admin.company.index');
     }
@@ -79,17 +86,17 @@ class CompanyController extends Controller
         return view('admin.company.show', compact('company'));
     }
 
-    public function edit($pid)
+    public function edit(Company $company)
     {
-        $company = Company::wherePid($pid)->firstOrFail();
-        $form = ['method' => 'PATCH', 'route' => ['admin.company.update', 'company' => $pid]];
+        //        $company = Company::wherePid($pid)->firstOrFail();
+        $form = ['method' => 'PATCH', 'route' => route('admin.company.update', ['company' => $company->id])];
 
         return view('admin.company.form', compact('company', 'form'));
     }
 
-    public function destroy($pid)
+    public function destroy(Company $company)
     {
-        Company::wherePid($pid)->firstOrFail()->deleteOrFail();
+        $company->deleteOrFail();
 
         return redirect()->route('admin.company.index');
     }

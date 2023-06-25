@@ -69,11 +69,11 @@ class Company extends Model implements HasMedia
      */
     public function registerMediaConversions(Media $media = null): void
     {
-        /** Converte Imagem vinda de avatar para webP e reduz para 100x100 */
+        /** Converte Imagem vinda de avatar para webP e reduz para 240x170 */
         $this->addMediaConversion('cover')
             ->performOnCollections('avatar')
             ->format(Manipulations::FORMAT_WEBP)
-            ->width(100)->height(100)
+            ->width(240)->height(170)
             ->quality(80)
             ->queued();
     }
