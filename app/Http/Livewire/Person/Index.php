@@ -40,7 +40,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.person.index', [
-            'people' => Person::search($this->search)
+            'people' => Person::search(trim($this->search) ?? '')
                 ->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')
                 ->paginate($this->perPage),
         ]);

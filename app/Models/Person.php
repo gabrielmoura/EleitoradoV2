@@ -182,4 +182,15 @@ class Person extends Model implements HasMedia
     {
         return $query->with('address');
     }
+
+    /**
+     * @url https://laravel.com/docs/10.x/scout#configuring-searchable-data
+     */
+    public function toSearchableArray(): array
+    {
+        $array = $this->toArray();
+        $array['address'] = $this->address?->toArray();
+
+        return $array;
+    }
 }

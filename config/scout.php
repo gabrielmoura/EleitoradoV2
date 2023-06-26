@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'driver' => env('SCOUT_DRIVER', 'algolia'),
+    'driver' => env('SCOUT_DRIVER', 'collection'),
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'queue' => env('SCOUT_QUEUE', false),
+    'queue' => env('SCOUT_QUEUE', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -133,9 +133,134 @@ return [
         'host' => env('MEILISEARCH_HOST', 'http://localhost:7700'),
         'key' => env('MEILISEARCH_KEY'),
         'index-settings' => [
-            // 'users' => [
-            //     'filterableAttributes'=> ['id', 'name', 'email'],
-            // ],
+            \App\Models\Person::class => [
+                'searchableAttributes' => [
+                    'name',
+                    'email',
+                    'cpf',
+                    'rg',
+                    'cellphone',
+                    'telephone',
+                    'address.street',
+                    'address.number',
+                    'address.complement',
+                    'address.neighborhood',
+                    'address.city',
+                    'address.state',
+                    'address.zipcode',
+                ],
+                'filterableAttributes' => [
+                    'id',
+                    'name',
+                    'email',
+                    'phone',
+                    'address.street',
+                    'address.number',
+                    'address.complement',
+                    'address.neighborhood',
+                    'address.city',
+                    'address.state',
+                    'address.zipcode',
+                ],
+                'sortableAttributes' => [
+                    'id',
+                    'name',
+                    'email',
+                    'phone',
+                    'address.street',
+                    'address.number',
+                    'address.complement',
+                    'address.neighborhood',
+                    'address.city',
+                    'address.state',
+                    'address.zipcode',
+                    'created_at',
+                ],
+            ],
+            \App\Models\Group::class => [
+                'searchableAttributes' => [
+                    'name',
+                    'description',
+                ],
+                'filterableAttributes' => [
+                    'id',
+                    'name',
+                    'description',
+                ],
+                'sortableAttributes' => [
+                    'id',
+                    'name',
+                    'description',
+                    'created_at',
+                ],
+            ],
+            \App\Models\Demand::class => [
+                'searchableAttributes' => [
+                    'name',
+                    'description',
+                    'closed_at',
+                    'status',
+                    'priority',
+                ],
+                'filterableAttributes' => [
+                    'id',
+                    'name',
+                    'description',
+                    'closed_at',
+                    'status',
+                    'priority',
+                ],
+                'sortableAttributes' => [
+                    'id',
+                    'name',
+                    'description',
+                    'created_at',
+                    'closed_at',
+                ],
+
+            ],
+            \App\Models\DemandType::class => [
+                'searchableAttributes' => [
+                    'name',
+                    'description',
+                    'responsible',
+                ],
+                'filterableAttributes' => [
+                    'id',
+                    'name',
+                    'description',
+                    'responsible',
+                ],
+                'sortableAttributes' => [
+                    'id',
+                    'name',
+                    'description',
+                    'created_at',
+                ],
+            ],
+            \App\Models\Event::class => [
+                'searchableAttributes' => [
+                    'name',
+                    'description',
+                    'start_date',
+                    'end_date',
+                ],
+                'filterableAttributes' => [
+                    'id',
+                    'name',
+                    'description',
+                    'start_date',
+                    'end_date',
+                ],
+                'sortableAttributes' => [
+                    'id',
+                    'name',
+                    'description',
+                    'start_date',
+                    'end_date',
+                    'created_at',
+                ],
+            ],
         ],
     ],
 
