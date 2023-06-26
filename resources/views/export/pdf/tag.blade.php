@@ -1,39 +1,59 @@
-<!doctype html>
-<html lang="pt_BR">
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{config('app.name')}} {{$tag_name??null}}</title>
-{{--    <link href="@vite('resources/scss/app.scss')" rel="stylesheet">--}}
+    @vite('resources/scss/app.scss')
+    <style>
+        :root {
+            --blue: #1e90ff;
+            --white: #ffffff;
+            --bs-body-color: #000000;
+            --bs-body-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'figtree', sans-serif;
+            font-size: 12px;
+            display: block;
+        }
+
+    </style>
 </head>
 <body>
-@foreach($tags as $tag)
-    <div style="position:absolute;top:0.65in;left:0.48in;width:1.64in;line-height:0.11in;"><span
-            style="font-style:normal;font-weight:normal;font-size:6pt;font-family:Helvetica;color:#000000">{{$tag->name}}</span><span
-            style="font-style:normal;font-weight:normal;font-size:6pt;font-family:Helvetica;color:#000000"> </span><br/></SPAN>
-    </div>
-    <div style="position:absolute;top:0.65in;left:2.67in;width:0.28in;line-height:0.11in;"><span
-            style="font-style:normal;font-weight:normal;font-size:6pt;font-family:Helvetica;color:#000000">{{$tag->pid}}</span><span
-            style="font-style:normal;font-weight:normal;font-size:6pt;font-family:Helvetica;color:#000000"> </span><br/></SPAN>
-        {{-- Por Um QR Code Talvez seja melhor --}}
-    </div>
-    <div style="position:absolute;top:0.86in;left:0.48in;width:1.09in;line-height:0.11in;"><span
-            style="font-style:normal;font-weight:normal;font-size:6pt;font-family:Helvetica;color:#000000">{{$tag->address->street}}, {{$tag->address->number}}</span><span
-            style="font-style:normal;font-weight:normal;font-size:6pt;font-family:Helvetica;color:#000000"> </span><br/></SPAN>
-    </div>
-    <div style="position:absolute;top:1.07in;left:0.48in;width:0.79in;line-height:0.11in;"><span
-            style="font-style:normal;font-weight:normal;font-size:6pt;font-family:Helvetica;color:#000000">{{$tag->address->district}}</span><span
-            style="font-style:normal;font-weight:normal;font-size:6pt;font-family:Helvetica;color:#000000"> </span><br/></SPAN>
-    </div>
-    <div style="position:absolute;top:1.28in;left:0.48in;width:0.43in;line-height:0.11in;"><span
-            style="font-style:normal;font-weight:normal;font-size:6pt;font-family:Helvetica;color:#000000">{{$tag->address->zipcode}}</span><span
-            style="font-style:normal;font-weight:normal;font-size:6pt;font-family:Helvetica;color:#000000"> </span><br/></SPAN>
-    </div>
-    <div style="position:absolute;top:1.28in;left:2.03in;width:0.91in;line-height:0.11in;"><span
-            style="font-style:normal;font-weight:normal;font-size:6pt;font-family:Helvetica;color:#000000">{{$tag->address->city}}, {{$tag->address->uf}}</span><span
-            style="font-style:normal;font-weight:normal;font-size:6pt;font-family:Helvetica;color:#000000"> </span><br/></SPAN>
+@foreach($tags->chunk(3) as $tagX)
+    <div class="row">
+        @foreach($tagX as $tag)
+            <div class="col-4">
+                <div class="row ">
+                    <div class="col-6 text-start"><p
+                            class="text-monospace text-uppercase">{{$tag->name}}</p></div>
+                    <div class="col-6">
+                        <p class="text-end">
+                            {!! \App\Actions\Tools\QrCode::genSvg(route('dash.person.show',$tag->pid),50) !!}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <span>{{$tag->address->street}}, {{$tag->address->number}}</span>
+                </div>
+
+                <div class="row">
+                    <span>{{$tag->address->district}}</span>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 text-start">
+                        <span>{{$tag->address->zipcode}}</span>
+                    </div>
+                    <div class="col-6 text-end">
+                        <span>{{$tag->address->city}}, {{$tag->address->uf}}</span>
+                    </div>
+                </div>
+            </div>
+        @endforeach
     </div>
 @endforeach
 </body>
