@@ -17,18 +17,8 @@
             </ul>
         </div>
     @endif
-    {{--    @if($form['method']!=='POST')--}}
-    {{--        <form action="{{route('dash.checkin.store')}}" method="POST">--}}
-    {{--            @csrf--}}
-    {{--            <input type="hidden" value="{{$person->pid}}" name="voter_pid"/>--}}
-    {{--            <button type="submit" class="btn btn-success">--}}
-    {{--                <i class="fa fa-check"></i>--}}
-    {{--                Checkin--}}
-    {{--            </button>--}}
-    {{--        </form>--}}
-    {{--    @endif--}}
-    <form action="{{route($form['route'][0],(isset($form['route']['person']))?$form['route']['person']:null)}}"
-          method="POST">
+
+    <form action="{{$form['route']}}" method="POST">
         @method($form['method'])
         @csrf
         <fieldset class="mb-3">
@@ -56,11 +46,11 @@
                     </select>
                 </div>
                 <div class="form-group mb-3 col-md-3">
-                    <label for="birth_date" class="form-label">Data de nascimento</label>
-                    <input type="date" name="birth_date"
-                           class="form-control date @error('birth_date') is-invalid @enderror" id="birth_date"
+                    <label for="dateOfBirth" class="form-label">Data de nascimento</label>
+                    <input type="date" name="dateOfBirth"
+                           class="form-control  @error('dateOfBirth') is-invalid @enderror" id="dateOfBirth"
                            placeholder=""
-                           value="{{$person->birth_date??old('birth_date')}}">
+                           value="{{old('dateOfBirth',$person->dateOfBirth->format('Y-m-d'))}}">
                 </div>
                 <div class="form-group mb-3 col-md-6">
                     <label for="email" class="form-label">E-mail</label>
@@ -296,12 +286,12 @@
                     </select>
                 </div>
 
-                @can('send_file')
-                    <div class="form-group mb-3 col-md-12">
-                        <label for="media" class="form-label">Foto</label>
-                        <x-media-library-attachment name="media" rules="mimes:png,jpeg"/>
-                    </div>
-                @endcan
+
+                <div class="form-group mb-3 col-md-12">
+                    <label for="avatar" class="form-label">Foto</label>
+                    <x-media-library-attachment name="avatar" rules="mimes:jpeg,png,jpg|max:2048" max-items="1" editableName/>
+                </div>
+
                 @can('add_property')
                     <div class="form-group mb-3 col-md-12">
                         @if(isset($voter?->properties))

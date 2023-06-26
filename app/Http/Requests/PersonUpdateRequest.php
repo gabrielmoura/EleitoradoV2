@@ -4,9 +4,12 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
+use Spatie\MediaLibraryPro\Rules\Concerns\ValidatesMedia;
 
 class PersonUpdateRequest extends FormRequest
 {
+    use ValidatesMedia;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -29,7 +32,7 @@ class PersonUpdateRequest extends FormRequest
             'telephone' => ['nullable', 'string', 'max:20', 'min:10'],
             'cpf' => ['nullable', 'string', 'max:30'],
             'rg' => ['nullable', 'string', 'max:30'],
-            'birth_date' => ['nullable', 'date'],
+            'dateOfBirth' => ['nullable', 'date'],
             'sex' => ['nullable', 'string', 'max:1'],
             'observation' => ['nullable', 'string'],
 
@@ -57,6 +60,14 @@ class PersonUpdateRequest extends FormRequest
             'country' => ['nullable', 'string', 'max:255'],
             'zipcode' => ['nullable', 'string', 'max:9'],
             'uf' => 'nullable|string|max:2',
+
+            /** Avatar */
+            'avatar' => [
+                'nullable',
+                $this->validateSingleMedia()
+                    ->extension(['png', 'jpg', 'jpeg'])
+                    ->maxTotalSizeInKb(2048),
+            ],
         ];
     }
 }

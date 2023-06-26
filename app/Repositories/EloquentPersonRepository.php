@@ -41,13 +41,11 @@ class EloquentPersonRepository implements PersonRepository
 
             $this->createAddress($request, $person);
 
-            //        if ($request->has('media')) {
-            //            $media = $request->file('media');
-            //            $mediaName = $media->getClientOriginalName();
-            //            $media->storeAs('public/persons/' . $person->id, $mediaName);
-            //            $person->media = $mediaName;
-            //            $person->save();
-            //        }
+            if ($request->has('avatar')) {
+                $person->addFromMediaLibraryRequest($request->avatar)
+                    ->toMediaCollection('avatar');
+            }
+
             if ($request->has('events')) {
                 $person->events()->sync($request->events);
             }
@@ -91,7 +89,13 @@ class EloquentPersonRepository implements PersonRepository
                 ->firstOrFail();
             $person->updateOrFail($personData);
 
-            $this->createAddress($request, $person);
+            $this->createAddress(request: $request, person: $person, update: true);
+
+            if ($request->has('avatar')) {
+                $person->clearMediaCollection('avatar');
+                $person->addFromMediaLibraryRequest($request->avatar)
+                    ->toMediaCollection('avatar');
+            }
 
             if ($request->has('events')) {
                 $person->events()->sync($request->events);
@@ -105,9 +109,12 @@ class EloquentPersonRepository implements PersonRepository
 
     }
 
-    private function createAddress($request, $person): void
+    private function createAddress($request, $person, $update = false): void
     {
         if ($request->has('zipcode') || $request->has('street')) {
+            if ($update) {
+                $person->address->delete();
+            }
             $addressData = $request->only([
                 'zipcode',
                 'street',

@@ -28,6 +28,7 @@ class RolePermissionSeed extends Seeder
 
             return $value;
         });
+        $permissions->push(['name' => 'send_file']);
         foreach ($permissions as $permission) {
             foreach ($permission as $item) {
                 Permission::create($item);

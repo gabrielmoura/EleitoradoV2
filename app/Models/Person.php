@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Image\Exceptions\InvalidManipulation;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\Uid\Ulid;
 
 class Person extends Model implements HasMedia
@@ -87,7 +90,7 @@ class Person extends Model implements HasMedia
 
     public function getImageAttribute(): ?string
     {
-        return $this->getMedia('image')->first() ?? Vite::asset("resources/images/$this->sex.png");
+        return $this->getFirstMedia('avatar')?->getUrl('cover') ?? Vite::asset("resources/images/$this->sex.png");
     }
 
     protected function telephone(): Attribute
@@ -152,5 +155,21 @@ class Person extends Model implements HasMedia
     {
         return LogOptions::defaults()->logFillable();
         // Chain fluent methods for configuration options
+    }
+
+    /**
+     * Conversões de mídia
+     *
+     * @throws InvalidManipulation
+     */
+    public function registerMediaConversions(Media $media = null): void
+    {
+        /** Converte Imagem vinda de avatar para webP e reduz para 230x280 */
+        $this->addMediaConversion('cover')
+            ->performOnCollections('avatar')
+            ->format(Manipulations::FORMAT_WEBP)
+            ->width(230)->height(280)
+            ->quality(80)
+            ->queued();
     }
 }

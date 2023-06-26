@@ -15,8 +15,8 @@
             </div>
             <div class="card-body m-3">
                 <div class="row">
-                    <div class="col-md-4">
-                        <img width="250px" height="250px" class="avatar-img img-thumbnail" alt="{{$person->name}}"
+                    <div class="col-md-4" >
+                        <img width="210px" height="250px" class="avatar-img img-thumbnail m-1" alt="{{$person->name}}"
                              src="{{$person->image}}">
                     </div>
                     <div class="col-md-4">

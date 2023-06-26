@@ -28,7 +28,7 @@ class PersonController extends Controller
     {
         $groups = Group::orderBy('created_at')->take(10)->get();
         $events = Event::orderBy('created_at')->take(10)->get();
-        $form = ['method' => 'POST', 'route' => ['dash.person.store']];
+        $form = ['method' => 'POST', 'route' => route('dash.person.store')];
         $person = new Person();
 
         return view('dash.person.form', compact('form', 'groups', 'events', 'person'));
@@ -83,7 +83,7 @@ class PersonController extends Controller
         $groups = Group::orderBy('created_at')->take(10)->get();
         $events = Event::orderBy('created_at')->take(10)->get();
 
-        $form = ['method' => 'PATCH', 'route' => ['dash.person.update', 'person' => $pid]];
+        $form = ['method' => 'PATCH', 'route' => route('dash.person.update', ['person' => $pid])];
 
         return view('dash.person.form', compact('form', 'person', 'groups', 'events'));
     }

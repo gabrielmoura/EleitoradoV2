@@ -181,6 +181,7 @@ return [
         App\Providers\JobMiddlewareProvider::class,
 
         Spatie\Permission\PermissionServiceProvider::class,
+        Spatie\MediaLibraryPro\MediaLibraryProServiceProvider::class,
     ])->toArray(),
 
     /*

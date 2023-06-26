@@ -46,7 +46,7 @@ return new class extends Migration
             $table->timestamp('phone_verified_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
 
-            $table->foreignId('address_id')->nullable()->constrained('addresses');
+            $table->foreignId('address_id')->nullable()->constrained('addresses')->onUpdate('cascade')->onDelete('set null');
 
             $table->json('meta')->nullable();
             $table->index(['pid', 'tenant_id', 'created_at']);
