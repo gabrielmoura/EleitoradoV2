@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Exceptions\InvalidManipulation;
@@ -27,6 +28,7 @@ class Person extends Model implements HasMedia
     use LogsActivity;
     use InteractsWithMedia;
     use SoftDeletes;
+    use Searchable;
 
     protected $fillable = [
         'name',
@@ -171,5 +173,13 @@ class Person extends Model implements HasMedia
             ->width(230)->height(280)
             ->quality(80)
             ->queued();
+    }
+
+    /**
+     * @url https://laravel.com/docs/10.x/scout#modifying-the-import-query
+     */
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->with('address');
     }
 }

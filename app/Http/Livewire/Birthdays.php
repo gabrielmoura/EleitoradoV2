@@ -22,7 +22,7 @@ class Birthdays extends Component
 
     public function render()
     {
-        if (!empty($this->date)) {
+        if (! empty($this->date)) {
             $this->date_reference = Carbon::parse($this->date);
         }
 
