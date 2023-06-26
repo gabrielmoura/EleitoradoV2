@@ -12,23 +12,21 @@ class Birthdays extends Component
 
     public Carbon $date_reference;
 
-    public string $date;
+    public ?string $date;
 
-    private Person $person;
-
-    public function mount(Person $person): void
+    public function mount(): void
     {
-        $this->person = $person;
         $this->date_reference = now();
+        $this->date = now()->format('Y-m-d');
     }
 
     public function render()
     {
-        if (! empty($this->date)) {
+        if (!empty($this->date)) {
             $this->date_reference = Carbon::parse($this->date);
         }
 
-        $query = $this->person;
+        $query = Person::query();
         if ($this->filter_by == 'month') {
             $query = $query->whereMonth('dateOfBirth', $this->date_reference->month);
         } elseif ($this->filter_by == 'week') {

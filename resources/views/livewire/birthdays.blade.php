@@ -13,8 +13,8 @@
         <div class="col-md-2">
             <label>
                 Data:
-                <input type="date" wire:model="date" value="{{now()->format('d/m/Y')}}" class="form-control"
-                       data-date-language="pt-BR" placeholder="Date">
+                <input type="date" wire:model="date" class="form-control"
+                       data-date-language="pt-BR">
             </label>
         </div>
     </div>
@@ -40,7 +40,14 @@
                 <tr>
                     <td>{{ $birthday->name }}</td>
                     <td>{{ $birthday->dateOfBirth }}</td>
-                    <td>{{ $birthday->cellphone }}</td>
+                    <td>{{ $birthday->cellphone }} @if($birthday->cellphone)
+                            <a href="https://api.whatsapp.com/send?phone=55{{numberClear($birthday->cellphone)}}"
+                               title="(Enviar mensagem no WhatsApp)"><i
+                                    class="fab fa-whatsapp"></i></a>
+                            <a href="https://t.me/+55{{numberClear($birthday->cellphone)}}"
+                               title="(Enviar mensagem no Telegram)"><i
+                                    class="fab fa-telegram"></i></a>
+                        @endif</td>
                 </tr>
             @endforeach
             </tbody>

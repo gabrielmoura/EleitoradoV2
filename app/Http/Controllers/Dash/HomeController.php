@@ -8,14 +8,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Demand;
 use App\Models\Group;
 use App\Models\Person;
+use App\Service\Enum\PersonOptions;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $person = Person::all()->pluck('created_at')->groupBy(fn ($date) => $date->translatedFormat('M'))->map(fn ($item) => $item->count());
-        $group = Group::all()->pluck('created_at')->groupBy(fn ($date) => $date->translatedFormat('M'))->map(fn ($item) => $item->count());
+        $person = Person::all()->pluck('created_at')->groupBy(fn($date) => $date->translatedFormat('M'))->map(fn($item) => $item->count());
+        $group = Group::all()->pluck('created_at')->groupBy(fn($date) => $date->translatedFormat('M'))->map(fn($item) => $item->count());
         $demand = Demand::with('type')->get();
 
         $personChart = new PersonChart;
@@ -44,7 +45,7 @@ class HomeController extends Controller
         $personChart->title('Pessoas e Grupos');
 
         $demandChart = new DemandsCompletedChart;
-        $demandChart->dataset('Demandas', 'line', $demand->pluck('created_at')->groupBy(fn ($date) => $date->translatedFormat('M'))->map(fn ($item) => $item->count())->values())
+        $demandChart->dataset('Demandas', 'line', $demand->pluck('created_at')->groupBy(fn($date) => $date->translatedFormat('M'))->map(fn($item) => $item->count())->values())
             ->options([
                 'fill' => true,
                 'borderColor' => '#51C1C0',
@@ -53,11 +54,11 @@ class HomeController extends Controller
                 'pointRadius' => 2,
                 'pointHoverRadius' => 2,
             ]);
-        $demandChart->labels($demand->pluck('created_at')->groupBy(fn ($date) => $date->translatedFormat('M'))->map(fn ($item) => $item->count())->keys());
+        $demandChart->labels($demand->pluck('created_at')->groupBy(fn($date) => $date->translatedFormat('M'))->map(fn($item) => $item->count())->keys());
         $demandChart->title('Demandas');
 
         $demandChartType = new DemandsCompletedChart;
-        $demandChartType->dataset('Demandas', 'line', $demand->pluck('type')->groupBy(fn ($date) => $date->name)->map(fn ($item) => $item->count())->values())
+        $demandChartType->dataset('Demandas', 'line', $demand->pluck('type')->groupBy(fn($date) => $date->name)->map(fn($item) => $item->count())->values())
             ->options([
                 'fill' => true,
                 'borderColor' => '#51C1C0',
@@ -66,9 +67,25 @@ class HomeController extends Controller
                 'pointRadius' => 2,
                 'pointHoverRadius' => 2,
             ]);
-        $demandChartType->labels($demand->pluck('type')->groupBy(fn ($date) => $date->name)->map(fn ($item) => $item->count())->keys());
+        $demandChartType->labels($demand->pluck('type')->groupBy(fn($date) => $date->name)->map(fn($item) => $item->count())->keys());
         $demandChartType->title('Demandas por Tipo');
 
-        return view('dash.dashboard', compact('personChart', 'demandChart', 'demandChartType'));
+        // Contagem de pessoas por sexo
+        $personSex = Person::all()->countBy(fn(Person $person) => PersonOptions::getSexOption($person->sex));
+        $personSexChart = new PersonChart;
+        $personSexChart->dataset('Pessoas', 'pie', $personSex->values())
+            ->options([
+                'fill' => true,
+                'borderColor' => '#51C1C0',
+                'backgroundColor' => '#51C1C0',
+                'borderWidth' => 2,
+                'pointRadius' => 2,
+                'pointHoverRadius' => 2,
+            ]);
+        $personSexChart->title('Pessoas por Sexo');
+        $personSexChart->label('Quantidade');
+        $personSexChart->labels($personSex->keys());
+
+        return view('dash.dashboard', compact('personChart', 'demandChart', 'demandChartType', 'personSexChart'));
     }
 }

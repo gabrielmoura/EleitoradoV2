@@ -50,7 +50,7 @@
                     <input type="date" name="dateOfBirth"
                            class="form-control  @error('dateOfBirth') is-invalid @enderror" id="dateOfBirth"
                            placeholder=""
-                           value="{{old('dateOfBirth',$person->dateOfBirth->format('Y-m-d'))}}">
+                           value="{{old('dateOfBirth',$person->dateOfBirth?->format('Y-m-d'))}}">
                 </div>
                 <div class="form-group mb-3 col-md-6">
                     <label for="email" class="form-label">E-mail</label>
