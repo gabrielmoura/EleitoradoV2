@@ -53,6 +53,10 @@ return [
         'cdn' => 'https://cdn.jsdelivr.net/npm/@flasher/flasher@1.2.4/dist/flasher.min.js',
         'local' => '/vendor/flasher/flasher.min.js',
     ],
+    'scripts' => [
+        'cdn' => 'https://cdn.jsdelivr.net/npm/@flasher/flasher@1.2.4/dist/flasher.min.js',
+        'local' => '/vendor/flasher/flasher.min.js',
+    ],
 
     /*
     |---------------------------------------------------------------------------
