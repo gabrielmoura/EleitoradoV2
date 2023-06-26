@@ -96,12 +96,14 @@
                         </th>
                     @endif
                     <th scope="col" class="">
-                        <div class="d-flex align-items-center" wire:click="orderBy('name')" wire:change="orderBy"
-                             wire:change="orderAsc" style="cursor:pointer;">
-                            <span>Nome</span>
-                        </div>
+                        <x-table-column name="name" title="Nome" :defaultReorderColumn="$defaultReorderColumn"
+                                        :defaultReorderASC="$defaultReorderASC"/>
                     </th>
-                    <th>Descrição</th>
+                    <th>
+                        <x-table-column name="description" title="Descrição"
+                                        :defaultReorderColumn="$defaultReorderColumn"
+                                        :defaultReorderASC="$defaultReorderASC"/>
+                    </th>
                     <th width="150px">Action</th>
                 </tr>
                 </thead>

@@ -111,7 +111,7 @@ class Index extends Component
     {
         return view('livewire.group.index', [
             'groups' => Group::search($this->search)
-                ->orderBy($this->defaultReorderColumn, $this->defaultReorderDirection ? 'asc' : 'desc')
+                ->orderBy($this->defaultReorderColumn, $this->defaultReorderASC ? 'asc' : 'desc')
                 ->paginate($this->perPage),
         ]);
     }

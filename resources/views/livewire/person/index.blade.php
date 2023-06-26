@@ -8,7 +8,7 @@
                         <input wire:model="search" placeholder="Search" type="text" class="form-control"/>
                     </div>
                     @can('create_group')
-                        <a data-bs-toggle="modal" data-bs-target="#createModal"
+                        <a href="{{route('dash.person.create')}}"
                            class="btn btn-primary btn-sm ms-0 ms-md-2">Criar
                         </a>
                     @endcan
@@ -96,31 +96,26 @@
                         </th>
                     @endif
                     <th scope="col" class="">
-                        <div class="d-flex align-items-center" wire:click="orderBy('name')" wire:change="orderBy"
-                             wire:change="orderAsc" style="cursor:pointer;">
-                            <span>Nome</span>
-                        </div>
+                        <x-table-column name="name" title="Nome" :defaultReorderColumn="$defaultReorderColumn"
+                                        :defaultReorderASC="$defaultReorderASC"/>
                     </th>
 
                     <th>
-                        <div class="d-flex align-items-center" wire:click="orderBy('email')" wire:change="orderBy"
-                             wire:change="orderAsc" style="cursor:pointer;">
-                            <span>Email</span>
-                        </div>
+                        <x-table-column name="email" title="Email" :defaultReorderColumn="$defaultReorderColumn"
+                                        :defaultReorderASC="$defaultReorderASC"/>
                     </th>
                     <th>
-                        <div class="d-flex align-items-center" wire:click="orderBy('cellphone')" wire:change="orderBy"
-                             wire:change="orderAsc" style="cursor:pointer;">
-                            <span>Celular</span>
-                        </div>
+                        <x-table-column name="cellphone" title="Celular" :defaultReorderColumn="$defaultReorderColumn"
+                                        :defaultReorderASC="$defaultReorderASC"/>
                     </th>
                     <th>
-                        <div class="d-flex align-items-center" wire:click="orderBy('cpf')" wire:change="orderBy"
-                             wire:change="orderAsc" style="cursor:pointer;">
-                            <span>CPF</span>
-                        </div>
+                        <x-table-column name="cpf" title="CPF" :defaultReorderColumn="$defaultReorderColumn"
+                                        :defaultReorderASC="$defaultReorderASC"/>
                     </th>
-                    <th>Endereço</th>
+                    <th>
+                        <x-table-column name="address.street" title="Endereço" :defaultReorderColumn="$defaultReorderColumn"
+                                        :defaultReorderASC="$defaultReorderASC"/>
+                    </th>
                     <th width="150px">Action</th>
                 </tr>
                 </thead>
@@ -154,7 +149,7 @@
                                     Deletar
                                 </button>
                             @endcan
-                            <a href="/dash/group/{{$person->pid}}/history" class="btn btn-black btn-sm m-1">
+                            <a href="{{route('dash.person.history',$person->pid)}}" class="btn btn-black btn-sm m-1">
                                 Histórico
                             </a>
                         </td>

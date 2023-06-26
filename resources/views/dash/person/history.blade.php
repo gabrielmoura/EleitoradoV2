@@ -3,15 +3,17 @@
         <x-header-compact>
             <x-slot:content>
                 <h2 class="h4 font-weight-bold">
-                    {{ __('Eleitores') }}
+                    {{ __('Eleitores') }}: Alterações
                 </h2>
             </x-slot:content>
         </x-header-compact>
     </x-slot>
     <div class="row">
         <div class="bgc-white bd bdrs-3 p-20 mB-20 col">
-            <h3>Alterações</h3>
-            <table class="table table-striped table-bordered display nowrap" cellspacing="0">
+            <button onclick="printData('history')">
+                <i class="fa fa-print"></i>
+            </button>
+            <table class="table table-striped table-bordered display nowrap" cellspacing="0" id="history">
                 <thead>
                 <tr>
                     <th>Alterado Em</th>
@@ -29,11 +31,11 @@
                 </tr>
                 </tfoot>
                 <tbody>
-                @foreach($voter->activities as $history)
+                @foreach($person->activities as $history)
                     <tr>
                         <td>{{$history->created_at->format('d/m/Y H:i')}}
                             {{$history->created_at->diffForHumans()}}</td>
-                        <td>{{__($history->event)}}</td>
+                        <td>{{\App\Service\Enum\HistoryOptions::getStatusOption($history->event)}}</td>
                         <td>{{$history->causer->name}}</td>
                         <td>
                             <ul>

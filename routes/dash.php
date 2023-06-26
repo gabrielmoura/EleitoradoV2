@@ -18,6 +18,7 @@ Route::get('/', HomeController::class)->name('index');
 
 Route::group(['middleware' => ['subscribed']], function () {
     Route::resource('/person', PersonController::class)->names('person')->whereUuid('person');
+    Route::get('/person/{person}/history', [PersonController::class, 'history'])->name('person.history')->whereUuid('person');
 
     Route::resource('/group', GroupController::class)->only(['index', 'show'])->names('group')->whereUuid('group');
     Route::get('/group/{group}/history', [GroupController::class, 'history'])->name('group.history')->whereUuid('group');

@@ -157,7 +157,7 @@ class EloquentPersonRepository implements PersonRepository
     {
         return Person::withTrashed()
             ->findPid($pid)
-            ->with(['checkIns', 'checkIns.user', 'tags', 'activities', 'activities.causer'])
+            ->with(['groups', 'activities', 'activities.causer'])
             ->firstOrFail();
     }
 

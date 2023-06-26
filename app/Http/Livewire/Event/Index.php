@@ -78,7 +78,7 @@ class Index extends Component
             [
                 'events' => Event::where('name', 'like', '%'.$this->search.'%')
                     ->orWhere('description', 'like', '%'.$this->search.'%')
-                    ->orderBy($this->defaultReorderColumn, $this->defaultReorderDirection ? 'asc' : 'desc')
+                    ->orderBy($this->defaultReorderColumn, $this->defaultReorderASC ? 'asc' : 'desc')
                     ->paginate($this->perPage),
             ]);
     }

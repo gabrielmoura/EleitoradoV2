@@ -97,3 +97,14 @@ window.helpers = {
         });
     },
 };
+
+function printData(id)
+{
+    let divToPrint=document.getElementById(`${id}`);
+    let newWin= window.open("");
+    newWin.document.write(divToPrint.outerHTML);
+    newWin.print();
+    newWin.close();
+}
+
+window.printData = printData;

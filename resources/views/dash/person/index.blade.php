@@ -21,9 +21,9 @@
     </x-slot>
 
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
-        <a class="btn btn-lg btn-success" href="{{route('dash.person.create')}}">Cadastrar Novo</a>
-        <livewire:person.index></livewire:person.index>
-{{--        <livewire:person-table></livewire:person-table>--}}
+        {{--        <a class="btn btn-lg btn-success" href="{{route('dash.person.create')}}">Cadastrar Novo</a>--}}
+        <livewire:person.index />
+        {{--        <livewire:person-table></livewire:person-table>--}}
     </div>
     {{--    <div class="bgc-white bd bdrs-3 p-20 mB-20">--}}
     {{--        <a class="btn btn-lg btn-success" href="{{route('dash.voter.create')}}">Cadastrar Novo</a>--}}

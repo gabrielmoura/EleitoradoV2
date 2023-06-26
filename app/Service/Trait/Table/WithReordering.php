@@ -6,14 +6,14 @@ trait WithReordering
 {
     public string $defaultReorderColumn = 'created_at';
 
-    public bool $defaultReorderDirection = true;
+    public bool $defaultReorderASC = true;
 
     public function orderBy($field): void
     {
         if ($this->defaultReorderColumn === $field) {
-            $this->defaultReorderDirection = ! $this->defaultReorderDirection;
+            $this->defaultReorderASC = ! $this->defaultReorderASC;
         } else {
-            $this->defaultReorderDirection = true;
+            $this->defaultReorderASC = true;
         }
         $this->defaultReorderColumn = $field;
     }
