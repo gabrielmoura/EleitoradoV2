@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Actions\Tools\CalendarLink;
 use App\Models\Scopes\TenantScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -49,6 +50,11 @@ class Appointment extends Model
     public function getRouteKeyName(): string
     {
         return 'pid';
+    }
+
+    public function link(): CalendarLink
+    {
+        return new CalendarLink($this);
     }
 
     public function appointments(): HasMany

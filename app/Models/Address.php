@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Scopes\TenantScope;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
@@ -34,6 +35,13 @@ class Address extends Model
         'latitude' => 'float',
         'longitude' => 'float',
     ];
+
+    public function full_address(): Attribute
+    {
+        return Attribute::get(function () {
+            return "{$this->street}, {$this->number} - {$this->district}, {$this->city} - {$this->uf}";
+        });
+    }
 
     protected static function booted(): void
     {

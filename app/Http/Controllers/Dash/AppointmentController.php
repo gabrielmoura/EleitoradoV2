@@ -102,6 +102,8 @@ class AppointmentController extends Controller
     public function show($pid)
     {
         $appointment = Appointment::wherePid($pid)->first();
+        //        $googleMaps = 'https://www.google.com/maps/search/?api=1&query=' . $appointment->address->latitude . ',' . $appointment->address->longitude;
+        //        $address = $appointment->address?->street . ', ' . $appointment->address?->number . ' - ' . $appointment->address?->district . ', ' . $appointment->address?->city . ' - ' . $appointment->address?->uf;
         //Deverá conter Editar e Excluir
 
         return view('dash.appointments.show', compact('appointment'));

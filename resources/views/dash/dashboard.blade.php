@@ -43,10 +43,18 @@
                 </div>
             </div>
         </div>
+        <div class="row m-1">
+            <div class="card">
+                <div class="cad-body">
+                    {!! $citiesChart->container() !!}
+                </div>
+            </div>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/6.0.6/highcharts.js" charset="utf-8"></script>
     {!! $personChart->script() !!}
     {!! $demandChart->script() !!}
     {!! $demandChartType->script() !!}
     {!! $personSexChart->script() !!}
+    {!! $citiesChart->script() !!}
 </x-app-layout>

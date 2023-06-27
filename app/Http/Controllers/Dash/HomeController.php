@@ -86,6 +86,21 @@ class HomeController extends Controller
         $personSexChart->label('Quantidade');
         $personSexChart->labels($personSex->keys());
 
-        return view('dash.dashboard', compact('personChart', 'demandChart', 'demandChartType', 'personSexChart'));
+        $cities = Person::all()->countBy(fn (Person $person) => $person->address->district);
+        $citiesChart = new PersonChart;
+        $citiesChart->dataset('Pessoas', 'line', $cities->values())
+            ->options([
+                'fill' => true,
+                'borderColor' => '#51C1C0',
+                'backgroundColor' => '#51C1C0',
+                'borderWidth' => 2,
+                'pointRadius' => 2,
+                'pointHoverRadius' => 2,
+            ]);
+        $citiesChart->title('Pessoas por Bairro');
+        $citiesChart->label('Quantidade');
+        $citiesChart->labels($cities->keys());
+
+        return view('dash.dashboard', compact('personChart', 'demandChart', 'demandChartType', 'personSexChart', 'citiesChart', 'cities'));
     }
 }
