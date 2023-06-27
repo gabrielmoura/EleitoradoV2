@@ -8,7 +8,6 @@ use App\ServiceHttp\UTalk\Endpoints\HasMember;
 use App\ServiceHttp\UTalk\Endpoints\HasMessage;
 use App\ServiceHttp\UTalk\Endpoints\HasSector;
 use App\ServiceHttp\UTalk\Endpoints\HasWebhook;
-use App\ServiceHttp\UTalk\Endpoints\UtalkException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 
@@ -45,12 +44,9 @@ class UtalkService
             ->contentType('application/json');
     }
 
-    public function refreshToken(): PendingRequest
+    public function refreshToken(?string $token = null): PendingRequest
     {
-        if (config('services.utalk.key') === null) {
-            throw new UtalkException('API Key is not defined');
-        }
-        $this->api->withToken(config('services.utalk.key'));
+        $this->api->withToken($token ?? config('services.utalk.key'));
 
         return $this->api;
     }
