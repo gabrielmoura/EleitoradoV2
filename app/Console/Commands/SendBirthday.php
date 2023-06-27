@@ -31,6 +31,9 @@ class SendBirthday extends Command
     {
         $this->info('Envio de notificações para aniversariantes do dia.');
         foreach (Company::whereBanned(false)->get() as $company) {
+            if (!$company->config()->get('send_birthday.mail') && !$company->config()->get('send_birthday.whatsapp')) {
+                continue;
+            }
             $this->info("Empresa: {$company->name}");
             $people = $company->people()->whereDay('dateOfBirth', now()->day)->whereMonth('dateOfBirth', now()->month)->get();
             $this->info("Total de pessoas com celular e aniversário: {$people->whereNotNull('cellphone')->count()}");
