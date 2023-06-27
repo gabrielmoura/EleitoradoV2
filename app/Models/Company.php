@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Actions\Tools\CompanyConfig;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -54,6 +55,10 @@ class Company extends Model implements HasMedia
     public function config(): CompanyConfig
     {
         return new CompanyConfig($this);
+    }
+    public function people(): HasMany
+    {
+        return $this->hasMany(Person::class, 'tenant_id', 'tenant_id');
     }
 
     protected static function boot(): void

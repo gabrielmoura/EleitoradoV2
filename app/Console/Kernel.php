@@ -39,6 +39,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('media-library:delete-old-temporary-uploads')->everyMinute()
             ->environments(['development', 'local']);
 
+        /** Envio de Mensagem para aniversariantes */
+        $schedule->command('send:birthday')->dailyAt('08:00')
+            ->environments(['production', 'staging']);
+
     }
 
     /**
