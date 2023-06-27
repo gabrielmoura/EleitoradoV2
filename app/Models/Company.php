@@ -43,10 +43,12 @@ class Company extends Model implements HasMedia
         'website',
         'logo',
         'meta',
-        'conf',
         'banned',
         //        'tenant_id',
         'tax_id_data',
+    ];
+    protected $hidden = [
+        'conf'
     ];
 
     public function config(): CompanyConfig
