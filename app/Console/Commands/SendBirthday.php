@@ -44,7 +44,7 @@ class SendBirthday extends Command
             }
 
 
-            if ($company->config()->has('utalk.key')) {
+            if ($company->config()->get('send_birthday.whatsapp') && $company->config()->has('utalk.key')) {
                 $batchWpp = Bus::batch([
                 ]);
                 $people->whereNotNull('cellphone')->each(fn(Person $person) => $batchWpp->add(new SendWhatsapp([
@@ -54,16 +54,15 @@ class SendBirthday extends Command
                 $batchWpp->dispatch();
             }
 
-            $batchMail = Bus::batch([
-            ]);
-            $people->whereNotNull('email')->each(function (Person $person) use ($batchMail) {
-//                $this->info("Enviando notificação para $person->name");
-//
-//                if ($person->email) {
+
+            if ($company->config()->get('send_birthday.mail')) {
+                $batchMail = Bus::batch([
+                ]);
+                $people->whereNotNull('email')->each(function (Person $person) use ($batchMail) {
 //                    $batchMail->add(new SendMail($person));
-//                }
-            });
-            $batchMail->dispatch();
+                });
+                $batchMail->dispatch();
+            }
         }
 
 
