@@ -12,14 +12,16 @@ class AlertsCenter extends Component
 {
     public $notifications;
 
+    public Company $company;
+
     protected $listeners = ['refresh' => '$refresh'];
 
     public function mount(): void
     {
-        $company = Company::find(session()->get('company.id'));
-        $this->notifications = $company->unreadNotifications->sortByDesc('created_at')->filter(function ($notification) {
-            return $notification->type === 'App\Notifications\System\GenericNotification';
-        });
+        $this->company = auth()->user()->company;
+        $this->notifications = $this->company->unreadNotifications
+            ->sortByDesc('created_at')
+            ->filter(fn ($notification) => $notification->type === 'App\Notifications\System\GenericNotification');
     }
 
     public function render(): Factory|View|Application
@@ -31,8 +33,7 @@ class AlertsCenter extends Component
 
     public function markAsRead($notificationId): void
     {
-        $company = Company::find(session()->get('company.id'));
-        $company->unreadNotifications->where('id', $notificationId)->markAsRead();
+        $this->company->unreadNotifications->where('id', $notificationId)->markAsRead();
         $this->emit('refresh');
     }
 }

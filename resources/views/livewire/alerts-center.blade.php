@@ -36,9 +36,9 @@
                 </div>
             </a>
         @endforeach
-        @if(count($notifications) > 0)
-            <a class="dropdown-item dropdown-notifications-footer" href="#!">View All Alerts</a>
-        @endif
+{{--        @if(count($notifications) > 0)--}}
+            <a class="dropdown-item dropdown-notifications-footer" href="{{route('user.alert')}}">View All Alerts</a>
+{{--        @endif--}}
     </div>
 </li>
 

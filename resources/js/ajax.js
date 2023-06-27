@@ -38,8 +38,8 @@ window.helpers = {
                     document.getElementById('street').value = r.data?.logradouro;
                     document.getElementById('district').value = r.data?.bairro;
                     document.getElementById('city').value = r.data?.localidade;
-                    document.getElementById('state').value = r.data?.uf;
                     document.getElementById('complement').value = r.data?.complemento;
+                    document.getElementById('uf').value = r.data?.uf;
                 });
         }
     },
@@ -96,12 +96,33 @@ window.helpers = {
             flasher.error('Erro ao enviar!');
         });
     },
+    readAlert: function (alertId) {
+        axios.post(route('ajax.alert.read', alertId, undefined, Ziggy), {
+            alertId
+        }).then(function (response) {
+            flasher.success('Marcado como Lido!');
+            location.reload();
+        }).catch(function (error) {
+            console.log(error);
+            // flasher.error('Erro ao marcar!');
+        })
+    },
+    readMessage: function (alertId) {
+        axios.post(route('ajax.message.read', alertId, undefined, Ziggy), {
+            alertId
+        }).then(function (response) {
+            flasher.success('Marcado como Lido!');
+            location.reload();
+        }).catch(function (error) {
+            console.log(error);
+            // flasher.error('Erro ao marcar!');
+        })
+    }
 };
 
-function printData(id)
-{
-    let divToPrint=document.getElementById(`${id}`);
-    let newWin= window.open("");
+function printData(id) {
+    let divToPrint = document.getElementById(`${id}`);
+    let newWin = window.open("");
     newWin.document.write(divToPrint.outerHTML);
     newWin.print();
     newWin.close();
