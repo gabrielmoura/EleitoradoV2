@@ -132,4 +132,8 @@ return [
 
     'logger' => env('CASHIER_LOGGER'),
 
+    'plan' => [
+        'update' => env('CASHIER_PLAN_UPDATE', false),
+    ],
+
 ];

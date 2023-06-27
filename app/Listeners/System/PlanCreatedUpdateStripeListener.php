@@ -27,6 +27,9 @@ class PlanCreatedUpdateStripeListener implements ShouldQueue
      */
     public function handle(PlanCreated $event): void
     {
+        if (! config('cashier.plan.update')) {
+            return;
+        }
         $plan = Cashier::stripe()->plans->create([
             'amount' => $event->plan->price,
             'interval' => $event->plan->billing_period,
