@@ -36,15 +36,10 @@ class CompanyController extends Controller
                 'value' => $request->doc,
             ]);
         }
-        $collection->put('conf', [
-            'utalk_key' => null,
-            'telegram_key' => null,
-            'send_mail_birthday' => false, //enviar email de aniversario
-            'send_whatsapp_birthday' => false, //enviar whatsapp de aniversario
-            'send_whatsapp_confirmation' => false, //enviar whatsapp de confirmação de voto
-        ]);
 
         $company = Company::create($collection->toArray());
+        $company->config()->setDefault();
+
         if ($request->has('avatar')) {
             $company
                 ->addFromMediaLibraryRequest($request->avatar)

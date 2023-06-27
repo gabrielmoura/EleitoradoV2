@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Actions\Tools\CompanyConfig;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -47,6 +48,11 @@ class Company extends Model implements HasMedia
         //        'tenant_id',
         'tax_id_data',
     ];
+
+    public function config(): CompanyConfig
+    {
+        return new CompanyConfig($this);
+    }
 
     protected static function boot(): void
     {
