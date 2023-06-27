@@ -57,11 +57,11 @@ class UserController extends Controller
         return redirect()->route('admin.company.index');
     }
 
-    public function show($pid)
+    public function show(User $user)
     {
-        $company = User::wherePid($pid)->firstOrFail();
+        //        $user = User::find($pid)->firstOrFail();
 
-        return view('admin.company.show', compact('company'));
+        return view('admin.user.show', compact('user'));
     }
 
     public function edit($pid)

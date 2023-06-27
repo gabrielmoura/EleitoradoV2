@@ -39,8 +39,8 @@
                         <br>
                         Email: {{$user->email}}<br>
                         Data de Nascimento: {{$user->birthday?->format('d/m/y')}}<br>
-                        Data de Cadastro: {{$user->created_at->format('d/m/y H:i')}}<br>
-                        Data de Atualização: {{$user->updated_at->format('d/m/y H:i')}}<br>
+                        Data de Cadastro: {{$user->created_at?->format('d/m/y H:i')}}<br>
+                        Data de Atualização: {{$user->updated_at?->format('d/m/y H:i')}}<br>
                         Celular: {{$user?->phone}} @if($user->phone)
                             <a href="https://api.whatsapp.com/send?phone={{numberClear($user->phone)}}"
                                title="(Enviar mensagem no WhatsApp)"><i
