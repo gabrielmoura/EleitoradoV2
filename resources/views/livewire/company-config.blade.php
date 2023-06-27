@@ -1,4 +1,5 @@
 <div>
+    <h2>Configurações</h2>
     @foreach($company->config()->all(true) as $key=>$value)
         <div class="form-group">
             <label for="{{$key}}">{{$key}}</label>

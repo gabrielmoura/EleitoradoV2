@@ -24,7 +24,7 @@
                         <img width="250px" height="250px" class="avatar-img img-thumbnail" alt="{{$company->name}}"
                              src="{{$company->logo??\Illuminate\Support\Facades\Vite::asset('resources/images/company-logo.png')}}">
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                         <h2>Dados</h2>
                         Nome: {{$company->name}}<br>
 
@@ -37,6 +37,9 @@
                             {{$key}}: {{$value}}<br>
                         @endforeach
                     </div>
+{{--                    <div class="col-md-4">--}}
+{{--                        <livewire:company-config :company="$company"/>--}}
+{{--                    </div>--}}
                 </div>
             </div>
         </div>
