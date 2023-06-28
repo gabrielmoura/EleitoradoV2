@@ -113,8 +113,9 @@
                                         :defaultReorderASC="$defaultReorderASC"/>
                     </th>
                     <th>
-                        <x-table-column name="address.street" title="Endereço" :defaultReorderColumn="$defaultReorderColumn"
-                                        :defaultReorderASC="$defaultReorderASC"/>
+                        <div class="d-flex align-items-center" style="cursor:pointer;">
+                            <span>Endereço</span>
+                        </div>
                     </th>
                     <th width="150px">Action</th>
                 </tr>
@@ -135,7 +136,7 @@
                         <td>{{ $person->email }}</td>
                         <td>{{ $person->cellphone }}</td>
                         <td>{{ $person->cpf }}</td>
-                        <td>{{ $person->address->street }}</td>
+                        <td>{{ $person->address?->street }}</td>
                         <td class="d-flex">
                             <a href="{{route('dash.person.show',$person->pid)}}" class="btn btn-black btn-sm m-1">
                                 Ver

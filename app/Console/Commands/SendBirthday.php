@@ -31,7 +31,7 @@ class SendBirthday extends Command
     {
         $this->info('Envio de notificações para aniversariantes do dia.');
         foreach (Company::whereBanned(false)->get() as $company) {
-            if (!$company->config()->get('send_birthday.mail') && !$company->config()->get('send_birthday.whatsapp')) {
+            if (! $company->config()->get('send_birthday.mail') && ! $company->config()->get('send_birthday.whatsapp')) {
                 continue;
             }
             $this->info("Empresa: {$company->name}");
@@ -43,28 +43,25 @@ class SendBirthday extends Command
                 continue;
             }
 
-
             if ($company->config()->get('send_birthday.whatsapp') && $company->config()->has('utalk.key')) {
                 $batchWpp = Bus::batch([
                 ]);
-                $people->whereNotNull('cellphone')->each(fn(Person $person) => $batchWpp->add(new SendWhatsapp([
+                $people->whereNotNull('cellphone')->each(fn (Person $person) => $batchWpp->add(new SendWhatsapp([
                     'phone' => $person->cellphone,
-                    'message' => 'Feliz Aniversário'
+                    'message' => 'Feliz Aniversário',
                 ], $company)));
                 $batchWpp->dispatch();
             }
 
-
             if ($company->config()->get('send_birthday.mail')) {
                 $batchMail = Bus::batch([
                 ]);
-                $people->whereNotNull('email')->each(function (Person $person) use ($batchMail) {
-//                    $batchMail->add(new SendMail($person));
+                $people->whereNotNull('email')->each(function (Person $person) {
+                    //                    $batchMail->add(new SendMail($person));
                 });
                 $batchMail->dispatch();
             }
         }
-
 
         $this->info('Envio de notificações finalizado com sucesso');
     }

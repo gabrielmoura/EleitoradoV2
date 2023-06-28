@@ -14,17 +14,16 @@ class GenericNotification extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      *
-     * @param string $type info, warning, danger, success
+     * @param  string  $type info, warning, danger, success
      */
     public function __construct(
 
-        private readonly string  $text,
-        private readonly Carbon  $date,
-        private readonly string  $url,
-        private readonly string  $type = 'info', // info, warning, danger, success
+        private readonly string $text,
+        private readonly Carbon $date,
+        private readonly string $url,
+        private readonly string $type = 'info', // info, warning, danger, success
         private readonly ?string $uid = null
-    )
-    {
+    ) {
         //
     }
 

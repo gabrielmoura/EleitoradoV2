@@ -10,7 +10,9 @@ use Livewire\Component;
 class CompanyConfig extends Component
 {
     public $config;
+
     public $company;
+
     protected $listeners = ['refresh' => '$refresh'];
 
     public function mount(): void
@@ -20,7 +22,7 @@ class CompanyConfig extends Component
 
     public function store(): void
     {
-        collect($this->config)->each(fn($value, $key) => $this->company->config()->set($key, $value));
+        collect($this->config)->each(fn ($value, $key) => $this->company->config()->set($key, $value));
         flash()->addSuccess('Configurações alteradas com sucesso.');
         $this->emit('refresh');
     }

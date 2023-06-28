@@ -9,8 +9,8 @@
                             <ul class="ovY-a pos-r scrollable lis-n p-0 m-0 fsz-sm">
                                 @foreach($alerts as $alert)
                                     <li>
-                                        <a href="#" class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'
-                                           onclick="helpers.readAlert('{{$alert->id}}');">
+                                        <a href="{{$alert->data['url']}}"
+                                           class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
                                             <input type="hidden" name="notification" id="notification_id">
                                             <div class="peer mR-15">
                                                 @if(is_null($alert->read_at))
@@ -20,20 +20,18 @@
                                                 @endif
                                             </div>
                                             <div class="peer mR-15">
-                                                <span>Por: {{$alert->data['from']['name']}}</span>
+                                                <span>Por: System</span>
                                             </div>
-                                            <div class="peer peer-greed">
-
-                                                <span>
-
-                                            <span class="fw-500">{{$alert->data['title']}}</span>
-                                            <span class="c-grey-600">{!! $alert->data['body'] !!}
+                                            <span class="peer peer-greed">{{$alert->data['type']}}<span>
+                                            <span class="fw-500">{{$alert->data['text']}}</span>
+{{--                                            <span class="c-grey-600">{!! $alert->data['body'] !!}--}}
                                             </span>
-                                        </span>
-                                                <p class="m-0">
-                                                    <small class="fsz-xs">{{$alert['created_at']}}</small>
-                                                </p>
-                                            </div>
+                                                </span>
+                                            <p class="m-0">
+                                                <small
+                                                    class="fsz-xs">{{\Illuminate\Support\Carbon::parse($alert['created_at'])?->format('d/m/Y H:i')}}</small>
+                                            </p>
+                                            </span>
                                         </a>
                                     </li>
                                 @endforeach

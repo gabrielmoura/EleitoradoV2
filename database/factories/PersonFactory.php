@@ -17,14 +17,16 @@ class PersonFactory extends Factory
         $tenant_id = Company::all()->random()->tenant_id;
 
         return [
+            'name' => $this->faker->name,
+            'email' => $this->faker->email,
+            'cellphone' => $this->faker->phoneNumber,
+            'telephone' => $this->faker->phoneNumber,
             'tenant_id' => $tenant_id,
-            'pid' => $this->faker->uuid(),
-            'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'phone' => $this->faker->phoneNumber(),
-            'cpf' => $this->faker->word(),
-            'rg' => $this->faker->word(),
             'address_id' => $address_id,
+            'cpf' => $this->faker->cpf,
+            'rg' => $this->faker->rg,
+            'sex' => $this->faker->randomElement(['M', 'F']),
+            'pid' => $this->faker->uuid,
         ];
     }
 }

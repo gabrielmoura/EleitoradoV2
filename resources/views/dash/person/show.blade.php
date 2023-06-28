@@ -34,9 +34,9 @@
                                title="(Enviar mensagem no Telegram)"><i
                                     class="fab fa-telegram"></i></a>
                         @endif<br>
-                        Endereço Completo: {{$person->address->street}} - {{$person->address->number}}
-                        - {{$person->address->district}} - {{$person->address->city}} - {{$person->address->state}}<br>
-                        CEP: {{$person->address->zipcode}} @if($person->address->latitude && $person->address->longitude)
+                        Endereço Completo: {{$person->address?->street}} - {{$person->address?->number}}
+                        - {{$person->address?->district}} - {{$person->address?->city}} - {{$person->address?->state}}<br>
+                        CEP: {{$person->address?->zipcode}} @if($person->address?->latitude && $person->address?->longitude)
                             <a href="https://www.google.com/maps/search/?api=1&query={{$person->address->latitude}},{{$person->address->longitude}}">(Visualizar
                                 no Mapa)</a>
                         @endif <br>

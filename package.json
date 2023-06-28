@@ -25,6 +25,7 @@
     "dependencies": {
         "jquery": "^3.7.0",
         "jquery-mask-plugin": "^1.14.16",
+        "laravel-precognition-alpine": "^0.3.2",
         "ziggy-js": "^1.6.0"
     }
 }

@@ -22,7 +22,7 @@ class PeopleAddressController extends Controller
 
     public function request(Request $request)
     {
-        if (RateLimiter::tooManyAttempts('export-pdf:' . $request->user()->id, $perMinute = 5)) {
+        if (RateLimiter::tooManyAttempts('export-pdf:'.$request->user()->id, $perMinute = 5)) {
             abort(429, 'Too Many Attempts.');
         }
 
@@ -56,14 +56,14 @@ class PeopleAddressController extends Controller
         //                group_by_name: $request->input('group_name')
         //            ));
         //        }
-        $data->chunk(100)->each(fn($item) => $batch->add(new ExportPeopleAddressJob(
+        $data->chunk(100)->each(fn ($item) => $batch->add(new ExportPeopleAddressJob(
             data: $item,
             filename: 'puxada',
             company_id: $company_id,
             group_by_name: $request->input('group_name')
         )));
 
-        RateLimiter::hit('export-pdf:' . $request->user()->id);
+        RateLimiter::hit('export-pdf:'.$request->user()->id);
 
         return to_route('getBatch', ['id' => $batch->id]);
     }
@@ -83,6 +83,6 @@ class PeopleAddressController extends Controller
         $company->notifications->where('data->uid', $id)->first()?->markAsRead();
         $custom = $company->getMedia('puxada', ['batchId' => $id]);
 
-        return MediaStream::create($id . '.zip')->addMedia($custom);
+        return MediaStream::create($id.'.zip')->addMedia($custom);
     }
 }

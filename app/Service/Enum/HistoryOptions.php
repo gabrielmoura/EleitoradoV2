@@ -16,10 +16,6 @@ enum HistoryOptions
         ];
     }
 
-    /**
-     * @param string|null $status
-     * @return string
-     */
     public static function getStatusOption(?string $status): string
     {
         return match ($status) {
@@ -30,10 +26,6 @@ enum HistoryOptions
         };
     }
 
-    /**
-     * @param string|null $attribute
-     * @return string
-     */
     public static function getAttributeOption(?string $attribute): string
     {
         return match ($attribute) {

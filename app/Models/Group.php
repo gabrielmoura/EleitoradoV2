@@ -63,10 +63,10 @@ class Group extends Model
         });
     }
 
-//    protected function makeAllSearchableUsing(Builder $query): Builder
-//    {
-//        return $query->whitoutGlobalScope(TenantScope::class);
-//    }
+    //    protected function makeAllSearchableUsing(Builder $query): Builder
+    //    {
+    //        return $query->whitoutGlobalScope(TenantScope::class);
+    //    }
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()->logFillable();

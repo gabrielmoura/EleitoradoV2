@@ -48,14 +48,16 @@ class Company extends Model implements HasMedia
         //        'tenant_id',
         'tax_id_data',
     ];
+
     protected $hidden = [
-        'conf'
+        'conf',
     ];
 
     public function config(): CompanyConfig
     {
         return new CompanyConfig($this);
     }
+
     public function people(): HasMany
     {
         return $this->hasMany(Person::class, 'tenant_id', 'tenant_id');

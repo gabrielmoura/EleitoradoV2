@@ -22,6 +22,7 @@ class AddressFactory extends Factory
             'district' => $this->faker->citySuffix(),
             'city' => $this->faker->city(),
             'state' => $this->faker->city(),
+            'uf'=> $this->faker?->stateAbbr(),
             'country' => 'BR',
             'zipcode' => $this->faker->postcode(),
         ];
