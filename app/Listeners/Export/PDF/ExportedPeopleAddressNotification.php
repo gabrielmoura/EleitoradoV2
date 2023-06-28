@@ -22,6 +22,11 @@ class ExportedPeopleAddressNotification
     {
         //        $event->user->notify(new \App\Notifications\Export\PDF\ExportedPeopleAddress($event->file));
         $company = \App\Models\Company::find($event->companyId);
-        $company->notify(new GenericNotification('Puxada Disponível', now(), route('dash.reportGroup.get', ['id' => $event->batchId])));
+        $company->notify(new GenericNotification(
+            text: 'Puxada Disponível',
+            date: now(),
+            url: route('dash.reportGroup.get', ['id' => $event->batchId]),
+            uid: $event->batchId,
+        ));
     }
 }

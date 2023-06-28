@@ -27,7 +27,7 @@ class PersonUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['string', 'email', 'max:255'],
+            'email' => ['nullable', 'string', 'email', 'max:255'],
             'cellphone' => ['nullable', 'string', 'max:20', 'min:11'],
             'telephone' => ['nullable', 'string', 'max:20', 'min:10'],
             'cpf' => ['nullable', 'string', 'max:30'],

@@ -14,6 +14,7 @@ Route::post('/banUser', [AjaxController::class, 'banUser'])->name('banUser');
 Route::post('/unBanUser', [AjaxController::class, 'unBanUser'])->name('unBanUser');
 Route::post('/reqInviteTo', [InviteController::class, 'toAjax'])
     ->middleware('role:admin')->name('reqInviteTo');
+Route::post('/requestTagEvent', [AjaxController::class, 'requestTagEvent'])->name('requestTagEvent');
 
 Route::delete('/alert/{alert}', [AlertController::class, 'alertDestroy'])->name('alert.destroy');
 Route::post('/alert/{alert}', [AlertController::class, 'alertRead'])->name('alert.read');

@@ -32,7 +32,7 @@ class AjaxController extends Controller
 
     public function requestReportGroup(Request $request): JsonResponse
     {
-        if (RateLimiter::tooManyAttempts('export-pdf:'.$request->user()->id, $perMinute = 1)) {
+        if (RateLimiter::tooManyAttempts('export-pdf:' . $request->user()->id, $perMinute = 1)) {
             abort(Response::HTTP_TOO_MANY_REQUESTS, 'Too Many Attempts.');
         }
         $this->validate($request, [
@@ -57,13 +57,13 @@ class AjaxController extends Controller
             checked: $request->input('checked'),
             lazy: false);
 
-        $data->chunk(100)->each(fn ($item) => $batch->add(new ExportPeopleAddressJob(
+        $data->chunk(100)->each(fn($item) => $batch->add(new ExportPeopleAddressJob(
             data: $item,
             filename: 'puxada',
             company_id: $company_id,
             group_by_name: $request->input('group_name')
         )));
-        RateLimiter::hit('export-pdf:'.$request->user()->id);
+        RateLimiter::hit('export-pdf:' . $request->user()->id);
 
         return response()->json(['batch' => $batch->id]);
     }
@@ -109,7 +109,7 @@ class AjaxController extends Controller
         return response()->json(['message' => 'ok']);
     }
 
-    public function banUser(Request $request)
+    public function banUser(Request $request): JsonResponse
     {
         $this->validate($request, [
             'userId' => ['required', 'int'],
@@ -130,7 +130,7 @@ class AjaxController extends Controller
 
     }
 
-    public function unBanUser(Request $request)
+    public function unBanUser(Request $request): JsonResponse
     {
         $this->validate($request, [
             'userId' => ['required', 'int'],
@@ -146,5 +146,27 @@ class AjaxController extends Controller
 
             return response()->json(['message' => 'error']);
         }
+    }
+
+    public function requestTagEvent(Request $request): JsonResponse
+    {
+        if (RateLimiter::tooManyAttempts('export-pdf:' . $request->user()->id, $perMinute = 1)) {
+            abort(Response::HTTP_TOO_MANY_REQUESTS, 'Too Many Attempts.');
+        }
+        $request->validate([
+            'event_id' => ['required', 'string', 'max:150'],
+        ]);
+        $event_id = $request->input('event_id');
+        $tenant_id = session()->get('tenant_id');
+        $company_id = session()->get('company.id');
+
+        $batch = Bus::batch([])->then(function (Batch $batch) use ($company_id) {
+            // Event for Success
+        })->catch(function (Batch $batch, \Throwable $e) use ($company_id) {
+            // Event for Failed
+        })->name('Export People Address')->dispatch();
+
+        RateLimiter::hit('export-pdf:' . $request->user()->id);
+        return response()->json(['batch' => $batch->id]);
     }
 }

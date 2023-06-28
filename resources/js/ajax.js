@@ -120,7 +120,12 @@ window.helpers = {
     },
     reqTagEvent: function (event_id) {
         // Solicita gerar Tags(credenciais para cartas) para o evento.
-        flasher.success('Solicitação enviada com sucesso!');
+        axios.post(route('ajax.requestTagEvent', undefined, undefined, Ziggy), event_id).then(function (response) {
+            flasher.success('Solicitação enviada com sucesso!');
+        }).catch(function (error) {
+            console.log(error);
+            flasher.error('Erro ao solicitar!');
+        });
     },
     reqMailEvent: function (event_id) {
         // Solicita enviar emails para os participantes do evento.

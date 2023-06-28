@@ -29,13 +29,13 @@
                     <input type="text" name="cellphone"
                            class="form-control tel @error('cellphone') is-invalid @enderror" id="cellphone"
                            placeholder=""
-                           value="{{$person->cellphone??old('cellphone')}}">
+                           value="{{old('cellphone',$person->cellphone)}}">
                 </div>
                 <div class="from-group mb-3  col-md-6">
                     <label for="name" class="form-label">Nome</label>
                     <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name"
                            placeholder=""
-                           value="{{$person->name??old('name')}}">
+                           value="{{old('name',$person->name)}}">
                 </div>
                 <div class="form-group mb-3  col-md-3">
                     <label for="sex" class="form-label">Sexo</label>
@@ -56,26 +56,26 @@
                     <label for="email" class="form-label">E-mail</label>
                     <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
                            id="email" placeholder=""
-                           value="{{$person->email??old('email')}}">
+                           value="{{old('email',$person->email)}}">
                 </div>
                 <div class="form-group mb-3 col-md-3">
                     <label for="tel" class="form-label">Telefone</label>
                     <input type="text" name="telephone"
                            class="form-control tel @error('telephone') is-invalid @enderror" id="telephone"
                            placeholder=""
-                           value="{{$person->telephone??old('telephone')}}">
+                           value="{{old('telephone',$person->telephone)}}">
                 </div>
             </div>
             <div class="row">
                 <div class="form-group mb-3 col-md-6">
                     <label for="cpf" class="form-label">CPF</label>
                     <input type="text" name="cpf" class="form-control cpf" id="cpf" placeholder=""
-                           value="{{$person->cpf??old('cpf')}}">
+                           value="{{old('cpf',$person->cpf)}}">
                 </div>
                 <div class="form-group mb-3 col-md-6">
                     <label for="rg" class="form-label">RG</label>
                     <input type="text" name="rg" class="form-control rg" id="rg" placeholder=""
-                           value="{{$person->rg??old('rg')}}">
+                           value="{{old('rg',$person->rg)}}">
                 </div>
             </div>
         </fieldset>
@@ -88,7 +88,7 @@
                            class="form-control cep @error('zipcode') is-invalid @enderror" id="zipcode"
                            placeholder=""
                            onblur="helpers.getCep(this.value);"
-                           value="{{$person->address->zipcode??old('post_code')}}"
+                           value="{{old('post_code',$person->address?->zipcode)}}"
                     >
                 </div>
 
@@ -97,7 +97,7 @@
                     <input type="text" name="street" class="form-control @error('street') is-invalid @enderror"
                            id="street"
                            placeholder=""
-                           value="{{$person->address->street??old('street')}}"
+                           value="{{old('street',$person->address?->street)}}"
                     >
                 </div>
                 <div class="form-group mb-3 col-md-3">
@@ -105,28 +105,28 @@
                     <input type="number" name="number" class="form-control  @error('number') is-invalid @enderror"
                            id="number"
                            placeholder=""
-                           value="{{$person->address->number??old('number')}}"
+                           value="{{old('number',$person->address?->number)}}"
                     >
                 </div>
                 <div class="form-group mb-3 col-md-3">
                     <label for="complement" class="form-label">Complemento</label>
                     <input type="text" name="complement" class="form-control @error('complement') is-invalid @enderror"
                            id="complement" placeholder=""
-                           value="{{$person->address->complement??old('complement')}}"
+                           value="{{old('complement',$person->address?->complement)}}"
                     >
                 </div>
                 <div class="form-group mb-3 col-md-3">
                     <label for="district" class="form-label">Bairro</label>
                     <input type="text" name="district" class="form-control @error('district') is-invalid @enderror"
                            id="district" placeholder=""
-                           value="{{$person->address->district??old('district')}}"
+                           value="{{old('district',$person->address?->district)}}"
                     >
                 </div>
                 <div class="form-group mb-3 col-md-3">
                     <label for="city" class="form-label">Cidade</label>
                     <input type="text" name="city" class="form-control @error('city') is-invalid @enderror" id="city"
                            placeholder=""
-                           value="{{$person->address->city??old('city')}}"
+                           value="{{old('city',$person->address?->city)}}"
                     >
                 </div>
                 <div class="form-group mb-3 col-md-3">
@@ -146,14 +146,14 @@
                     <input type="text" name="voter_zone" class="form-control @error('voter_zone') is-invalid @enderror"
                            id="voter_zone"
                            placeholder=""
-                           value="{{$person->voter_zone??old('voter_zone')}}"/>
+                           value="{{old('voter_zone',$person->voter_zone)}}"/>
                 </div>
                 <div class="form-group mb-3 col-md-4">
                     <label for="voter_section" class="form-label">Seção Eleitoral</label>
                     <input type="text" name="voter_section"
                            class="form-control @error('voter_section') is-invalid @enderror" id="voter_section"
                            placeholder=""
-                           value="{{$person->voter_section??old('voter_section')}}"/>
+                           value="{{old('voter_section',$person->voter_section)}}"/>
                 </div>
                 <div class="form-group mb-3 col-md-4">
                     <label for="voter_registration" class="form-label">Registro Eleitoral</label>
@@ -161,7 +161,7 @@
                            class="form-control @error('voter_registration') is-invalid @enderror"
                            id="voter_registration"
                            placeholder=""
-                           value="{{$person->voter_registration??old('voter_registration')}}"/>
+                           value="{{old('voter_registration',$person->voter_registration)}}"/>
                 </div>
             </div>
 
