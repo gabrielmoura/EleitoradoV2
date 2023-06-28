@@ -29,7 +29,7 @@ Route::group(['middleware' => ['subscribed']], function () {
     Route::get('/birthdays', [BirthdaysController::class, 'index'])->name('birthdays');
 
     /** Exportações */
-    Route::get('/get/{id}', [PeopleAddressController::class, 'response'])->name('getFile');
+    Route::get('/exportGroup/{id}', [PeopleAddressController::class, 'response'])->name('reportGroup.get');
 
     /** Funcionalidades */
     Route::resource('/appointment', AppointmentController::class)
