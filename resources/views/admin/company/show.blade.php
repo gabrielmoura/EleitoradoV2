@@ -33,7 +33,7 @@
                              src="{{$company->getFirstMedia('avatar')?->getUrl('cover')??\Illuminate\Support\Facades\Vite::asset('resources/images/company-logo.png')}}">
                     </div>
                     <div class="col-md-4">
-                        <h2>Dados Pessoais</h2>
+                        <h2>Dados Cadastrais</h2>
 
                         Nome: {{$company->name}}<br>
                         {{--                        Função: @foreach($company->roles as $role)--}}

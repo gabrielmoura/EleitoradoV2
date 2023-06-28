@@ -65,7 +65,7 @@ class Index extends Component
         'status' => ['nullable', 'string', 'min:3', 'in:open,closed'],
         'solution_date' => ['nullable', 'string', 'min:3', 'max:255'],
         //date('d/m/Y', strtotime($this->solution_date));
-        'closed_at' => ['nullable', 'string', 'date_format:d/m/Y'],
+        'closed_at' => ['nullable', 'string', 'min:3', 'max:255'],
         'demand_type_id' => ['required', 'integer', 'min:1', 'exists:demand_types,id'],
     ];
 

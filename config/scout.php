@@ -151,6 +151,7 @@ return [
                 ],
                 'filterableAttributes' => [
                     'id',
+                    'tenant_id',
                     'name',
                     'email',
                     'phone',
@@ -186,6 +187,7 @@ return [
                     'id',
                     'name',
                     'description',
+                    'tenant_id'
                 ],
                 'sortableAttributes' => [
                     'id',
@@ -209,6 +211,7 @@ return [
                     'closed_at',
                     'status',
                     'priority',
+                    'tenant_id'
                 ],
                 'sortableAttributes' => [
                     'id',
@@ -230,6 +233,7 @@ return [
                     'name',
                     'description',
                     'responsible',
+                    'tenant_id'
                 ],
                 'sortableAttributes' => [
                     'id',
@@ -251,6 +255,7 @@ return [
                     'description',
                     'start_date',
                     'end_date',
+                    'tenant_id'
                 ],
                 'sortableAttributes' => [
                     'id',

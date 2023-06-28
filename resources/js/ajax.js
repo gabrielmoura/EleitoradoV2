@@ -117,6 +117,14 @@ window.helpers = {
             console.log(error);
             // flasher.error('Erro ao marcar!');
         })
+    },
+    reqTagEvent: function (event_id) {
+        // Solicita gerar Tags(credenciais para cartas) para o evento.
+        flasher.success('Solicitação enviada com sucesso!');
+    },
+    reqMailEvent: function (event_id) {
+        // Solicita enviar emails para os participantes do evento.
+        flasher.success('Solicitação enviada com sucesso!');
     }
 };
 

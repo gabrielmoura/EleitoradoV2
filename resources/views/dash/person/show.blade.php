@@ -27,10 +27,10 @@
                         Data de Cadastro: {{$person->created_at}}<br>
                         Data de Atualização: {{$person->updated_at}}<br>
                         Telefone: {{$person?->telephone}} | Celular: {{$person?->cellphone}} @if($person->cellphone)
-                            <a href="https://api.whatsapp.com/send?phone={{numberClear($person->cellphone)}}"
+                            <a href="https://api.whatsapp.com/send?phone=55{{numberClear($person->cellphone)}}"
                                title="(Enviar mensagem no WhatsApp)"><i
                                     class="fab fa-whatsapp"></i></a>
-                            <a href="https://t.me/+{{numberClear($person->cellphone)}}"
+                            <a href="https://t.me/+55{{numberClear($person->cellphone)}}"
                                title="(Enviar mensagem no Telegram)"><i
                                     class="fab fa-telegram"></i></a>
                         @endif<br>
