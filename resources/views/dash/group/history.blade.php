@@ -30,12 +30,12 @@
             @foreach($histories as $history)
                 <tr>
                     <td>{{$history->created_at}}</td>
-                    <td>{{__($history->event)}}</td>
+                    <td>{{\App\Service\Enum\HistoryOptions::getStatusOption($history->event)}}</td>
                     <td>{{($history->causer_type=='App\Models\Group')? $history->causer()->first()->name:null}}</td>
                     <td>
                         <ul>
                             @foreach($history?->properties as $key=>$item)
-                                <li>{{__($key)}}
+                                <li>{{\App\Service\Enum\HistoryOptions::getAttributeOption($key)}}
                                     <ul>
                                         @foreach($item as $key=>$value)
                                             <li>

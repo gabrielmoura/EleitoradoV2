@@ -40,7 +40,7 @@
                         <td>
                             <ul>
                                 @foreach($history?->properties as $key=>$item)
-                                    <li>{{__($key)}}
+                                    <li>{{\App\Service\Enum\HistoryOptions::getAttributeOption($key)}}
                                         <ul>
                                             @foreach($item as $key=>$value)
                                                 <li>
