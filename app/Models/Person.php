@@ -100,14 +100,14 @@ class Person extends Model implements HasMedia
         return Attribute::make(
             get: function (?string $value) {
                 if ($value !== null && strlen($value) === 8) {
-                    return $value = '5521' . $value;
+                    return $value = '5521'.$value;
                 } elseif ($value !== null && strlen($value) === 10) {
-                    return $value = '55' . $value;
+                    return $value = '55'.$value;
                 } else {
                     return $value;
                 }
             },
-        //            set: fn (string $value) => $value,
+            //            set: fn (string $value) => $value,
         );
     }
 
@@ -116,14 +116,14 @@ class Person extends Model implements HasMedia
         return Attribute::make(
             get: function (?string $value) {
                 if ($value !== null && strlen($value) === 9) {
-                    return $value = '5521' . $value;
+                    return $value = '5521'.$value;
                 } elseif ($value !== null && strlen($value) === 11) {
-                    return $value = '55' . $value;
+                    return $value = '55'.$value;
                 } else {
                     return $value;
                 }
             },
-        //            set: fn (string $value) => $value,
+            //            set: fn (string $value) => $value,
         );
     }
 
@@ -141,7 +141,7 @@ class Person extends Model implements HasMedia
     {
         parent::boot();
         static::creating(function ($model) {
-            if (!app()->runningInConsole()) {
+            if (! app()->runningInConsole()) {
                 $model->tenant_id = session()->get('tenant_id');
                 $model->pid = Str::ulid()->toRfc4122();
             }
@@ -190,6 +190,7 @@ class Person extends Model implements HasMedia
     {
         $array = $this->toArray();
         $array['address'] = $this->address?->toArray();
+
         return $array;
     }
 }

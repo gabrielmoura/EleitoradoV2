@@ -135,7 +135,7 @@
                                     Deletar
                                 </button>
                             @endcan
-                            <a href="/dash/group/{{$group->pid}}/history" class="btn btn-black btn-sm m-1">
+                            <a href="{{route('dash.group.history',$group->pid)}}" class="btn btn-black btn-sm m-1">
                                 Histórico
                             </a>
                         </td>

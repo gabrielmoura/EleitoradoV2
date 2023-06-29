@@ -22,9 +22,16 @@ Route::group(['middleware' => ['subscribed']], function () {
 
     Route::resource('/group', GroupController::class)->only(['index', 'show'])->names('group')->whereUuid('group');
     Route::get('/group/{group}/history', [GroupController::class, 'history'])->name('group.history')->whereUuid('group');
+
     Route::resource('/event', EventController::class)->only(['index', 'show'])->names('event')->whereUuid('event');
+    Route::get('/event/{event}/history', [EventController::class, 'history'])->name('event.history')->whereUuid('event');
+
     Route::resource('/demand', DemandController::class)->only(['index', 'show'])->names('demand')->whereUuid('demand');
+    Route::get('/demand/{demand}/history', [DemandController::class, 'history'])->name('demand.history')->whereUuid('demand');
+
     Route::resource('/demandType', DemandTypeController::class)->only(['index', 'show'])->names('demandType')->whereUuid('demandType');
+    Route::get('/demandType/{demandType}/history', [DemandTypeController::class, 'history'])->name('demandType.history')->whereUuid('demandType');
+
     Route::resource('/users', UserController::class)->names('user')->whereNumber('user')->middleware('role:manager');
     Route::get('/birthdays', [BirthdaysController::class, 'index'])->name('birthdays');
 

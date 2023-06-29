@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\Models\Scopes\TenantScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Symfony\Component\Uid\Ulid;
 
 class DemandType extends Model
 {
@@ -30,6 +32,11 @@ class DemandType extends Model
     public function getRouteKeyName(): string
     {
         return 'pid';
+    }
+
+    public function scopeFindPid(Builder $query, string $pid): Builder
+    {
+        return $query->where('pid', Ulid::fromString($pid)->toRfc4122());
     }
 
     protected static function booted(): void

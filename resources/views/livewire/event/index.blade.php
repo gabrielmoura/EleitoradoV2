@@ -134,7 +134,7 @@
                                     Delete
                                 </button>
                             @endcan
-                            <a href="/dash/group/{{$event->pid}}/history" class="btn btn-black btn-sm m-1">
+                            <a href="{{route('dash.event.history',$event->pid)}}" class="btn btn-black btn-sm m-1">
                                 Histórico
                             </a>
                         </td>

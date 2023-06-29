@@ -119,36 +119,38 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($demandTypes as $group)
+                @foreach($demandTypes as $demandType)
                     <tr>
                         @if($bulkActionsEnabled??false)
                             <td>
                                 <div class="form-check">
-                                    <input wire:loading.attr.delay="disabled" value="{{$group->id}}" type="checkbox"
-                                           wire:click="setSelected({{$group->id}})"
+                                    <input wire:loading.attr.delay="disabled" value="{{$demandType->id}}"
+                                           type="checkbox"
+                                           wire:click="setSelected({{$demandType->id}})"
                                            class="form-check-input" {{$selectAll?'checked':''}} />
                                 </div>
                             </td>
                         @endif
-                        <td>{{ $group->name }}</td>
-                        <td>{{ $group->responsible }}</td>
-                        <td>{{ $group->description }}</td>
+                        <td>{{ $demandType->name }}</td>
+                        <td>{{ $demandType->responsible }}</td>
+                        <td>{{ $demandType->description }}</td>
                         <td class="d-flex">
-                            <a href="{{route('dash.demandType.show',['demandType'=>$group->pid])}}"
+                            <a href="{{route('dash.demandType.show',['demandType'=>$demandType->pid])}}"
                                class="btn btn-black btn-sm m-1">
                                 Ver
                             </a>
                             @can('update_demand_type')
                                 <button data-bs-toggle="modal" data-bs-target="#updateModal"
-                                        wire:click="edit({{$group->id}})" class="btn btn-primary btn-sm m-1">Editar
+                                        wire:click="edit({{$demandType->id}})" class="btn btn-primary btn-sm m-1">Editar
                                 </button>
                             @endcan
                             @can('delete_demand_type')
-                                <button wire:click="delete({{ $group->id }})" class="btn btn-danger btn-sm m-1">
+                                <button wire:click="delete({{ $demandType->id }})" class="btn btn-danger btn-sm m-1">
                                     Deletar
                                 </button>
                             @endcan
-                            <a href="/dash/group/{{$group->pid}}/history" class="btn btn-black btn-sm m-1">
+                            <a href="{{route('dash.demandType.history',$demandType->pid)}}"
+                               class="btn btn-black btn-sm m-1">
                                 Histórico
                             </a>
                         </td>

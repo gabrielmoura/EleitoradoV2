@@ -3,7 +3,7 @@
         <x-header-compact>
             <x-slot:content>
                 <h2 class="h4 font-weight-bold">
-                    Evento
+                    Demanda
                 </h2>
             </x-slot:content>
         </x-header-compact>

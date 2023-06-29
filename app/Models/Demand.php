@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\Demand\DemandClosedEvent;
 use App\Events\Demand\DemandCreatedEvent;
 use App\Models\Scopes\TenantScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,6 +15,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Symfony\Component\Uid\Ulid;
 
 class Demand extends Model implements HasMedia
 {
@@ -46,6 +48,11 @@ class Demand extends Model implements HasMedia
     public function type(): BelongsTo
     {
         return $this->belongsTo(DemandType::class, 'demand_type_id', 'id');
+    }
+
+    public function scopeFindPid(Builder $query, string $pid): Builder
+    {
+        return $query->where('pid', Ulid::fromString($pid)->toRfc4122());
     }
 
     public function getRouteKeyName(): string

@@ -3,65 +3,46 @@
 namespace App\Http\Controllers\Dash;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Demand\DemandUpdateRequest;
-use App\Http\Requests\DemandType\DemandTypeStoreRequest;
 use App\Models\DemandType;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Spatie\Activitylog\Models\Activity;
 
 class DemandTypeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Lista os tipos de demanda
      */
-    public function index()
+    public function index(): View
     {
         return view('dash.demandType.index');
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Exibe o tipo de demanda
      */
-    public function create()
-    {
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(DemandTypeStoreRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(DemandType $demandType)
+    public function show(DemandType $demandType): View
     {
         return view('dash.demandType.show', compact('demandType'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Histórico do Tipo de Demanda
      */
-    public function edit(string $id)
+    public function history($pid): View|RedirectResponse
     {
-        //
-    }
+        try {
+            $tag = DemandType::findPid($pid)
+                ->firstOrFail();
+            $histories = Activity::where('subject_type', DemandType::class)
+                ->where('subject_id', $tag->id)
+                ->get();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(DemandUpdateRequest $request, string $id)
-    {
-        //
-    }
+            return view('dash.demandType.history', compact('histories'));
+        } catch (\Throwable $throwable) {
+            report($throwable);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+            return redirect()->back();
+        }
     }
 }

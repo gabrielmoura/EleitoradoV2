@@ -7,6 +7,9 @@ use App\Http\Requests\Demand\DemandStoreRequest;
 use App\Http\Requests\Demand\DemandUpdateRequest;
 use App\Models\Demand;
 use App\Repositories\DemandRepository;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Spatie\Activitylog\Models\Activity;
 
 class DemandController extends Controller
 {
@@ -14,26 +17,12 @@ class DemandController extends Controller
     {
     }
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): View
     {
         return view('dash.demand.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(DemandStoreRequest $request)
+    public function store(DemandStoreRequest $request): RedirectResponse
     {
         try {
             $this->demandRepository->save($request);
@@ -49,26 +38,12 @@ class DemandController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Demand $demand)
+    public function show(Demand $demand): View
     {
         return view('dash.demand.show', compact('demand'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(DemandUpdateRequest $request, string $id)
+    public function update(DemandUpdateRequest $request, string $id): RedirectResponse
     {
         try {
             $this->demandRepository->update($request, $id);
@@ -83,11 +58,20 @@ class DemandController extends Controller
         return to_route('dash.demand.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function history($pid): View|RedirectResponse
     {
-        //
+        try {
+            $tag = Demand::findPid($pid)
+                ->firstOrFail();
+            $histories = Activity::where('subject_type', Demand::class)
+                ->where('subject_id', $tag->id)
+                ->get();
+
+            return view('dash.demand.history', compact('histories'));
+        } catch (\Throwable $throwable) {
+            report($throwable);
+
+            return redirect()->back();
+        }
     }
 }
