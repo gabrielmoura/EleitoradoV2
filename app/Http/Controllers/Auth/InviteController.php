@@ -43,6 +43,11 @@ class InviteController extends Controller
                 'phone' => $request->phone,
             ]);
             $user->assignRole(session('role') ?? 'user');
+
+            if (session('role') === 'manager') {
+                $user->givePermissionTo('invoicing');
+            }
+
             event(new UserCreatedByInvitationEvent($user));
         }, 5);
 

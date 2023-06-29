@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Adm;
 use App\Events\System\GeneratedInviteEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +35,7 @@ class InviteController extends Controller
         return redirect()->route('admin.company.index');
     }
 
-    public function toAjax(Request $request)
+    public function toAjax(Request $request): JsonResponse
     {
         $this->validate($request, [
             'email' => 'required|email',
