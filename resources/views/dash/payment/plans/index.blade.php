@@ -38,6 +38,7 @@
                         <div class="card-header bg-transparent">
                             <span
                                 class="badge bg-primary-soft text-primary rounded-pill py-2 px-3 mb-2">{{ strtoupper($plan->name) }}</span>
+                            {{session('subscribed.stripe_price') == $plan->name? 'Plano Atual' : ''}}
                             <div class="pricing-columns-price">
                                 {{formatCurrency($plan->price/100,$plan->currency)}}
                                 <span>/{{$plan->billing_period}}</span>
@@ -74,7 +75,7 @@
                         </div>
                         <a class="card-footer d-flex align-items-center justify-content-between"
                            href="{{route('dash.payment.show',$plan->slug)}}">
-                            Get started!
+                            {{session('subscribed.stripe_price') == $plan->name? 'Ver Plano' : 'Contratar'}}
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                  stroke-linejoin="round" class="feather feather-arrow-right">
