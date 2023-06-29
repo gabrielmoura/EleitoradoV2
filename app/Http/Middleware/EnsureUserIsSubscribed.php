@@ -20,7 +20,7 @@ class EnsureUserIsSubscribed
     {
         if ($request->user() && ! session('subscribed')) {
             // This user is not a paying customer...
-            return redirect('dash.payment.index');
+            return redirect()->route('dash.payment.index');
         }
 
         return $next($request);

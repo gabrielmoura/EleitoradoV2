@@ -18,7 +18,9 @@ class LoginResponse implements LoginResponseContract
                 'id' => $company->id,
                 'banned' => $company->banned,
             ]);
-            $request->session()->put('subscribed', $company->subscription('default')->items->first()->toArray());
+            if ($company->subscribed('default')) {
+                $request->session()->put('subscribed', $company->subscription('default')->items->first()->toArray());
+            }
 
             //        $request->session()->put('two_factor', [
             //            'enabled' => ! is_null($user->two_factor_secret),
