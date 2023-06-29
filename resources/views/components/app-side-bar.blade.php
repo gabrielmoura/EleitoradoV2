@@ -63,6 +63,13 @@
                         </div>
                         Eventos
                     </a>
+                    <a class="nav-link {{request()->routeIs('dash.appointment.*')?'active':null}}"
+                       href="{{route('dash.appointment.index')}}">
+                        <div class="nav-link-icon">
+                            <i class="me-1 fad fa-calendar"></i>
+                        </div>
+                        Agendamentos
+                    </a>
                     <a class="nav-link {{request()->routeIs('dash.demand.*')?'active':null}}"
                        href="{{route('dash.demand.index')}}">
                         <div class="nav-link-icon">

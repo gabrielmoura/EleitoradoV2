@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Actions\Tools\CalendarLink;
 use App\Models\Scopes\TenantScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Symfony\Component\Uid\Ulid;
 
 class Appointment extends Model
 {
@@ -72,6 +74,11 @@ class Appointment extends Model
         return $this->belongsTo(Address::class, 'address_id');
     }
 
+    public function scopeFindPid(Builder $query, string $pid): Builder
+    {
+        return $query->where('pid', Ulid::fromString($pid)->toRfc4122());
+    }
+
     protected static function booted(): void
     {
         static::addGlobalScope(new TenantScope);
@@ -81,7 +88,7 @@ class Appointment extends Model
     {
         parent::boot();
         static::creating(function ($model) {
-            if (! app()->runningInConsole()) {
+            if (!app()->runningInConsole()) {
                 $model->tenant_id = session()->get('tenant_id');
                 $model->pid = Str::ulid()->toRfc4122();
             }

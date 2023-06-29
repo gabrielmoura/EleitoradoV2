@@ -7,7 +7,7 @@
                         <div class="page-header-icon">
                             <i class="me-1 fad fa-calendar fa-lg"></i>
                         </div>
-                        Agendamento: {{$appointment->name}}
+                        Agendamento: {{$appointment?->name}}
                     </h1>
                 </div>
                 <div class="col-12 col-xl-auto mb-3">
