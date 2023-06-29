@@ -22,7 +22,9 @@ class VerifyBanned extends Middleware
      */
     public function handle($request, Closure $next, ...$args): Response
     {
-        abort_if($this->hasBanned(), 403, __('error.Unauthorized'));
+        abort_if($this->hasBanned(), 403, 'Você foi banido', [
+            'banned' => true,
+        ]);
 
         return $next($request);
     }
@@ -33,6 +35,6 @@ class VerifyBanned extends Middleware
      */
     public function hasBanned(): bool
     {
-        return session()->get('company.banned') || session()->get('user.banned');
+        return session()->get('company.banned') || session()->get('user.banned_at');
     }
 }
