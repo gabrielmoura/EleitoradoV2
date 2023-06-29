@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware\ValidateSignature as Middleware;
+use Illuminate\Support\Carbon;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,8 +23,9 @@ class VerifyBanned extends Middleware
      */
     public function handle($request, Closure $next, ...$args): Response
     {
-        abort_if($this->hasBanned(), 403, 'Você foi banido', [
-            'banned' => true,
+        $banned_at = Carbon::parse(session()->get('user.banned_at'))->format('d/m/Y H:i:s');
+        abort_if($this->hasBanned(), 403, 'Você foi banido em: '.$banned_at, [
+            'banned' => session()->get('user.banned_at'),
         ]);
 
         return $next($request);
