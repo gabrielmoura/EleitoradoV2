@@ -20,23 +20,23 @@
             <div class="row">
                 <div class="form-group">
                     <label for="name">Nome</label>
-                    <input type="text" name="name" id="name" class="form-control" value="{{old('name',$company->name)}}"
+                    <input type="text" name="name" id="name" class="form-control" value="{{$company?->name??old('name')}}"
                            required>
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" class="form-control"
-                           value="{{old('email',$company->email)}}" required>
+                           value="{{$company->email??old('email')}}" required>
                 </div>
                 <div class="form-group">
                     <label for="phone">Telefone</label>
                     <input type="text" name="phone" id="phone" class="form-control"
-                           value="{{old('phone',$company->phone)}}" required>
+                           value="{{$company->phone??old('phone')}}" required>
                 </div>
                 <div class="form-group">
                     <label for="doc_type">Tipo de documento</label>
                     <select name="doc_type" id="doc_type" class="form-control"
-                            value="{{old('doc_type',$company->doc_type)}}">
+                            value="{{$company->doc_type??old('doc_type')}}">
                         <option value="">Selecione</option>
                         <option value="br_cnpj">CNPJ</option>
                         <option value="br_cpf">CPF</option>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="form-group">
                     <label for="doc">Documento</label>
-                    <input type="text" name="doc" id="doc" class="form-control" value="{{old('doc',$company->doc)}}">
+                    <input type="text" name="doc" id="doc" class="form-control" value="{{$company?->doc??old('doc',)}}">
                 </div>
                 <div class="form-group">
                     <x-media-library-attachment name="avatar" max-items="1" rules="mimes:png,jpg|max:1024"/>

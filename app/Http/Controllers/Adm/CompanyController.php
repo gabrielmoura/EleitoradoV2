@@ -36,9 +36,22 @@ class CompanyController extends Controller
                 'value' => $request->doc,
             ]);
         }
-
+        $collection->put('conf', [
+            'utalk' => [
+                'key' => null,
+                'phone' => null,
+                'organization_id' => null,
+            ],
+            'telegram' => [
+                'key' => null,
+                'name' => null,
+            ],
+            'send_birthday' => [
+                'mail' => false,
+                'whatsapp' => false,
+            ],
+        ]);
         $company = Company::create($collection->toArray());
-        $company->config()->setDefault();
 
         if ($request->has('avatar')) {
             $company
