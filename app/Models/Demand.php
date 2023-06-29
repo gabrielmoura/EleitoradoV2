@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\LogOptions;
@@ -70,11 +71,16 @@ class Demand extends Model implements HasMedia
         //        'updated' => \App\Events\System\DemandClosedEvent::class,
     ];
 
+    public function persons(): BelongsToMany
+    {
+        return $this->belongsToMany(Person::class, 'demand_people', 'demand_id', 'person_id');
+    }
+
     protected static function boot(): void
     {
         parent::boot();
         static::creating(function ($model) {
-            if (! app()->runningInConsole()) {
+            if (!app()->runningInConsole()) {
                 $model->tenant_id = session()->get('tenant_id');
                 $model->pid = Str::ulid()->toRfc4122();
             }

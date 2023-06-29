@@ -90,6 +90,11 @@ class Person extends Model implements HasMedia
         return $this->belongsToMany(Event::class, 'event_people', 'person_id', 'event_id');
     }
 
+    public function demands(): BelongsToMany
+    {
+        return $this->belongsToMany(Demand::class, 'demand_people', 'person_id', 'demand_id');
+    }
+
     public function getImageAttribute(): ?string
     {
         return $this->getFirstMedia('avatar')?->getUrl('cover') ?? Vite::asset("resources/images/$this->sex.png");

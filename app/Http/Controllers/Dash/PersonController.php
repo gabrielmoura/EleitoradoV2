@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dash;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PersonStoreRequest;
 use App\Http\Requests\PersonUpdateRequest;
+use App\Models\Demand;
 use App\Models\Event;
 use App\Models\Group;
 use App\Models\Person;
@@ -82,15 +83,16 @@ class PersonController extends Controller
 
         $groups = Group::orderBy('created_at')->take(10)->get();
         $events = Event::orderBy('created_at')->take(10)->get();
+        $demands = Demand::orderBy('created_at')->take(10)->get();
 
         $form = ['method' => 'PATCH', 'route' => route('dash.person.update', ['person' => $pid])];
 
-        return view('dash.person.form', compact('form', 'person', 'groups', 'events'));
+        return view('dash.person.form', compact('form', 'person', 'groups', 'events', 'demands'));
     }
 
     public function destroy($id)
     {
-        if (! Gate::allows('delete_person')) {
+        if (!Gate::allows('delete_person')) {
             abort(403);
         }
         try {

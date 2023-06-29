@@ -286,6 +286,19 @@
                     </select>
                 </div>
 
+{{--                <div class="form-group mb-3 col-md-12">--}}
+{{--                    <label for="events[]" class="form-label">Demandas associadas</label>--}}
+{{--                    <select class="form-control tselect-multi" name="events[]" multiple="multiple">--}}
+{{--                        @foreach($demands as $demand)--}}
+{{--                            <option--}}
+{{--                                value="{{$demand->id}}"--}}
+{{--                                {{(isset($person)&&$person->demands->contains( fn($value,$key)=>$value->name==$demand->name))?'selected':null}}>--}}
+{{--                                {{$demand->name}}--}}
+{{--                            </option>--}}
+{{--                        @endforeach--}}
+{{--                    </select>--}}
+{{--                </div>--}}
+
 
                 <div class="form-group mb-3 col-md-12">
                     <label for="avatar" class="form-label">Foto</label>

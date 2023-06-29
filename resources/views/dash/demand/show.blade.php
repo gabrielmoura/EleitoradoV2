@@ -33,9 +33,26 @@
                     <dd>Fechado Em: {{$demand->closed_at?->format('d/m/y H:i')}}</dd>
                     <dd>Descrição: {{$demand->description}}</dd>
                 </dl>
-
             </div>
         </div>
+
+        <div class="card mt-1">
+            <div class="card-header">
+                Pessoas Associadas
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    @forelse($demand->persons as $person)
+                        <tr>
+                            <td>{{$person->name}}</td>
+                        </tr>
+                    @empty
+                        Nenhuma pessoa associada
+                    @endforelse
+                </table>
+            </div>
+        </div>
+
     </div>
 
 </x-app-layout>
