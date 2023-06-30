@@ -15,7 +15,8 @@ class HomeController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $person = Person::orderBy('created_at')
+        $personAll = Person::with('address')->orderBy('created_at')->get();
+        $person = $personAll
             ->pluck('created_at')
             ->groupBy(fn ($date) => $date->translatedFormat('M'))
             ->map(fn ($item) => $item->count());
@@ -95,7 +96,7 @@ class HomeController extends Controller
         $demandChartType->title('Demandas por Tipo');
 
         // Contagem de pessoas por sexo
-        $personSex = Person::orderBy('created_at')->get()->countBy(fn (Person $person) => PersonOptions::getSexOption($person->sex));
+        $personSex = $personAll->countBy(fn (Person $person) => PersonOptions::getSexOption($person->sex));
         $personSexChart = new PersonChart;
         $personSexChart->dataset('Pessoas', 'pie', $personSex->values())
             ->options([
@@ -110,7 +111,7 @@ class HomeController extends Controller
         $personSexChart->label('Quantidade');
         $personSexChart->labels($personSex->keys());
 
-        $cities = Person::all()->countBy(fn (Person $person) => $person->address->district ?? 'Não informado');
+        $cities = $personAll->countBy(fn (Person $person) => $person->address->district ?? 'Não informado');
         $citiesChart = new PersonChart;
         $citiesChart->dataset('Pessoas', 'line', $cities->values())
             ->options([
@@ -131,8 +132,7 @@ class HomeController extends Controller
                 'demandChart',
                 'demandChartType',
                 'personSexChart',
-                'citiesChart',
-                'cities'
+                'citiesChart'
             )
         );
     }

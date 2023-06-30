@@ -92,7 +92,7 @@ class PersonController extends Controller
 
     public function destroy($id)
     {
-        if (!Gate::allows('delete_person')) {
+        if (! Gate::allows('delete_person')) {
             abort(403);
         }
         try {

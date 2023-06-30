@@ -80,7 +80,7 @@ class Demand extends Model implements HasMedia
     {
         parent::boot();
         static::creating(function ($model) {
-            if (!app()->runningInConsole()) {
+            if (! app()->runningInConsole()) {
                 $model->tenant_id = session()->get('tenant_id');
                 $model->pid = Str::ulid()->toRfc4122();
             }
