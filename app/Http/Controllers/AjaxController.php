@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\Dash\User\UserBannedEvent;
-use App\Events\Export\PDF\ExportedPeopleAddress;
-use App\Events\Export\PDF\FailedExportPeopleAddress;
-use App\Jobs\Export\PDF\ExportPeopleAddressJob;
+use App\Events\Export\PDF\RequestExportPeopleAddressEvent;
 use App\Models\Person;
 use App\Models\User;
 use App\Repositories\AnalyticsRepository;
@@ -32,7 +30,7 @@ class AjaxController extends Controller
 
     public function requestReportGroup(Request $request): JsonResponse
     {
-        if (RateLimiter::tooManyAttempts('export-pdf:' . $request->user()->id, $perMinute = 1)) {
+        if (RateLimiter::tooManyAttempts('export-pdf:'.$request->user()->id, $perMinute = 1)) {
             abort(Response::HTTP_TOO_MANY_REQUESTS, 'Too Many Attempts.');
         }
         $this->validate($request, [
@@ -40,45 +38,18 @@ class AjaxController extends Controller
             'district' => ['nullable', 'string', 'max:150'],
             'checked' => ['nullable', 'boolean'],
         ]);
-//        $tenant_id = session()->get('tenant_id');
-        $company_id = session()->get('company.id');
 
-        $batch = Bus::batch([])->then(function (Batch $batch) use ($company_id) {
-            ExportedPeopleAddress::dispatch($batch->id, $company_id);
+        event(new RequestExportPeopleAddressEvent(
+            group_name: $request->input('group_name'),
+            district: $request->input('district'),
+            checked: $request->input('checked'),
+            tenant_id: session()->get('tenant_id'),
+            company_id: session()->get('company.id'),
+        ));
 
-        })->catch(function (Batch $batch, \Throwable $e) use ($company_id) {
-            FailedExportPeopleAddress::dispatch($batch->id, $company_id, $e->getMessage());
-        })->name('Export People Address')->dispatch();
+        RateLimiter::hit('export-pdf:'.$request->user()->id);
 
-//        $data = $this->analyticsRepository->pessoas(
-//            group_name: $request->input('group_name'),
-//            tenant_id: $tenant_id,
-//            district: $request->input('district'),
-//            checked: $request->input('checked'),
-//            lazy: false);
-
-        $query = \App\Models\Person::with('address', 'groups')->whereHas('groups', function ($query) {
-            $query->where('name', 'like', 'Grupo 1');
-        });
-        if ($request->input('district')) {
-            $query->whereHas('address', function ($query) use ($request) {
-                $query->where('district', 'like', $request->input('district'));
-            });
-        }
-
-        $query->get()->groupBy('address.district')->each(function ($items, $district) use (&$batch, &$company_id, &$request) {
-            $items->chunk(100)->each(function ($item) use ($district, &$batch, &$company_id, &$request) {
-                $batch->add(new ExportPeopleAddressJob(
-                    data: $item,
-                    filename: 'puxada',
-                    company_id: $company_id,
-                    group_by_name: $request->input('group_name') . ':' . (strlen($district) > 0 ? $district : 'Sem Bairro'),
-                ));
-            });
-        });
-        RateLimiter::hit('export-pdf:' . $request->user()->id);
-
-        return response()->json(['batch' => $batch->id]);
+        return response()->json(['message' => 'ok']);
     }
 
     public function checkPersonToGroup(Request $request): JsonResponse
@@ -163,7 +134,7 @@ class AjaxController extends Controller
 
     public function requestTagEvent(Request $request): JsonResponse
     {
-        if (RateLimiter::tooManyAttempts('export-pdf:' . $request->user()->id, $perMinute = 1)) {
+        if (RateLimiter::tooManyAttempts('export-pdf:'.$request->user()->id, $perMinute = 1)) {
             abort(Response::HTTP_TOO_MANY_REQUESTS, 'Too Many Attempts.');
         }
         $request->validate([
@@ -179,7 +150,7 @@ class AjaxController extends Controller
             // Event for Failed
         })->name('Export People Address')->dispatch();
 
-        RateLimiter::hit('export-pdf:' . $request->user()->id);
+        RateLimiter::hit('export-pdf:'.$request->user()->id);
 
         return response()->json(['batch' => $batch->id]);
     }

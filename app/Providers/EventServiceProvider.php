@@ -8,6 +8,7 @@ use App\Events\Demand\DemandClosedEvent;
 use App\Events\Demand\DemandCreatedEvent;
 use App\Events\Export\PDF\ExportedPeopleAddress;
 use App\Events\Export\PDF\FailedExportPeopleAddress;
+use App\Events\Export\PDF\RequestExportPeopleAddressEvent;
 use App\Events\System\GeneratedInviteEvent;
 use App\Events\System\PlanCreated;
 use App\Listeners\Dash\User\UserCreatedNotificationListener;
@@ -15,6 +16,7 @@ use App\Listeners\Dash\User\UserUpdatedClearPermissionCache;
 use App\Listeners\Demand\DemandClosedMail;
 use App\Listeners\Demand\DemandCreatedMail;
 use App\Listeners\Export\PDF\ExportedPeopleAddressNotification;
+use App\Listeners\Export\PDF\ExportPeopleAddressListener;
 use App\Listeners\Export\PDF\FailedExportedPeopleAddressNotification;
 use App\Listeners\System\GeneratedInviteNotification;
 use App\Listeners\System\PlanCreatedUpdateStripeListener;
@@ -70,6 +72,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         WebhookReceived::class => [
             StripeInvoiceMailerListener::class,
+        ],
+        RequestExportPeopleAddressEvent::class => [
+            ExportPeopleAddressListener::class,
         ],
 
     ];
