@@ -25,17 +25,17 @@ class RolePermissionSeed extends Seeder
             foreach (['create_', 'update_', 'read_', 'delete_'] as $prefix) {
                 $value[] = ['name' => $prefix.$item];
             }
+            $value[] = ['name' => 'send_file'];
 
             return $value;
         });
-        //        $permissions->push(['name' => 'send_file']);
+
         foreach ($permissions as $permission) {
             foreach ($permission as $item) {
                 Permission::create($item);
             }
         }
         $roleAdmin = Role::create(['name' => RoleOptions::ADMIN]);
-        $roleAdmin->givePermissionTo(Permission::all());
 
         $roleManager = Role::create(['name' => RoleOptions::MANAGER]);
         $roleManager->givePermissionTo(Permission::all());
@@ -44,6 +44,9 @@ class RolePermissionSeed extends Seeder
         $roleUser->givePermissionTo(Permission::whereNot('name', 'like', '%delete_%')
             ->whereNot('name', 'like', '%cron%')
             ->whereNot('name', 'like', '%user%')->get());
+
+        Permission::create(['name' => 'viewHorizon']);
+        $roleAdmin->givePermissionTo(Permission::all());
 
         Permission::create(['name' => 'invoicing']);
 
