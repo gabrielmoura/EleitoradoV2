@@ -57,12 +57,12 @@ class AjaxController extends Controller
             checked: $request->input('checked'),
             lazy: false);
 
-        $data->chunk(100)->each(fn ($item) => $batch->add(new ExportPeopleAddressJob(
+        $data->groupBy('district')->each(fn ($items, $district) => $items->chunk(100)->each(fn ($item) => $batch->add(new ExportPeopleAddressJob(
             data: $item,
             filename: 'puxada',
             company_id: $company_id,
-            group_by_name: $request->input('group_name')
-        )));
+            group_by_name: $request->input('group_name').':'.(strlen($district) > 0 ? $district : 'Sem Bairro'),
+        ))));
         RateLimiter::hit('export-pdf:'.$request->user()->id);
 
         return response()->json(['batch' => $batch->id]);
