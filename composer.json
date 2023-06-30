@@ -8,6 +8,8 @@
         "php": "^8.1",
         "ext-intl": "*",
         "ext-pdo": "*",
+        "ext-xml": "*",
+        "ext-redis": "*",
         "blx32/laravel-medialibrary": "^1.0",
         "consoletvs/charts": "6.*",
         "elibyy/tcpdf-laravel": "^10.0",
