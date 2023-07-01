@@ -4,23 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Events\Dash\User\UserBannedEvent;
 use App\Events\Export\PDF\RequestExportPeopleAddressEvent;
+use App\Events\Export\PDF\RequestExportTagEvent;
 use App\Models\Person;
 use App\Models\User;
-use App\Repositories\AnalyticsRepository;
 use App\ServiceHttp\CepService\CepService;
-use Illuminate\Bus\Batch;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\RateLimiter;
 use Symfony\Component\HttpFoundation\Response;
 
 class AjaxController extends Controller
 {
-    public function __construct(private readonly AnalyticsRepository $analyticsRepository)
-    {
-    }
-
     public function getCep(Request $request): JsonResponse
     {
         $this->validate($request, ['cep' => 'min:8|max:9']);
@@ -140,18 +134,14 @@ class AjaxController extends Controller
         $request->validate([
             'event_id' => ['required', 'string', 'max:150'],
         ]);
-        $event_id = $request->input('event_id');
-        $tenant_id = session()->get('tenant_id');
-        $company_id = session()->get('company.id');
 
-        $batch = Bus::batch([])->then(function (Batch $batch) {
-            // Event for Success
-        })->catch(function (Batch $batch, \Throwable $e) {
-            // Event for Failed
-        })->name('Export People Address')->dispatch();
-
+        event(new RequestExportTagEvent(
+            tenant_id: session()->get('tenant_id'),
+            company_id: session()->get('company.id'),
+            event_id: $request->input('event_id'),
+        ));
         RateLimiter::hit('export-pdf:'.$request->user()->id);
 
-        return response()->json(['batch' => $batch->id]);
+        return response()->json(['message' => 'ok']);
     }
 }

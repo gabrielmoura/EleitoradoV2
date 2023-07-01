@@ -7,7 +7,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class RequestExportPeopleAddressEvent
+class RequestExportTagEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -15,11 +15,9 @@ class RequestExportPeopleAddressEvent
      * Create a new event instance.
      */
     public function __construct(
-        public string $group_name,
-        public ?string $district,
-        public ?bool $checked,
         public string $tenant_id,
-        public int $company_id
+        public int $company_id,
+        public int $event_id
     ) {
         //
     }

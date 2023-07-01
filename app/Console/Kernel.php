@@ -13,11 +13,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('backup:run --only-db')->daily()->at('3:00');
+        $schedule->command('backup:run --only-db')->daily()->at('3:00')->onOneServer();
 
         /** Limpar filas diariamente.  */
-        $schedule->command('queue:prune-batches')->daily();
-        $schedule->command('queue:prune-failed')->daily();
+        $schedule->command('queue:prune-batches')->daily()->onOneServer();
+        $schedule->command('queue:prune-failed')->daily()->onOneServer();
 
         /** Limpar tokens expirados todo mes */
         $schedule->command('sanctum:prune-expired')->monthly();
@@ -41,7 +41,7 @@ class Kernel extends ConsoleKernel
 
         /** Envio de Mensagem para aniversariantes */
         $schedule->command('send:birthday')->dailyAt('08:00')
-            ->environments(['production', 'staging']);
+            ->environments(['production', 'staging'])->onOneServer();
 
     }
 

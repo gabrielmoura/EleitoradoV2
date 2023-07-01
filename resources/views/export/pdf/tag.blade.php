@@ -22,9 +22,9 @@
     </style>
 </head>
 <body>
-@foreach($tags->chunk(3) as $tagX)
+@foreach($data->chunk(3) as $tags)
     <div class="row">
-        @foreach($tagX as $tag)
+        @foreach($tags as $tag)
             <div class="col-4">
                 <div class="row ">
                     <div class="col-6 text-start"><p
