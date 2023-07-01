@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\RemoveOldPuxada;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -39,6 +40,12 @@ class Kernel extends ConsoleKernel
         $schedule->command('media-library:delete-old-temporary-uploads')->everyMinute()
             ->environments(['development', 'local']);
 
+        /** Remove arquivos de Puxada */
+        $schedule->job(RemoveOldPuxada::class)->everyFiveMinutes()
+            ->environments(['development', 'local']);
+        $schedule->job(RemoveOldPuxada::class)->everyFourHours()
+            ->environments(['production', 'staging']);
+
         /** Envio de Mensagem para aniversariantes */
         $schedule->command('send:birthday')->dailyAt('08:00')
             ->environments(['production', 'staging'])->onOneServer();
@@ -50,7 +57,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }
