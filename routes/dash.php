@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Dash\AppointmentController;
 use App\Http\Controllers\Dash\BirthdaysController;
+use App\Http\Controllers\Dash\CampaignController;
 use App\Http\Controllers\Dash\CompanyController;
 use App\Http\Controllers\Dash\DemandController;
 use App\Http\Controllers\Dash\DemandTypeController;
+use App\Http\Controllers\Dash\DirectMailController;
 use App\Http\Controllers\Dash\EventController;
 use App\Http\Controllers\Dash\Export\PeopleAddressController;
 use App\Http\Controllers\Dash\GroupController;
@@ -45,6 +47,9 @@ Route::group(['middleware' => ['subscribed']], function () {
         ->whereUuid('appointment');
     Route::get('/appointment/ajax', [AppointmentController::class, 'ajax'])
         ->name('appointment.ajax')->middleware('cache.headers:private;max_age=2592000;etag');
+
+    Route::resource('/campaign', CampaignController::class)->names('campaign')->whereUuid('campaign');
+    Route::resource('/directMail', DirectMailController::class)->names('directMail')->whereUuid('directMail');
 });
 
 Route::group(['middleware' => ['can:invoicing'], 'prefix' => 'subscription', 'as' => 'payment.'], function () {
