@@ -38,7 +38,9 @@
             <tbody>
             @foreach($people as $birthday)
                 <tr>
-                    <td>{{ $birthday->name }}</td>
+                    <td>
+                        <a href="{{ route('dash.person.show', $birthday->pid) }}">{{ $birthday->name }}</a>
+                    </td>
                     <td>{{ $birthday->dateOfBirth }}</td>
                     <td>{{ $birthday->cellphone }} @if($birthday->cellphone)
                             <a href="https://api.whatsapp.com/send?phone=55{{numberClear($birthday->cellphone)}}"
