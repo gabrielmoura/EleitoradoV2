@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\TenantScope;
+use App\Service\Trait\HasPid;
+use App\Service\Trait\HasTenant;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +12,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Vite;
-use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -29,6 +29,8 @@ class Person extends Model implements HasMedia
     use InteractsWithMedia;
     use SoftDeletes;
     use Searchable;
+    use HasTenant;
+    use HasPid;
 
     protected $fillable = [
         'name',
@@ -135,27 +137,6 @@ class Person extends Model implements HasMedia
     public function scopeFindPid(Builder $query, string $pid): Builder
     {
         return $query->where('pid', Ulid::fromString($pid)->toRfc4122());
-    }
-
-    protected static function booted(): void
-    {
-        static::addGlobalScope(new TenantScope);
-    }
-
-    protected static function boot(): void
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            if (! app()->runningInConsole()) {
-                $model->tenant_id = session()->get('tenant_id');
-                $model->pid = Str::ulid()->toRfc4122();
-            }
-        });
-    }
-
-    public function getRouteKeyName(): string
-    {
-        return 'pid';
     }
 
     public function getActivitylogOptions(): LogOptions

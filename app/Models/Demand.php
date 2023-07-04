@@ -4,13 +4,13 @@ namespace App\Models;
 
 use App\Events\Demand\DemandClosedEvent;
 use App\Events\Demand\DemandCreatedEvent;
-use App\Models\Scopes\TenantScope;
+use App\Service\Trait\HasPid;
+use App\Service\Trait\HasTenant;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -24,6 +24,8 @@ class Demand extends Model implements HasMedia
     use LogsActivity;
     use InteractsWithMedia;
     use Searchable;
+    use HasTenant;
+    use HasPid;
 
     protected $fillable = [
         'name',
@@ -56,16 +58,6 @@ class Demand extends Model implements HasMedia
         return $query->where('pid', Ulid::fromString($pid)->toRfc4122());
     }
 
-    public function getRouteKeyName(): string
-    {
-        return 'pid';
-    }
-
-    protected static function booted(): void
-    {
-        static::addGlobalScope(new TenantScope);
-    }
-
     protected $dispatchesEvents = [
         'created' => DemandCreatedEvent::class,
         //        'updated' => \App\Events\System\DemandClosedEvent::class,
@@ -79,12 +71,6 @@ class Demand extends Model implements HasMedia
     protected static function boot(): void
     {
         parent::boot();
-        static::creating(function ($model) {
-            if (! app()->runningInConsole()) {
-                $model->tenant_id = session()->get('tenant_id');
-                $model->pid = Str::ulid()->toRfc4122();
-            }
-        });
         static::updating(function ($model) {
             if ($model->status == 'closed') {
                 event(new DemandClosedEvent($model));

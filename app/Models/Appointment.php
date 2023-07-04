@@ -3,20 +3,22 @@
 namespace App\Models;
 
 use App\Actions\Tools\CalendarLink;
-use App\Models\Scopes\TenantScope;
+use App\Service\Trait\HasPid;
+use App\Service\Trait\HasTenant;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 use Symfony\Component\Uid\Ulid;
 
 class Appointment extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use HasTenant;
+    use HasPid;
 
     const RECURRENCE_RADIO = [
         'none' => 'Nenhum',
@@ -49,11 +51,6 @@ class Appointment extends Model
         'updated_at' => 'datetime',
     ];
 
-    public function getRouteKeyName(): string
-    {
-        return 'pid';
-    }
-
     public function link(): CalendarLink
     {
         return new CalendarLink($this);
@@ -77,21 +74,5 @@ class Appointment extends Model
     public function scopeFindPid(Builder $query, string $pid): Builder
     {
         return $query->where('pid', Ulid::fromString($pid)->toRfc4122());
-    }
-
-    protected static function booted(): void
-    {
-        static::addGlobalScope(new TenantScope);
-    }
-
-    protected static function boot(): void
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            if (! app()->runningInConsole()) {
-                $model->tenant_id = session()->get('tenant_id');
-                $model->pid = Str::ulid()->toRfc4122();
-            }
-        });
     }
 }
