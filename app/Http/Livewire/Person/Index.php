@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Person;
 use App\Models\Person;
 use App\Service\Trait\Table\WithReordering;
 use App\Service\Trait\Table\WithSearch;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -32,7 +33,24 @@ class Index extends Component
     public function render()
     {
         return view('livewire.person.index', [
-            'people' => Person::search($this->search)
+            'people' => Person::with('address')
+                ->where('name', 'like', '%'.$this->search.'%')
+                ->orWhere('email', 'like', '%'.$this->search.'%')
+                ->orWhere('cpf', 'like', '%'.$this->search.'%')
+                ->orWhere('rg', 'like', '%'.$this->search.'%')
+                ->orWhere('dateOfBirth', 'like', '%'.$this->search.'%')
+                ->orwhere('cellphone', 'like', '%'.$this->search.'%')
+                ->orwhere('telephone', 'like', '%'.$this->search.'%')
+                ->orwhere('voter_registration', 'like', '%'.$this->search.'%')
+                ->orWhereHas('address', function (Builder $query) {
+                    $query->where('street', 'like', '%'.$this->search.'%')
+                        ->orWhere('number', 'like', '%'.$this->search.'%')
+                        ->orWhere('complement', 'like', '%'.$this->search.'%')
+                        ->orWhere('city', 'like', '%'.$this->search.'%')
+                        ->orWhere('state', 'like', '%'.$this->search.'%')
+                        ->orWhere('country', 'like', '%'.$this->search.'%')
+                        ->orWhere('zipcode', 'like', '%'.$this->search.'%');
+                })
                 ->orderBy($this->defaultReorderColumn, $this->defaultReorderASC ? 'asc' : 'desc')
                 ->paginate($this->perPage),
         ]);
