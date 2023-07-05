@@ -44,7 +44,12 @@
                 <table class="table table-bordered">
                     @forelse($demand->persons as $person)
                         <tr>
-                            <td>{{$person->name}}</td>
+                            <td>
+                                <a href="{{route('dash.person.show', $person->pid)}}">
+                                    <i class="far fa-user"></i>
+                                    {{$person->name}}
+                                </a>
+                            </td>
                         </tr>
                     @empty
                         Nenhuma pessoa associada

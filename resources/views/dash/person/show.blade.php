@@ -1,13 +1,41 @@
 <x-app-layout>
+
     <x-slot name="header">
         <x-header-compact>
             <x-slot:content>
-                <h2 class="h4 font-weight-bold">
-                    {{ __('Eleitores') }}
-                </h2>
+                <div class="col-auto mb-3">
+                    <h1 class="page-header-title">
+                        <div class="page-header-icon">
+                            <i class="me-1 fad fa-person-sign"></i>
+                        </div>
+                        Pessoa: {{$person->name}}
+                    </h1>
+                </div>
+                <div class="col-12 col-xl-auto mb-3">
+                    {{--                    <a class="btn btn-sm btn-light text-primary" href="{{route('dash.group.index')}}">--}}
+                    {{--                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"--}}
+                    {{--                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"--}}
+                    {{--                             class="feather feather-users me-1">--}}
+                    {{--                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>--}}
+                    {{--                            <circle cx="9" cy="7" r="4"></circle>--}}
+                    {{--                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>--}}
+                    {{--                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>--}}
+                    {{--                        </svg>--}}
+                    {{--                        Listar Grupos--}}
+                    {{--                    </a>--}}
+                    <button class="btn btn-sm btn-light text-primary" data-bs-toggle="modal"
+                            data-bs-target="#createModal">
+
+                        <i class="me-1 fad fa-hand-holding-magic"></i>
+                        Criar Demanda
+                    </button>
+
+                </div>
             </x-slot:content>
         </x-header-compact>
     </x-slot>
+    <livewire:demand.create :person="$person"/>
+
     <div class="bgc-white bd bdrs-3 p-20 mB-20">
         <div class="card">
             <div class="card-header">
@@ -15,7 +43,7 @@
             </div>
             <div class="card-body m-3">
                 <div class="row">
-                    <div class="col-md-4" >
+                    <div class="col-md-4">
                         <img width="210px" height="250px" class="avatar-img img-thumbnail m-1" alt="{{$person->name}}"
                              src="{{$person->image}}">
                     </div>
@@ -35,7 +63,8 @@
                                     class="fab fa-telegram"></i></a>
                         @endif<br>
                         Endereço Completo: {{$person->address?->street}} - {{$person->address?->number}}
-                        - {{$person->address?->district}} - {{$person->address?->city}} - {{$person->address?->state}}<br>
+                        - {{$person->address?->district}} - {{$person->address?->city}} - {{$person->address?->state}}
+                        <br>
                         CEP: {{$person->address?->zipcode}} @if($person->address?->latitude && $person->address?->longitude)
                             <a href="https://www.google.com/maps/search/?api=1&query={{$person->address->latitude}},{{$person->address->longitude}}">(Visualizar
                                 no Mapa)</a>
