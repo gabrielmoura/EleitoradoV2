@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('demand_people', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('person_id')->constrained('people');
-            $table->foreignId('demand_id')->constrained('demands');
+            $table->foreignId('person_id')->nullable()->constrained('people')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('demand_id')->nullable()->constrained('demands')->nullOnDelete()->cascadeOnUpdate();
             $table->index(['person_id', 'demand_id']);
         });
     }

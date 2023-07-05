@@ -18,8 +18,8 @@ return new class extends Migration
             $table->timestamp('checked_at')->nullable();
             $table->unsignedInteger('checked_by')->nullable();
 
-            $table->foreignId('person_id')->constrained('people');
-            $table->foreignId('group_id')->constrained('groups');
+            $table->foreignId('person_id')->nullable()->constrained('people')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('group_id')->nullable()->constrained('groups')->nullOnDelete()->cascadeOnUpdate();
             $table->index(['person_id', 'group_id']);
         });
     }

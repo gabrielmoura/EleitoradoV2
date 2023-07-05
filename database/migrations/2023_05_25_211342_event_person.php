@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('event_people', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('person_id')->constrained('people');
-            $table->foreignId('event_id')->constrained('events');
+            $table->foreignId('person_id')->nullable()->constrained('people')->nullOnDelete()->cascadeOnUpdate();
+            $table->foreignId('event_id')->nullable()->constrained('events')->nullOnDelete()->cascadeOnUpdate();
             $table->index(['person_id', 'event_id']);
         });
     }
