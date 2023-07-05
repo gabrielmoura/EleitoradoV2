@@ -25,7 +25,6 @@ class RolePermissionSeed extends Seeder
             foreach (['create_', 'update_', 'read_', 'delete_'] as $prefix) {
                 $value[] = ['name' => $prefix.$item];
             }
-            $value[] = ['name' => 'send_file'];
 
             return $value;
         });
@@ -35,6 +34,7 @@ class RolePermissionSeed extends Seeder
                 Permission::create($item);
             }
         }
+        Permission::create(['name' => 'send_file']);
         $roleAdmin = Role::create(['name' => RoleOptions::ADMIN]);
 
         $roleManager = Role::create(['name' => RoleOptions::MANAGER]);

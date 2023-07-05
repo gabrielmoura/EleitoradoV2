@@ -63,6 +63,8 @@
                         </div>
                         Eventos
                     </a>
+
+                    @feature('appointment')
                     <a class="nav-link {{request()->routeIs('dash.appointment.*')?'active':null}}"
                        href="{{route('dash.appointment.index')}}">
                         <div class="nav-link-icon">
@@ -70,6 +72,8 @@
                         </div>
                         Agendamentos
                     </a>
+                    @endfeature
+
                     <a class="nav-link {{request()->routeIs('dash.demand.*')?'active':null}}"
                        href="{{route('dash.demand.index')}}">
                         <div class="nav-link-icon">

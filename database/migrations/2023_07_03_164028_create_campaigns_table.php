@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('attachment', 100)
                 ->nullable();
             $table->softDeletes();
-            $table->foreignUuid('direct_mail_id')
+            $table->foreignId('direct_mail_id')
                 ->nullable()
                 ->constrained('direct_mails')
                 ->cascadeOnUpdate()

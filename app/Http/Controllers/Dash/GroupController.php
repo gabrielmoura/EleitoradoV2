@@ -20,6 +20,7 @@ class GroupController extends Controller
     public function show(Group $group)
     {
         $persons = $group->persons()->paginate(100);
+
         return view('dash.group.show', compact('group', 'persons'));
     }
 

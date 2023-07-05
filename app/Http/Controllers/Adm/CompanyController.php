@@ -50,6 +50,7 @@ class CompanyController extends Controller
                 'mail' => false,
                 'whatsapp' => false,
             ],
+            'appointment' => false,
         ]);
         $company = Company::create($collection->toArray());
 
