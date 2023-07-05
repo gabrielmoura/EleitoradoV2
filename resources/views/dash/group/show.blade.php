@@ -74,16 +74,21 @@
                     <h3>Descrição</h3>
                     <p>{{$group->description}}</p>
                     <h3>Quantidade de Pessoas</h3>
-                    <p>{{$group->persons->count()}}</p>
+                    <p>{{$persons->total()}}</p>
                 </div>
                 <div class="row">
 
                     <h3>Pessoas Associadas</h3>
                     <table class="table table-responsive-md table-bordered ml-3">
                         <tbody>
-                        @forelse($group->persons as $person)
+                        @forelse($persons as $person)
                             <tr>
-                                <td>{{$person->name}}</td>
+                                <td>
+                                    <a href="{{route('dash.person.show',['person'=>$person->pid])}}">
+                                        <i class="fad fa-user me-1"></i>
+                                        {{$person->name}}
+                                    </a>
+                                </td>
                             </tr>
                         @empty
                             <tr>
@@ -92,6 +97,7 @@
                         @endforelse
                         </tbody>
                     </table>
+                    {{$persons->links('vendor.pagination.bootstrap-5')}}
                 </div>
             </div>
         </div>

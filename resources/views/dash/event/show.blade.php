@@ -81,7 +81,14 @@
                         <tbody>
                         @forelse($event->persons as $person)
                             <tr>
-                                <td>{{$person->name}}</td>
+                                <td>
+                                    <a href="{{route('dash.person.show', $person->pid)}}"
+                                       class="text-decoration-none">
+                                        <i class="fad fa-user me-1"></i>
+
+                                        {{$person->name}}
+                                    </a>
+                                </td>
                             </tr>
                         @empty
                             <tr>

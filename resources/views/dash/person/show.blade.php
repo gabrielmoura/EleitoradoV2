@@ -134,7 +134,31 @@
                         <tbody>
                         @forelse($person->events->take(10) as $event)
                             <tr>
-                                <td>{{$event->name}}</td>
+                                <td>
+                                    <a href="{{route('dash.event.show',['event'=>$event->pid])}}">
+                                        {{$event->name}}
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td>Nenhum evento encontrado</td>
+                            </tr>
+                        @endforelse
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <h3>Demandas</h3>
+                    <table class="table table-responsive-md table-bordered ml-3">
+                        <tbody>
+                        @forelse($person->demands->take(10) as $demand)
+                            <tr>
+                                <td>
+                                    <a href="{{route('dash.demand.show',['demand'=>$demand->pid])}}">
+                                        {{$demand->name}}
+                                    </a>
+                                </td>
                             </tr>
                         @empty
                             <tr>
