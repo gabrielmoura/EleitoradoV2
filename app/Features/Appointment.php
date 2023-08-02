@@ -11,6 +11,11 @@ class Appointment
      */
     public function resolve(User $user): mixed
     {
-        return $user->company->conf?->has('appointment') ? $user->company->conf->get('appointment') : false;
+        return match ($user->company->conf?->get('appointment')) {
+            true => true,
+            false => false,
+            default => false,
+        };
+        //        return $user->company->conf?->has('appointment') ? $user->company->conf->get('appointment') : false;
     }
 }

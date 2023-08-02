@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Feature\Http\Controllers\Dash;
+namespace Tests\Feature\Mail\System;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
-class DemandTypeControllerTest extends TestCase
+class InvitedMailTest extends TestCase
 {
     use RefreshDatabase;
     use WithoutMiddleware;
@@ -19,9 +19,9 @@ class DemandTypeControllerTest extends TestCase
         $this->artisan('migrate:fresh');
     }
     #[Test]
-    public function a_demand_type()
+    public function a_invited_mail()
     {
-        $response = $this->get('dash/demand-type');
+        $response = $this->get('/mail/system/invited');
         $response->assertStatus(200);
     }
 }
