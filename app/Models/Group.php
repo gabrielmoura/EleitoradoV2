@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Service\Trait\ChartScopeTrait;
 use App\Service\Trait\HasPid;
 use App\Service\Trait\HasTenant;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,6 +23,7 @@ class Group extends Model
     use SoftDeletes;
     use HasTenant;
     use HasPid;
+    use ChartScopeTrait;
 
     protected $fillable = [
         'name',

@@ -15,21 +15,20 @@ class HomeController extends Controller
 {
     public function __invoke(Request $request)
     {
+        $labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',
+            'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        $personAlly = Person::with('address')->getYears(date('Y'))->totalByMonth();
+        $groupAlly = Group::getYears(date('Y'))->totalByMonth();
+        $demandAlly = Demand::getYears(date('Y'))->totalByMonth();
+        // DemandType by type
+
         $personAll = Person::with('address')->orderBy('created_at')->get();
-        $person = $personAll
-            ->pluck('created_at')
-            ->groupBy(fn ($date) => $date->translatedFormat('M'))
-            ->map(fn ($item) => $item->count());
-        $group = Group::orderBy('created_at')
-            ->pluck('created_at')
-            ->groupBy(fn ($date) => $date->translatedFormat('M'))
-            ->map(fn ($item) => $item->count());
         $demand = Demand::with('type')
             ->orderBy('created_at')->get();
 
         $personChart = new PersonChart;
 
-        $personChart->dataset('Pessoas', 'line', $person->values())
+        $personChart->dataset('Pessoas', 'line', $personAlly)
             ->options([
                 'fill' => true,
                 'borderColor' => '#51C1C0',
@@ -39,7 +38,7 @@ class HomeController extends Controller
                 'pointHoverRadius' => 2,
             ]);
 
-        $personChart->dataset('Grupos', 'line', $group->values())
+        $personChart->dataset('Grupos', 'line', $groupAlly)
             ->options([
                 'fill' => true,
                 'borderColor' => '#FECB2E',
@@ -49,16 +48,15 @@ class HomeController extends Controller
                 'pointHoverRadius' => 2,
             ]);
 
-        $personChart->labels($person->keys());
+        $personChart->labels($labels);
         $personChart->title('Pessoas e Grupos');
 
+        // Contagem de demandas por mês
         $demandChart = new DemandsCompletedChart;
         $demandChart->dataset(
             'Demandas',
             'line',
-            $demand->pluck('created_at')
-                ->groupBy(fn ($date) => $date->translatedFormat('M'))
-                ->map(fn ($item) => $item->count())->values()
+            $demandAlly
         )
             ->options([
                 'fill' => true,
@@ -68,12 +66,7 @@ class HomeController extends Controller
                 'pointRadius' => 2,
                 'pointHoverRadius' => 2,
             ]);
-        $demandChart->labels(
-            $demand->pluck('created_at')
-                ->groupBy(fn ($date) => $date->translatedFormat('M'))
-                ->map(fn ($item) => $item->count())
-                ->keys()
-        );
+        $demandChart->labels($labels);
         $demandChart->title('Demandas');
 
         $demandChartType = new DemandsCompletedChart;
@@ -81,8 +74,8 @@ class HomeController extends Controller
             name: 'Demandas',
             type: 'line',
             data: $demand->pluck('type')
-                ->groupBy(fn ($date) => $date->name)
-                ->map(fn ($item) => $item->count())
+                ->groupBy(fn($date) => $date->name)
+                ->map(fn($item) => $item->count())
                 ->values()
         )->options([
             'fill' => true,
@@ -92,11 +85,11 @@ class HomeController extends Controller
             'pointRadius' => 2,
             'pointHoverRadius' => 2,
         ]);
-        $demandChartType->labels($demand->pluck('type')->groupBy(fn ($date) => $date->name)->map(fn ($item) => $item->count())->keys());
+        $demandChartType->labels($demand->pluck('type')->groupBy(fn($date) => $date->name)->map(fn($item) => $item->count())->keys());
         $demandChartType->title('Demandas por Tipo');
 
         // Contagem de pessoas por sexo
-        $personSex = $personAll->countBy(fn (Person $person) => PersonOptions::getSexOption($person->sex));
+        $personSex = $personAll->countBy(fn(Person $person) => PersonOptions::getSexOption($person->sex));
         $personSexChart = new PersonChart;
         $personSexChart->dataset('Pessoas', 'pie', $personSex->values())
             ->options([
@@ -111,7 +104,7 @@ class HomeController extends Controller
         $personSexChart->label('Quantidade');
         $personSexChart->labels($personSex->keys());
 
-        $cities = $personAll->countBy(fn (Person $person) => $person->address->district ?? 'Não informado');
+        $cities = $personAll->countBy(fn(Person $person) => $person->address->district ?? 'Não informado');
         $citiesChart = new PersonChart;
         $citiesChart->dataset('Pessoas', 'line', $cities->values())
             ->options([

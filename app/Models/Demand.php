@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\Demand\DemandClosedEvent;
 use App\Events\Demand\DemandCreatedEvent;
+use App\Service\Trait\ChartScopeTrait;
 use App\Service\Trait\HasPid;
 use App\Service\Trait\HasTenant;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,6 +27,7 @@ class Demand extends Model implements HasMedia
     use Searchable;
     use HasTenant;
     use HasPid;
+    use ChartScopeTrait;
 
     protected $fillable = [
         'name',
