@@ -1,5 +1,7 @@
 # Programa de gerenciamento politico
 
+[![wakatime](https://wakatime.com/badge/github/gabrielmoura/EleitoradoV2.svg)](https://wakatime.com/badge/github/gabrielmoura/EleitoradoV2)
+
 - https://php-flasher.io/livewire/
 - https://laravel-livewire.com/docs/2.x/quickstart
 - https://rappasoft.com/docs/laravel-livewire-tables/v2/introduction
