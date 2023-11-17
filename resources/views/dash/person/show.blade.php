@@ -52,8 +52,8 @@
                         Nascimento: {{$person->birth_date}} |
                         Sexo: {{\App\Service\Enum\PersonOptions::getSexOption($person->sex)}}<br>
                         Email: {{$person->email}}<br>
-                        Data de Cadastro: {{$person->created_at}}<br>
-                        Data de Atualização: {{$person->updated_at}}<br>
+                        Data de Cadastro: {{$person->created_at?->format("d/m/Y")}}<br>
+                        Data de Atualização: {{$person->updated_at?->format("d/m/Y H:i")}}<br>
                         Telefone: {{$person?->telephone}} | Celular: {{$person?->cellphone}} @if($person->cellphone)
                             <a href="https://api.whatsapp.com/send?phone=55{{numberClear($person->cellphone)}}"
                                title="(Enviar mensagem no WhatsApp)"><i

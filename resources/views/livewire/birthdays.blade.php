@@ -41,7 +41,7 @@
                     <td>
                         <a href="{{ route('dash.person.show', $birthday->pid) }}">{{ $birthday->name }}</a>
                     </td>
-                    <td>{{ $birthday->dateOfBirth }}</td>
+                    <td>{{ $birthday->dateOfBirth?->format('d/m/Y') }}</td>
                     <td>{{ $birthday->cellphone }} @if($birthday->cellphone)
                             <a href="https://api.whatsapp.com/send?phone=55{{numberClear($birthday->cellphone)}}"
                                title="(Enviar mensagem no WhatsApp)"><i

@@ -11,6 +11,10 @@
                     </h1>
                 </div>
                 <div class="col-12 col-xl-auto mb-3">
+                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#appointment-modal-edit">
+                        <i class="me-1 fad fa-edit"></i>
+                        Editar
+                    </button>
                     <a class="btn btn-sm btn-light text-primary" href="{{$appointment->link()->google()}}"
                        target="_blank">
                         <i class="me-1 fad fa-calendar"></i>
@@ -43,7 +47,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <img width="250px" height="250px" class="avatar-img img-thumbnail" alt="{{$appointment->name}}"
-                             src="{{$appointment?->profile_photo_url}}">
+                             src="{{$appointment?->profile_photo_url??'/build/assets/calendario-g-0dd9036b.webp'}}">
                     </div>
                     <div class="col-md-8">
                         <h2>Dados Pessoais</h2>
@@ -63,4 +67,5 @@
             </div>
         </div>
     </div>
+    <livewire:appointment.appointment-modal-edit :appointment="$appointment"/>
 </x-app-layout>

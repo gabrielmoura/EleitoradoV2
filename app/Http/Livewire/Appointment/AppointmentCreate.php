@@ -29,15 +29,13 @@ class AppointmentCreate extends Component
 
     public function getCep(): void
     {
-        $zipcode = numberClear($this->app['address']['zipcode']);
-        if (
-            strlen($zipcode) >= 8 && strlen($zipcode) <= 9
-        ) {
-            $cep = CepService::find($zipcode);
+        $zipCode = $this->app['address']['zipcode'];
+        if (preg_match('/^[0-9]{5}-?[0-9]{3}$/', $zipCode)) {
+            $cep = CepService::find($zipCode);
             $this->app['address']['street'] = $cep->logradouro;
             $this->app['address']['district'] = $cep->bairro;
             $this->app['address']['city'] = $cep->localidade;
-            $this->state = $cep->uf;
+            $this->app['address']['state'] = $cep->uf;
         }
     }
 
@@ -59,7 +57,7 @@ class AppointmentCreate extends Component
     protected $rules = [
         'app.event.name' => ['required', 'string', 'min:3', 'max:255'],
         'app.event.description' => ['nullable', 'string', 'min:3', 'max:255'],
-        'app.event.start_time' => ['required', 'date', 'after:now'],
+        'app.event.start_time' => ['required', 'date', 'after:today'],
         'app.event.end_time' => ['nullable', 'date', 'after:app.event.start_time'],
         //        'app.event.recurrence' => ['nullable', 'string', 'in:none,daily,weekly,monthly'],
 
@@ -69,7 +67,7 @@ class AppointmentCreate extends Component
         'app.address.district' => ['nullable', 'string', 'min:3', 'max:255'],
         'app.address.city' => ['nullable', 'string', 'min:3', 'max:255'],
         'app.address.state' => ['nullable', 'string', 'min:2', 'max:255'],
-        'app.address.zipcode' => ['required', 'string', 'min:8', 'max:9'],
+        'app.address.zipcode' => ['required', 'string', 'min:8', 'max:9', 'regex:/^[0-9]{5}-?[0-9]{3}$/']
     ];
 
     protected $validationAttributes = [
@@ -91,14 +89,14 @@ class AppointmentCreate extends Component
 
         $this->validate();
 
-        $db = DB::transaction(function () {
-            $validatedData = collect($this->app);
-            if ($validatedData->has('address')) {
-                $address = Address::create($validatedData->get('address'));
-                $validatedData->put('event.address_id', $address?->id);
+        $db = DB::transaction(function ()  {
+            if (preg_match('/^[0-9]{5}-?[0-9]{3}$/', $this->app['address']['zipcode'])) {
+
+                $address = Address::create($this->app['address']);
+                $this->app['event']['address_id'] = $address->id;
             }
 
-            return Appointment::create($validatedData->get('event'));
+            return Appointment::create($this->app['event']);
         });
         if ($db->wasRecentlyCreated) {
             flash()->addSuccess('Agendamento criado com sucesso.');

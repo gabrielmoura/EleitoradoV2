@@ -36,8 +36,8 @@ class AppointmentController extends Controller
             ->orWhere('end_time', '<=', $request->end)->get()
             ->collect()->map(fn ($appointment) => [
                 'title' => $appointment->name,
-                'start' => $appointment->start_time,
-                'end' => $appointment->finish_time,
+                'start' => $appointment->start_time?->toDateTimeString(),
+                'end' => $appointment->finish_time?->toDateTimeString(),
                 'description' => $appointment->description,
                 'url' => route('dash.appointment.show', $appointment->pid),
                 'backgroundColor' => $appointment->finish_time && $appointment->finish_time < now() ? '#f56954' : '#3c8dbc',
@@ -101,7 +101,7 @@ class AppointmentController extends Controller
      */
     public function show($pid)
     {
-        $appointment = Appointment::findPid($pid)->firstOrFail();
+        $appointment = Appointment::with('address')->where('pid', $pid)->firstOrFail();
 
         //        $googleMaps = 'https://www.google.com/maps/search/?api=1&query=' . $appointment->address->latitude . ',' . $appointment->address->longitude;
         //        $address = $appointment->address?->street . ', ' . $appointment->address?->number . ' - ' . $appointment->address?->district . ', ' . $appointment->address?->city . ' - ' . $appointment->address?->uf;
