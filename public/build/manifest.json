@@ -1,6 +1,6 @@
 {
-  "_vendor-b9695b90.js": {
-    "file": "assets/vendor-b9695b90.js"
+  "_vendor-c655e967.js": {
+    "file": "assets/vendor-c655e967.js"
   },
   "resources/images/company-logo.png": {
     "file": "assets/company-logo-a23f1821.png",
@@ -8,11 +8,11 @@
   },
   "resources/images/f.png": {
     "file": "assets/f-5c7b4150.png",
-    "src": "resources/images/f.png"
+    "src": "resources/images/logo.png"
   },
   "resources/images/logo.png": {
     "file": "assets/f-5c7b4150.png",
-    "src": "resources/images/f.png"
+    "src": "resources/images/logo.png"
   },
   "resources/images/m.png": {
     "file": "assets/m-47a6550e.png",
@@ -22,21 +22,25 @@
     "file": "assets/o-5d0cebfe.png",
     "src": "resources/images/o.png"
   },
+  "resources/images/protest-7818627_640.webp": {
+    "file": "assets/protest-7818627_640-bc8de01f.webp",
+    "src": "resources/images/protest-7818627_640.webp"
+  },
   "resources/js/app.js": {
-    "file": "assets/app-94d1b9d2.js",
+    "file": "assets/app-327b6a3c.js",
     "imports": [
-      "_vendor-b9695b90.js"
+      "_vendor-c655e967.js"
     ],
     "isEntry": true,
     "src": "resources/js/app.js"
   },
   "resources/scss/app.scss": {
-    "file": "assets/app-308daebf.css",
+    "file": "assets/app-4d972e7c.css",
     "isEntry": true,
     "src": "resources/scss/app.scss"
   },
   "resources/scss/tail.scss": {
-    "file": "assets/tail-96dd5114.css",
+    "file": "assets/tail-678a10c6.css",
     "isEntry": true,
     "src": "resources/scss/tail.scss"
   }

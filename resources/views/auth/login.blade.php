@@ -12,7 +12,7 @@
                                 <div class="col-lg-6">
                                     <div class="p-5">
                                         <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                            <h1 class="h4 text-gray-900 mb-4">Bem-vindo</h1>
                                         </div>
                                         @if ($errors->any())
                                             <div {{ $attributes??null }}>
@@ -50,31 +50,33 @@
                                                 <div class="custom-control custom-checkbox small">
                                                     <input type="checkbox" class="custom-control-input" id="customCheck"
                                                            name="remember">
-                                                    <label class="custom-control-label" for="customCheck">Remember
-                                                        Me</label>
+                                                    <label class="custom-control-label" for="customCheck">Lembrar</label>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary btn-user btn-block">
-                                                {{ __('Log in') }}
-                                            </button>
-                                            <hr>
-                                            <a href="index.html" class="btn btn-google btn-user btn-block">
-                                                <i class="fab fa-google fa-fw"></i> Login with Google
-                                            </a>
-                                            <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                                <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                            </a>
+
+                                           <div class="text-center">
+                                               <button type="submit" class="btn btn-primary btn-user btn-block">
+                                                   {{ __('Log in') }}
+                                               </button>
+                                               <hr>
+                                               <a href="index.html" class="btn btn-google btn-user btn-block">
+                                                   <i class="fab fa-google fa-fw"></i> Entrar com o Google
+                                               </a>
+                                               <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                                                   <i class="fab fa-facebook-f fa-fw"></i> Entrar com o Facebook
+                                               </a>
+                                           </div>
+
                                         </form>
                                         <hr>
                                         @if (Route::has('password.request'))
                                             <div class="text-center">
-                                                <a class="small" href="{{ route('password.request') }}">Forgot
-                                                    Password?</a>
+                                                <a class="small" href="{{ route('password.request') }}">Esqueceu a Senha?</a>
                                             </div>
                                         @endif
                                         @if(\Laravel\Fortify\Features::enabled(\Laravel\Fortify\Features::registration()))
                                             <div class="text-center">
-                                                <a class="small" href="{{route('register')}}">Create an Account!</a>
+                                                <a class="small" href="{{route('register')}}">Criar uma conta!</a>
                                             </div>
                                         @endif
                                     </div>
