@@ -41,14 +41,14 @@ class MediaLibraryCollectionComponent extends Component
         HasMedia $model,
         string $collection = null,
         string $rules = '',
-        ?int $maxItems = null,
+        int $maxItems = null,
         bool $sortable = true,
         bool $editableName = true,
-        ?string $view = null,
-        ?string $listView = null,
-        ?string $itemView = null,
-        ?string $propertiesView = null,
-        ?string $fieldsView = null
+        string $view = null,
+        string $listView = null,
+        string $itemView = null,
+        string $propertiesView = null,
+        string $fieldsView = null
     ) {
         $this->name = $name;
         $this->model = $model;

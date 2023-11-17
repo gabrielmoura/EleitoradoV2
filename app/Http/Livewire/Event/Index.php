@@ -22,27 +22,7 @@ class Index extends Component
     use WithReordering;
     use WithSearch;
 
-    public string $name;
-
-    public ?string $description;
-
-    public ?string $start_date;
-
-    public ?string $end_date;
-
-    public ?string $street;
-
-    public ?string $number;
-
-    public ?string $complement;
-
-    public ?string $district;
-
-    public ?string $city;
-
-    public ?string $state;
-
-    public ?string $zipcode;
+    public $data;
 
     public $perPage = 10;
 
@@ -50,34 +30,54 @@ class Index extends Component
 
     public $orderAsc = true;
 
-    public int|null $updateEventId;
+    public ?int $updateEventId;
 
     public $selectedItems = [];
 
     protected $rules = [
-        'name' => ['required', 'string', 'min:3', 'max:255'],
-        'description' => ['nullable', 'string', 'min:3', 'max:255'],
-        'start_date' => ['required', 'date'],
-        'end_date' => ['nullable', 'date'],
-        'street' => ['nullable', 'string', 'min:3', 'max:255'],
-        'number' => ['nullable', 'string', 'min:1', 'max:10'],
-        'complement' => ['nullable', 'string', 'min:3', 'max:255'],
-        'district' => ['nullable', 'string', 'min:3', 'max:255'],
-        'city' => ['nullable', 'string', 'min:3', 'max:255'],
-        'state' => ['nullable', 'string', 'min:3', 'max:255'],
-        'zipcode' => ['nullable', 'string', 'min:3', 'max:10'],
+        'data.event.name' => ['required', 'string', 'min:3', 'max:255'],
+        'data.event.description' => ['nullable', 'string', 'min:3', 'max:255'],
+        'data.event.start_date' => ['required', 'date'],
+        'data.event.end_date' => ['nullable', 'date'],
+
+        'data.local.street' => ['nullable', 'string', 'min:3', 'max:255'],
+        'data.local.number' => ['nullable', 'string', 'min:1', 'max:10'],
+        'data.local.complement' => ['nullable', 'string', 'min:3', 'max:255'],
+        'data.local.district' => ['nullable', 'string', 'min:3', 'max:255'],
+        'data.local.city' => ['nullable', 'string', 'min:3', 'max:255'],
+        'data.local.state' => ['nullable', 'string', 'min:3', 'max:255'],
+        'data.local.zipcode' => ['nullable', 'string', 'min:8', 'max:9', 'regex:/^[0-9]{5}-?[0-9]{3}$/']
+    ];
+    protected $casts = [
+        'data.event.start_date' => 'datetime:Y-m-d H:i:s',
+        'data.event.end_date' => 'datetime:Y-m-d H:i:s',
+    ];
+
+    protected array $validationAttributes = [
+        'data.event.name' => 'Nome',
+        'data.event.description' => 'Descrição',
+        'data.event.start_date' => 'Data de início',
+        'data.event.end_date' => 'Data de término',
+
+        'data.local.street' => 'Rua',
+        'data.local.number' => 'Número',
+        'data.local.complement' => 'Complemento',
+        'data.local.district' => 'Bairro',
+        'data.local.city' => 'Cidade',
+        'data.local.state' => 'Estado',
+        'data.local.zipcode' => 'CEP',
     ];
 
     protected $listeners = ['refresh' => '$refresh'];
 
-    protected $paginationTheme = 'bootstrap';
+    protected string $paginationTheme = 'bootstrap';
 
     public function render(): View|Factory|Application
     {
         return view('livewire.event.index',
             [
-                'events' => Event::where('name', 'like', '%'.$this->search.'%')
-                    ->orWhere('description', 'like', '%'.$this->search.'%')
+                'events' => Event::where('name', 'like', '%' . $this->search . '%')
+                    ->orWhere('description', 'like', '%' . $this->search . '%')
                     ->orderBy($this->defaultReorderColumn, $this->defaultReorderASC ? 'asc' : 'desc')
                     ->paginate($this->perPage),
             ]);
@@ -90,18 +90,8 @@ class Index extends Component
 
     private function resetInput(): void
     {
-        $this->name = '';
-        $this->description = '';
-        $this->start_date = null;
-        $this->end_date = null;
+        $this->data = [];
         $this->updateEventId = null;
-        $this->street = '';
-        $this->number = '';
-        $this->complement = '';
-        $this->district = '';
-        $this->city = '';
-        $this->state = '';
-        $this->zipcode = '';
     }
 
     public function closeModal(): void
@@ -117,32 +107,33 @@ class Index extends Component
     public function store(): void
     {
         $this->authorize('create_event');
-        $validatedData = $this->validate();
+        $validatedData = $this->validate()['data'];
 
         $event = DB::transaction(function () use ($validatedData) {
-            if ($this->zipcode >= 8) {
-                $address = Address::create($validatedData);
-                $validatedData['address_id'] = $address->id;
+
+            if (preg_match('/^[0-9]{5}-?[0-9]{3}$/', $validatedData['local']['zipcode'])) {
+                $address = Address::create($validatedData['local']);
+                $validatedData['event']['address_id'] = $address->id;
             }
 
-            return Event::create($validatedData);
+            return Event::create($validatedData['event']);
         });
 
         $this->emit('groupStored', $event->id);
-        flash()->addSuccess('Event successfully created.');
+        flash()->addSuccess('Evento criado com sucesso.');
         $this->closeModal();
     }
 
     public function update(): void
     {
         $this->authorize('update_event');
-        $validatedData = $this->validate();
+        $validatedData = $this->validate()['data'];
 
         DB::transaction(function () use ($validatedData) {
             $event = Event::find($this->updateEventId);
-            Address::find($event->address_id)->update($validatedData);
+            Address::find($event->address_id)->update($validatedData['local']);
 
-            return $event->update($validatedData);
+            return $event->update($validatedData['event']);
         });
 
         flash()->addSuccess('Evento atualizado com sucesso.');
@@ -153,35 +144,30 @@ class Index extends Component
     {
         $this->authorize('delete_event');
         Event::find($id)->delete();
-        session()->flash('message', 'Group successfully deleted.');
+        flash()->addSuccess('Evento excluído com sucesso.');
     }
 
     public function edit(int $id): void
     {
-        $event = Event::findOrFail($id);
-
-        $this->name = $event->name;
-        $this->description = $event->description;
-        $this->updateEventId = $event->id;
-        $this->start_date = $event->start_date;
-        $this->end_date = $event->end_date;
-        $this->street = $event->address->street;
-        $this->number = $event->address->number;
-        $this->complement = $event->address->complement;
-        $this->district = $event->address->district;
-        $this->city = $event->address->city;
-        $this->state = $event->address->state;
-        $this->zipcode = $event->address->zipcode;
+        $this->updateEventId = $id;
+        $event = Event::with('address')->findOrFail($id);
+        $this->data['event'] = $event->toArray();
+        $this->data['event']['start_date'] = $event->start_date->format('Y-m-d\TH:i');
+        $this->data['event']['end_date'] = $event->end_date->format('Y-m-d\TH:i');
+        $this->data['local'] = $event->address;
+        $this->data['local']['number'] = strval($event->address?->number);
     }
+
 
     public function getCep(): void
     {
-        if ($this->zipcode >= 8 || $this->zipcode <= 9) {
-            $cep = CepService::find($this->zipcode);
-            $this->street = $cep->logradouro;
-            $this->district = $cep->bairro;
-            $this->city = $cep->localidade;
-            $this->state = $cep->uf;
+        $zipCode = $this->data['local']['zipcode'];
+        if (preg_match('/^[0-9]{5}-?[0-9]{3}$/', $zipCode)) {
+            $cep = CepService::find($zipCode);
+            $this->data['local']['street'] = $cep->logradouro;
+            $this->data['local']['district'] = $cep->bairro;
+            $this->data['local']['city'] = $cep->localidade;
+            $this->data['local']['state'] = $cep->uf;
         }
     }
 }

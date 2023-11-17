@@ -51,7 +51,7 @@ class RolePermissionSeed extends Seeder
         Permission::create(['name' => 'invoicing']);
 
         if (app()->environment('local')) {
-            $company = Company::create(['name' => 'Empresa 1', 'email' => 'company@example.com']);
+            $company = Company::create(['name' => 'Empresa 1', 'email' => 'company@example.com','hand_signing' => true]);
             $adminUser = User::create([
                 'name' => 'Administrador',
                 'email' => 'admin@example.com',

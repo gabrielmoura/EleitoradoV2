@@ -40,7 +40,7 @@ class ImportCsvPerson extends Command
         $times = 20;
 
         $collect = LazyCollection::make(function () {
-            $path = (string) app_path('../pessoa_202307051248.csv');
+            $path = (string) storage_path('app/pessoa_202307051248.csv');
             $handle = fopen($path, 'r');
 
             while (($line = fgets($handle)) !== false) {
@@ -94,7 +94,7 @@ class ImportCsvPerson extends Command
         $this->info("Fim da importação. Tempo: $time segundos");
     }
 
-    private function val(array $item, int $index, string $type = 'string', ?int $max = null): mixed
+    private function val(array $item, int $index, string $type = 'string', int $max = null): mixed
     {
         if (! array_key_exists($index, $item)) {
             return null;

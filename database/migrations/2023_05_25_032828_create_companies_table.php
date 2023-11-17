@@ -27,6 +27,7 @@ return new class extends Migration
             $table->json('conf')->nullable();
             $table->boolean('banned')->comment('Banido')->default(false);
 
+            $table->boolean('hand_signing')->comment('Assinatura manual')->default(false);
             $table->string('stripe_id')->nullable()->index();
             $table->string('pm_type')->nullable();
             $table->string('pm_last_four', 4)->nullable();

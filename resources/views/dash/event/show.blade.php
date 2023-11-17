@@ -15,11 +15,11 @@
                         <i class="me-1 fad fa-calendar"></i>
                         Listar Eventos
                     </a>
+                    <button class="btn btn-sm btn-light text-primary" data-bs-toggle="modal" data-bs-target="#request-tag-event-modal">
+                        <i class="me-1 fad fa-envelope"></i>
+                        Gerar Etiqueta
+                    </button>
                     @can('event_mail')
-                        <button class="btn btn-sm btn-light text-primary" onclick="helpers.reqTagEvent({{$event->id}})">
-                            <i class="me-1 fad fa-envelope"></i>
-                            Gerar Etiqueta
-                        </button>
                         <button class="btn btn-sm btn-light text-primary"
                                 onclick="helpers.reqMailEvent({{$event->id}})">
                             <i class="me-1 fad fa-at"></i>
@@ -54,9 +54,21 @@
                         <p>{{$event->start_date->format('d/m/y H:i')}}</p>
                         <h3>Data de Término</h3>
                         <p>{{$event->end_date?->format('d/m/y H:i')}}</p>
-                        <h3>Endereço</h3>
-                        <p>{{$event->address->street}}, {{$event->address->number}} - {{$event->address->district}}
-                            - {{$event->address->city}}/{{$event->address->state}}</p>
+
+                        @if(!empty($event->address))
+                            <h3>Endereço</h3>
+                            <p>{{$event->address?->street}}, {{$event->address?->number}}
+                                - {{$event->address?->district}}
+                                - {{$event->address?->city}}/{{$event->address?->state}}
+                            </p>
+                            @if(!empty($event->address?->latitude))
+                                <h3>Mapa</h3>
+                                <livewire:mapbox
+                                    :lat="$event->address?->latitude" :long="$event->address?->longitude"
+                                    width="40rem" height="20rem"/>
+                            @endif
+                        @endif
+
 
                         @feature('event_group')
                         <h3>Grupo</h3>
@@ -75,8 +87,13 @@
                     <p>{{$event->persons->count()}}</p>
                 </div>
                 <div class="row">
-
-                    <h3>Pessoas Associadas</h3>
+                    <div class="d-flex">
+                        <h3>Pessoas Associadas</h3>
+                        <button data-bs-toggle="modal" data-bs-target="#associatePersonModal"
+                                class="btn btn-primary btn-sm ms-0 ms-md-2">
+                            Associar Pessoa
+                        </button>
+                    </div>
                     <table class="table table-responsive-md table-bordered ml-3">
                         <tbody>
                         @forelse($event->persons as $person)
@@ -101,4 +118,6 @@
             </div>
         </div>
     </div>
+    <livewire:modal.associate-event-to-person-modal :event="$event"/>
+    <livewire:modal.request-tag-event-modal :event_id="$event->id"/>
 </x-app-layout>

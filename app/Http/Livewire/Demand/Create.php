@@ -7,13 +7,14 @@ use App\Models\DemandType;
 use App\Models\Person;
 use App\Service\Enum\DemandOptions;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class Create extends Component
 {
     use AuthorizesRequests;
 
-    public string $name;
+    public ?string $name;
 
     public ?string $description;
 
@@ -29,9 +30,11 @@ class Create extends Component
 
     public ?string $closed_at;
 
-    public int|null $updateDemandId;
+    public ?int $updateDemandId;
 
     public ?Person $person;
+
+    public $errors;
 
     public function mount(): void
     {
@@ -40,23 +43,44 @@ class Create extends Component
         $this->status = DemandOptions::STATUS_OPEN;
     }
 
-    protected $rules = [
-        'name' => ['required', 'string', 'min:3', 'max:255'],
-        'description' => ['nullable', 'string', 'min:3', 'max:255'],
-        'priority' => ['nullable', 'string', 'min:3', 'in:low,medium,high'],
-        'active' => ['nullable', 'bool'],
-        'demand_type_id' => ['required', 'integer', 'min:1', 'exists:demand_types,id'],
-        'status' => ['nullable', 'string', 'min:3', 'in:open,closed'],
-        'solution_date' => ['nullable', 'string', 'min:3', 'max:255'],
-        'closed_at' => ['nullable', 'string', 'min:3', 'max:255'],
+    protected array $rules = [
+        'name' => 'required|string|min:3|max:255',
+        'description' => 'nullable|string|min:3|max:255',
+        'priority' => 'nullable|string|min:3|in:low,medium,high',
+        'active' => 'nullable|bool',
+        'demand_type_id' => 'required|integer|min:1|exists:demand_types,id',
+        'status' => 'nullable|string|min:3|in:open,closed',
+        'solution_date' => 'nullable|string|min:3|max:255',
+        'closed_at' => 'nullable|string|min:3|max:255',
         //        'person_id' => ['nullable', 'integer', 'min:1', 'exists:people,id'],
+    ];
+    protected array $messages = [
+        'demand_type_id.required' => 'O campo Tipo de demanda é obrigatório.',
+        'demand_type_id.integer' => 'O campo Tipo de demanda deve ser um número inteiro.',
+        'demand_type_id.min' => 'O campo Tipo de demanda deve ter pelo menos :min caracteres.',
+        'demand_type_id.exists' => 'O campo Tipo de demanda é inválido.',
+        'name.required' => 'O campo Nome é obrigatório.',
+        'name.min' => 'O campo Nome deve ter pelo menos :min caracteres.',
+        'name.max' => 'O campo Nome deve ter no máximo :max caracteres.',
+        'description.min' => 'O campo Descrição deve ter pelo menos :min caracteres.',
+        'description.max' => 'O campo Descrição deve ter no máximo :max caracteres.',
+        'priority.min' => 'O campo Prioridade deve ter pelo menos :min caracteres.',
+        'priority.in' => 'O campo Prioridade é inválido.',
+        'status.min' => 'O campo Status deve ter pelo menos :min caracteres.',
+        'status.in' => 'O campo Status é inválido.',
+    ];
+    protected array $validationAttributes = [
+        'demand_type_id' => 'Tipo de demanda'
     ];
 
     protected $listeners = ['refresh' => '$refresh'];
 
-    public function updated($propertyName): void
+    /**
+     * @throws ValidationException
+     */
+    public function updated($propertyName)
     {
-        $this->validateOnly($propertyName, $this->rules);
+        return $this->validateOnly($propertyName, $this->rules, $this->messages, $this->validationAttributes);
     }
 
     public function closeModal(): void

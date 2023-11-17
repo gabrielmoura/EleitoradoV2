@@ -104,20 +104,19 @@ class Person extends Model implements HasMedia
         return $this->getFirstMedia('avatar')?->getUrl('cover') ?? Vite::asset("resources/images/$this->sex.png");
     }
 
-
     protected function telephone(): Attribute
     {
         return Attribute::make(
             get: function (?string $value) {
                 if ($value !== null && strlen($value) === 8) {
-                    return $value = '5521' . $value;
+                    return $value = '5521'.$value;
                 } elseif ($value !== null && strlen($value) === 10) {
-                    return $value = '55' . $value;
+                    return $value = '55'.$value;
                 } else {
                     return $value;
                 }
             },
-        //            set: fn (string $value) => $value,
+            //            set: fn (string $value) => $value,
         );
     }
 
@@ -126,14 +125,14 @@ class Person extends Model implements HasMedia
         return Attribute::make(
             get: function (?string $value) {
                 if ($value !== null && strlen($value) === 9) {
-                    return $value = '5521' . $value;
+                    return $value = '5521'.$value;
                 } elseif ($value !== null && strlen($value) === 11) {
-                    return $value = '55' . $value;
+                    return $value = '55'.$value;
                 } else {
                     return $value;
                 }
             },
-        //            set: fn (string $value) => $value,
+            //            set: fn (string $value) => $value,
         );
     }
 

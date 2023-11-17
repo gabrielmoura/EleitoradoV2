@@ -76,7 +76,7 @@ class User extends Authenticatable
         //        'company'
     ];
 
-    public function getCompanyAttribute(): Company|null
+    public function getCompanyAttribute(): ?Company
     {
         return $this->company()->first();
     }

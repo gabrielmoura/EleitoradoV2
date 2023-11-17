@@ -39,7 +39,7 @@ class MediaLibraryRequestItem
         int $order,
         array $customProperties,
         array $customHeaders,
-        ?string $fileName = null
+        string $fileName = null
     ) {
         $this->uuid = $uuid;
 

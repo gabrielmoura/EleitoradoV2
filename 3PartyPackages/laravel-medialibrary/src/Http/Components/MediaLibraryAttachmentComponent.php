@@ -31,11 +31,11 @@ class MediaLibraryAttachmentComponent extends Component
         string $rules = '',
         $multiple = false,
         $editableName = false,
-        ?int $maxItems = null,
-        ?string $view = null,
-        ?string $listView = null,
-        ?string $itemView = null,
-        ?string $propertiesView = null
+        int $maxItems = null,
+        string $view = null,
+        string $listView = null,
+        string $itemView = null,
+        string $propertiesView = null
     ) {
         $this->name = $name;
         $this->rules = $rules;

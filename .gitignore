@@ -22,3 +22,4 @@ yarn-error.log
 **/*.pid
 TODO.md
 /.csv
+.db

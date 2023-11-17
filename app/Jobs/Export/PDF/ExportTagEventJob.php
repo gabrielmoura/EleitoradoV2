@@ -26,7 +26,7 @@ class ExportTagEventJob implements ShouldQueue
 
     public Collection $data;
 
-    public function __construct($data, public string $filename, public int $company_id, public string $tag_name)
+    public function __construct($data, public string $filename, public int $company_id, public string $tag_name, public ?string $type)
     {
         $this->data = collect($data);
     }
@@ -56,7 +56,7 @@ class ExportTagEventJob implements ShouldQueue
         \Storage::disk('public')->put($newName, $content);
 
         Company::find($this->company_id)
-            ->addMedia(storage_path('app/public/'.$newName))
+            ->addMedia(storage_path('app/public/' . $newName))
             ->withCustomProperties(['batchId' => $this->batch()->id])
             ->toMediaCollection('tag');
     }

@@ -165,13 +165,17 @@
                                     <h3>Informações do Evento</h3>
                                     <div class="mb-3">
                                         <label>Nome</label>
-                                        <input type="text" wire:model.debounce.500ms="name" class="form-control">
-                                        @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                                        <input type="text" wire:model.debounce.500ms="data.event.name"
+                                               class="form-control">
+                                        @error('data.event.name') <span
+                                            class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="mb-3">
                                         <label>Descrição</label>
-                                        <input type="text" wire:model.debounce.500ms="description" class="form-control">
-                                        @error('description') <span class="text-danger">{{ $message }}</span> @enderror
+                                        <input type="text" wire:model.debounce.500ms="data.event.description"
+                                               class="form-control">
+                                        @error('data.event.description') <span
+                                            class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
 
@@ -179,18 +183,20 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>Inicio</label>
-                                            <input type="datetime-local" wire:model.debounce.500ms="start_date"
+                                            <input type="datetime-local"
+                                                   wire:model.debounce.500ms="data.event.start_date"
                                                    class="form-control">
-                                            @error('start_date') <span
+                                            @error('data.event.start_date') <span
                                                 class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>Fim</label>
-                                            <input type="datetime-local" wire:model.debounce.500ms="end_date"
+                                            <input type="datetime-local" wire:model.debounce.500ms="data.event.end_date"
                                                    class="form-control">
-                                            @error('end_date') <span class="text-danger">{{ $message }}</span> @enderror
+                                            @error('data.event.end_date') <span
+                                                class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -202,18 +208,21 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>CEP</label>
-                                            <input type="text" wire:model.debounce.500ms="zipcode" class="form-control"
+                                            <input type="text" wire:model.debounce.500ms="data.local.zipcode"
+                                                   class="form-control"
                                                    wire:change="getCep">
-                                            @error('zipcode') <span class="text-danger">{{ $message }}</span> @enderror
+                                            @error('data.local.zipcode') <span
+                                                class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>Bairro</label>
-                                            <input type="text" wire:model.debounce.500ms="district"
+                                            <input type="text" wire:model.debounce.500ms="data.local.district"
                                                    id="district"
                                                    class="form-control">
-                                            @error('district') <span class="text-danger">{{ $message }}</span> @enderror
+                                            @error('data.local.district') <span
+                                                class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -221,16 +230,20 @@
                                     <div class="col-md-9">
                                         <div class="mb-3">
                                             <label>Endereço</label>
-                                            <input type="text" wire:model.debounce.500ms="street" class="form-control"
+                                            <input type="text" wire:model.debounce.500ms="data.local.street"
+                                                   class="form-control"
                                                    id="street">
-                                            @error('street') <span class="text-danger">{{ $message }}</span> @enderror
+                                            @error('data.local.street') <span
+                                                class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="mb-3">
                                             <label>Número</label>
-                                            <input type="text" wire:model.debounce.500ms="number" class="form-control">
-                                            @error('number') <span class="text-danger">{{ $message }}</span> @enderror
+                                            <input type="text" wire:model.debounce.500ms="data.local.number"
+                                                   class="form-control">
+                                            @error('data.local.number') <span
+                                                class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -238,26 +251,30 @@
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label>Complemento</label>
-                                            <input type="text" wire:model.debounce.500ms="complement"
+                                            <input type="text" wire:model.debounce.500ms="data.local.complement"
                                                    class="form-control" id="complement">
-                                            @error('complement') <span
+                                            @error('data.local.complement') <span
                                                 class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label>Cidade</label>
-                                            <input type="text" wire:model.debounce.500ms="city" class="form-control"
+                                            <input type="text" wire:model.debounce.500ms="data.local.city"
+                                                   class="form-control"
                                                    id="city">
-                                            @error('city') <span class="text-danger">{{ $message }}</span> @enderror
+                                            @error('data.local.city') <span
+                                                class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label>Estado</label>
-                                            <input type="text" wire:model.debounce.500ms="state" class="form-control"
+                                            <input type="text" wire:model.debounce.500ms="data.local.state"
+                                                   class="form-control"
                                                    id="state">
-                                            @error('state') <span class="text-danger">{{ $message }}</span> @enderror
+                                            @error('data.local.state') <span
+                                                class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -299,13 +316,17 @@
                                     <h3>Informações do Evento</h3>
                                     <div class="mb-3">
                                         <label>Nome</label>
-                                        <input type="text" wire:model.debounce.500ms="name" class="form-control">
-                                        @error('name') <span class="text-danger">{{ $message }}</span> @enderror
+                                        <input type="text" wire:model.debounce.500ms="data.event.name"
+                                               class="form-control">
+                                        @error('data.event.name') <span
+                                            class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="mb-3">
                                         <label>Descrição</label>
-                                        <input type="text" wire:model.debounce.500ms="description" class="form-control">
-                                        @error('description') <span class="text-danger">{{ $message }}</span> @enderror
+                                        <input type="text" wire:model.debounce.500ms="data.event.description"
+                                               class="form-control">
+                                        @error('data.event.description') <span
+                                            class="text-danger">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
 
@@ -313,18 +334,20 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>Inicio</label>
-                                            <input type="datetime-local" wire:model.debounce.500ms="start_date"
+                                            <input type="datetime-local"
+                                                   wire:model.debounce.500ms="data.event.start_date"
                                                    class="form-control">
-                                            @error('start_date') <span
+                                            @error('data.event.start_date') <span
                                                 class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>Fim</label>
-                                            <input type="datetime-local" wire:model.debounce.500ms="end_date"
+                                            <input type="datetime-local" wire:model.debounce.500ms="data.event.end_date"
                                                    class="form-control">
-                                            @error('end_date') <span class="text-danger">{{ $message }}</span> @enderror
+                                            @error('data.event.end_date') <span
+                                                class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -336,18 +359,21 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>CEP</label>
-                                            <input type="text" wire:model.debounce.500ms="zipcode" class="form-control"
+                                            <input type="text" wire:model.debounce.500ms="data.local.zipcode"
+                                                   class="form-control"
                                                    wire:change="getCep">
-                                            @error('zipcode') <span class="text-danger">{{ $message }}</span> @enderror
+                                            @error('data.local.zipcode') <span
+                                                class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label>Bairro</label>
-                                            <input type="text" wire:model.debounce.500ms="district"
+                                            <input type="text" wire:model.debounce.500ms="data.local.district"
                                                    id="district"
                                                    class="form-control">
-                                            @error('district') <span class="text-danger">{{ $message }}</span> @enderror
+                                            @error('data.local.district') <span
+                                                class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -355,16 +381,20 @@
                                     <div class="col-md-9">
                                         <div class="mb-3">
                                             <label>Endereço</label>
-                                            <input type="text" wire:model.debounce.500ms="street" class="form-control"
+                                            <input type="text" wire:model.debounce.500ms="data.local.street"
+                                                   class="form-control"
                                                    id="street">
-                                            @error('street') <span class="text-danger">{{ $message }}</span> @enderror
+                                            @error('data.local.street') <span
+                                                class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="mb-3">
                                             <label>Número</label>
-                                            <input type="text" wire:model.debounce.500ms="number" class="form-control">
-                                            @error('number') <span class="text-danger">{{ $message }}</span> @enderror
+                                            <input type="text" wire:model.debounce.500ms="data.local.number"
+                                                   class="form-control">
+                                            @error('data.local.number') <span
+                                                class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -372,26 +402,30 @@
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label>Complemento</label>
-                                            <input type="text" wire:model.debounce.500ms="complement"
+                                            <input type="text" wire:model.debounce.500ms="data.local.complement"
                                                    class="form-control" id="complement">
-                                            @error('complement') <span
+                                            @error('data.local.complement') <span
                                                 class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label>Cidade</label>
-                                            <input type="text" wire:model.debounce.500ms="city" class="form-control"
+                                            <input type="text" wire:model.debounce.500ms="data.local.city"
+                                                   class="form-control"
                                                    id="city">
-                                            @error('city') <span class="text-danger">{{ $message }}</span> @enderror
+                                            @error('data.local.city') <span
+                                                class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label>Estado</label>
-                                            <input type="text" wire:model.debounce.500ms="state" class="form-control"
+                                            <input type="text" wire:model.debounce.500ms="data.local.state"
+                                                   class="form-control"
                                                    id="state">
-                                            @error('state') <span class="text-danger">{{ $message }}</span> @enderror
+                                            @error('data.local.state') <span
+                                                class="text-danger">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                 </div>

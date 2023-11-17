@@ -64,7 +64,7 @@ class GeoCoding
         $this->provider = $provider;
     }
 
-    private function timeLock(string $service): int|null
+    private function timeLock(string $service): ?int
     {
         if (config('geocoder.providers.'.$service.'.limit.by') == 'm') {
             $time = now()->addMonth()->diffInSeconds();

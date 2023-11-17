@@ -1,6 +1,6 @@
 {
-  "_vendor-be4b7216.js": {
-    "file": "assets/vendor-be4b7216.js"
+  "_vendor-b9695b90.js": {
+    "file": "assets/vendor-b9695b90.js"
   },
   "resources/images/company-logo.png": {
     "file": "assets/company-logo-a23f1821.png",
@@ -8,11 +8,11 @@
   },
   "resources/images/f.png": {
     "file": "assets/f-5c7b4150.png",
-    "src": "resources/images/logo.png"
+    "src": "resources/images/f.png"
   },
   "resources/images/logo.png": {
     "file": "assets/f-5c7b4150.png",
-    "src": "resources/images/logo.png"
+    "src": "resources/images/f.png"
   },
   "resources/images/m.png": {
     "file": "assets/m-47a6550e.png",
@@ -23,15 +23,15 @@
     "src": "resources/images/o.png"
   },
   "resources/js/app.js": {
-    "file": "assets/app-eb8256f0.js",
+    "file": "assets/app-94d1b9d2.js",
     "imports": [
-      "_vendor-be4b7216.js"
+      "_vendor-b9695b90.js"
     ],
     "isEntry": true,
     "src": "resources/js/app.js"
   },
   "resources/scss/app.scss": {
-    "file": "assets/app-24a4f939.css",
+    "file": "assets/app-308daebf.css",
     "isEntry": true,
     "src": "resources/scss/app.scss"
   },

@@ -74,8 +74,8 @@ class HomeController extends Controller
             name: 'Demandas',
             type: 'line',
             data: $demand->pluck('type')
-                ->groupBy(fn($date) => $date->name)
-                ->map(fn($item) => $item->count())
+                ->groupBy(fn ($date) => $date->name)
+                ->map(fn ($item) => $item->count())
                 ->values()
         )->options([
             'fill' => true,
@@ -85,11 +85,11 @@ class HomeController extends Controller
             'pointRadius' => 2,
             'pointHoverRadius' => 2,
         ]);
-        $demandChartType->labels($demand->pluck('type')->groupBy(fn($date) => $date->name)->map(fn($item) => $item->count())->keys());
+        $demandChartType->labels($demand->pluck('type')->groupBy(fn ($date) => $date->name)->map(fn ($item) => $item->count())->keys());
         $demandChartType->title('Demandas por Tipo');
 
         // Contagem de pessoas por sexo
-        $personSex = $personAll->countBy(fn(Person $person) => PersonOptions::getSexOption($person->sex));
+        $personSex = $personAll->countBy(fn (Person $person) => PersonOptions::getSexOption($person->sex));
         $personSexChart = new PersonChart;
         $personSexChart->dataset('Pessoas', 'pie', $personSex->values())
             ->options([
@@ -104,7 +104,7 @@ class HomeController extends Controller
         $personSexChart->label('Quantidade');
         $personSexChart->labels($personSex->keys());
 
-        $cities = $personAll->countBy(fn(Person $person) => $person->address->district ?? 'Não informado');
+        $cities = $personAll->countBy(fn (Person $person) => $person->address->district ?? 'Não informado');
         $citiesChart = new PersonChart;
         $citiesChart->dataset('Pessoas', 'line', $cities->values())
             ->options([

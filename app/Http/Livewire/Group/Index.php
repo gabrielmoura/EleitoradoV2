@@ -23,7 +23,7 @@ class Index extends Component
 
     public string $name;
 
-    public string|null $description;
+    public ?string $description;
 
     public $perPage = 10;
 
@@ -31,7 +31,7 @@ class Index extends Component
         'exportSelected' => 'Export',
     ];
 
-    public int|null $updateGroupId;
+    public ?int $updateGroupId;
 
     protected $rules = [
         'name' => ['required', 'string', 'min:3', 'max:255'],

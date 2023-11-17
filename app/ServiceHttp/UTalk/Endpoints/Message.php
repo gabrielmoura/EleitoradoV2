@@ -7,7 +7,7 @@ use Illuminate\Http\Client\RequestException;
 
 class Message extends UtalkBase
 {
-    public function set(string $toPhone, string $fromPhone, string $organizationId, string $message, string|null $file = null, bool $skipReassign = false, ?string $token = null): MessageEntity
+    public function set(string $toPhone, string $fromPhone, string $organizationId, string $message, string $file = null, bool $skipReassign = false, string $token = null): MessageEntity
     {
         $req = $this->service
             ->refreshToken($token)

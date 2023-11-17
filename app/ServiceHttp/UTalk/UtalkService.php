@@ -44,7 +44,7 @@ class UtalkService
             ->contentType('application/json');
     }
 
-    public function refreshToken(?string $token = null): PendingRequest
+    public function refreshToken(string $token = null): PendingRequest
     {
         $this->api->withToken($token ?? config('services.utalk.key'));
 

@@ -38,7 +38,7 @@ class Index extends Component
 
     public ?string $closed_at;
 
-    public int|null $updateDemandId;
+    public ?int $updateDemandId;
 
     public function mount(): void
     {
@@ -67,6 +67,19 @@ class Index extends Component
         //date('d/m/Y', strtotime($this->solution_date));
         'closed_at' => ['nullable', 'string', 'min:3', 'max:255'],
         'demand_type_id' => ['required', 'integer', 'min:1', 'exists:demand_types,id'],
+    ];
+//    protected array $messages = [
+//        'demand_type_id.required' => 'O campo Tipo de demanda é obrigatório.',
+//    ];
+    protected array $validationAttributes = [
+        'demand_type_id' => 'Tipo de demanda',
+        'name' => 'Nome',
+        'description' => 'Descrição',
+        'priority' => 'Prioridade',
+        'active' => 'Ativo',
+        'status' => 'Status',
+        'solution_date' => 'Data de solução',
+        'closed_at' => 'Data de fechamento',
     ];
 
     protected $listeners = ['refresh' => '$refresh'];
@@ -127,8 +140,8 @@ class Index extends Component
         $this->priority = $demand->priority;
         $this->active = $demand->active;
         $this->status = $demand->status;
-        $this->solution_date = $demand->solution_date;
-        $this->closed_at = $demand->closed_at;
+        $this->solution_date = $demand->solution_date?->format('Y-m-d');
+        $this->closed_at = $demand->closed_at?->format('Y-m-d');
         $this->demand_type_id = $demand->demand_type_id;
 
         //        $this->dispatchBrowserEvent('open-modal');

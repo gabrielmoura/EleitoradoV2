@@ -18,8 +18,7 @@ class EnsureUserIsSubscribed
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user() && ! session('subscribed')) {
-            // This user is not a paying customer...
+        if ($request->user() && ! session('subscribed') && ! session('company.hand_signing')) {
             return redirect()->route('dash.payment.index');
         }
 

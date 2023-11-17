@@ -17,6 +17,7 @@ class LoginResponse implements LoginResponseContract
                 'name' => $company->name,
                 'id' => $company->id,
                 'banned' => $company->banned,
+                'hand_signing' => $company->hand_signing,
             ]);
             if ($company->subscribed('default')) {
                 $request->session()->put('subscribed', $company->subscription('default')->items->first()->toArray());

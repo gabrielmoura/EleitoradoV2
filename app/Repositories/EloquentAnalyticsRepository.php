@@ -11,10 +11,10 @@ class EloquentAnalyticsRepository implements AnalyticsRepository
     public function pessoas(
         string $group_name,
         string $tenant_id,
-        ?string $district = null,
+        string $district = null,
         bool $checked = true,
         bool $lazy = false,
-        ?string $month = null,
+        string $month = null,
     ): Collection|LazyCollection {
 
         $sql = DB::table('people')

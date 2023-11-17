@@ -17,14 +17,14 @@ class AjaxController extends Controller
 {
     public function getCep(Request $request): JsonResponse
     {
-        $this->validate($request, ['cep' => 'min:8|max:9']);
+        $this->validate($request, ['cep' => 'min:8|max:9|regex:/^[0-9]{5}-?[0-9]{3}$/']);
 
         return response()->json(CepService::find($request->input('cep')));
     }
 
     public function requestReportGroup(Request $request): JsonResponse
     {
-        if (RateLimiter::tooManyAttempts('export-pdf:'.$request->user()->id, $perMinute = 1)) {
+        if (RateLimiter::tooManyAttempts('export-pdf:' . $request->user()->id, $perMinute = 1)) {
             abort(Response::HTTP_TOO_MANY_REQUESTS, 'Too Many Attempts.');
         }
         $this->validate($request, [
@@ -41,7 +41,7 @@ class AjaxController extends Controller
             company_id: session()->get('company.id'),
         ));
 
-        RateLimiter::hit('export-pdf:'.$request->user()->id);
+        RateLimiter::hit('export-pdf:' . $request->user()->id);
 
         return response()->json(['message' => 'ok']);
     }
@@ -128,7 +128,7 @@ class AjaxController extends Controller
 
     public function requestTagEvent(Request $request): JsonResponse
     {
-        if (RateLimiter::tooManyAttempts('export-pdf:'.$request->user()->id, $perMinute = 1)) {
+        if (RateLimiter::tooManyAttempts('export-pdf:' . $request->user()->id, $perMinute = 1)) {
             abort(Response::HTTP_TOO_MANY_REQUESTS, 'Too Many Attempts.');
         }
         $request->validate([
@@ -140,7 +140,7 @@ class AjaxController extends Controller
             company_id: session()->get('company.id'),
             event_id: $request->input('event_id'),
         ));
-        RateLimiter::hit('export-pdf:'.$request->user()->id);
+        RateLimiter::hit('export-pdf:' . $request->user()->id);
 
         return response()->json(['message' => 'ok']);
     }

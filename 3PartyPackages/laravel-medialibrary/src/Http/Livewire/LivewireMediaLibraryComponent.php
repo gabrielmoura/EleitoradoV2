@@ -52,7 +52,7 @@ class LivewireMediaLibraryComponent extends Component
         bool $sortable = true,
         bool $editableName = true,
         string $rules = '',
-        ?int $maxItems = null,
+        int $maxItems = null,
         array $media = [],
         string $view = null,
         string $listView = null,

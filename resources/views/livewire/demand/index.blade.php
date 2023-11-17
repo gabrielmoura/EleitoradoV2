@@ -154,8 +154,8 @@
                         <td>{{ $group->name }}</td>
                         <td>{{\App\Service\Enum\DemandOptions::getPriorityOption($group->priority)}}</td>
                         <td>{{\App\Service\Enum\DemandOptions::getStatusOption($group->status)}}</td>
-                        <td>{{ $group->solution_date }}</td>
-                        <td>{{ $group->closed_at }}</td>
+                        <td>{{ $group->solution_date?->format('d/m/Y') }}</td>
+                        <td>{{ $group->closed_at?->format('d/m/Y') }}</td>
                         <td>{{ $group->type->name }}</td>
                         <td class="d-flex">
                             <a href="{{route('dash.demand.show',['demand'=>$group->pid])}}"

@@ -22,11 +22,11 @@ class Index extends Component
 
     public string $name;
 
-    public string|null $responsible;
+    public ?string $responsible;
 
-    public string|null $description;
+    public ?string $description;
 
-    public int|null $updateDemandTypeId;
+    public ?int $updateDemandTypeId;
 
     public function render()
     {
