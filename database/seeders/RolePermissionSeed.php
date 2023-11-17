@@ -23,7 +23,7 @@ class RolePermissionSeed extends Seeder
         $permissions = collect(['person', 'group', 'event', 'demand_type', 'demand', 'user', 'cron'])->map(function ($item) {
             $value = [];
             foreach (['create_', 'update_', 'read_', 'delete_'] as $prefix) {
-                $value[] = ['name' => $prefix.$item];
+                $value[] = ['name' => $prefix . $item];
             }
 
             return $value;
@@ -51,7 +51,27 @@ class RolePermissionSeed extends Seeder
         Permission::create(['name' => 'invoicing']);
 
         if (app()->environment('local')) {
-            $company = Company::create(['name' => 'Empresa 1', 'email' => 'company@example.com','hand_signing' => true]);
+            $company = Company::create([
+                'name' => 'Empresa 1',
+                'email' => 'company@example.com',
+                'hand_signing' => true,
+                'conf' => [
+                    'utalk' => [
+                        'key' => null,
+                        'phone' => null,
+                        'organization_id' => null,
+                    ],
+                    'telegram' => [
+                        'key' => null,
+                        'name' => null,
+                    ],
+                    'send_birthday' => [
+                        'mail' => false,
+                        'whatsapp' => false,
+                    ],
+                    'appointment' => false,
+                ]
+            ]);
             $adminUser = User::create([
                 'name' => 'Administrador',
                 'email' => 'admin@example.com',
