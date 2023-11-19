@@ -4,9 +4,9 @@ namespace App\Http\Livewire\Modal;
 
 use App\Events\Export\PDF\RequestExportTagEvent;
 use App\Models\Event;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Component;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * @description Modal para solicitar etiquetas de eventos com endereços
@@ -28,15 +28,10 @@ class RequestTagEventModal extends Component
         'data.type' => 'Tipo',
     ];
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
+
     public function mount(): void
     {
-        $this->data['tenant_id'] = session()?->get('tenant_id');
-        $this->data['company_id'] = session()?->get('company.id');
-        $this->data['event_id'] = $this->event_id??null;
+        $this->data['event_id'] = $this->event_id ?? null;
     }
 
     public function render()
@@ -53,17 +48,24 @@ class RequestTagEventModal extends Component
         $this->data = [];
     }
 
-    public function store(): void
+    public function store(Request $request): void
     {
         $this->validate();
+        if (RateLimiter::tooManyAttempts('export-pdf:' . $request->user()->id, $perMinute = 1)) {
+            $this->addError('request', 'Muitas tentativas. Tente novamente mais tarde.');
+        }
         event(new RequestExportTagEvent(
-            tenant_id: $this->data['tenant_id'],
-            company_id: $this->data['company_id'],
+            tenant_id: session()->get('tenant_id'),
+            company_id: session()->get('company.id'),
             event_id: $this->data['event_id'],
+            type: $this->data['type'] ?? null,
         ));
-        flash()->addSuccess('Solicitação enviada com sucesso!');
-        $this->emit('refresh');
 
+        RateLimiter::hit('export-pdf:' . $request->user()->id);
+
+        flash()->addSuccess('Solicitação enviada com sucesso!');
         $this->closeModal();
+        $this->emit('refresh');
+        $this->emit('refreshBrowser');
     }
 }

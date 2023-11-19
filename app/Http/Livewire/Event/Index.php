@@ -45,7 +45,7 @@ class Index extends Component
         'data.local.complement' => ['nullable', 'string', 'min:3', 'max:255'],
         'data.local.district' => ['nullable', 'string', 'min:3', 'max:255'],
         'data.local.city' => ['nullable', 'string', 'min:3', 'max:255'],
-        'data.local.state' => ['nullable', 'string', 'min:3', 'max:255'],
+        'data.local.state' => ['nullable', 'string', 'min:2', 'max:255'],
         'data.local.zipcode' => ['nullable', 'string', 'min:8', 'max:9', 'regex:/^[0-9]{5}-?[0-9]{3}$/']
     ];
     protected $casts = [
@@ -153,7 +153,7 @@ class Index extends Component
         $event = Event::with('address')->findOrFail($id);
         $this->data['event'] = $event->toArray();
         $this->data['event']['start_date'] = $event->start_date->format('Y-m-d\TH:i');
-        $this->data['event']['end_date'] = $event->end_date->format('Y-m-d\TH:i');
+        $this->data['event']['end_date'] = $event->end_date?->format('Y-m-d\TH:i');
         $this->data['local'] = $event->address;
         $this->data['local']['number'] = strval($event->address?->number);
     }

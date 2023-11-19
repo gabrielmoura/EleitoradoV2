@@ -43,7 +43,7 @@ class ExportTagEventJob implements ShouldQueue
         foreach ($this->data->chunk($this->peerPage) as $datum) {
             $data = $datum;
             $tag_name = $this->tag_name;
-            $view = \View::make('export.pdf.tag', compact('data', 'tag_name'));
+            $view = \View::make($this->getView(), compact('data', 'tag_name'));
             $html = $view->render();
 
             \PDF::AddPage();
@@ -64,5 +64,13 @@ class ExportTagEventJob implements ShouldQueue
     public function failed(Throwable $exception): void
     {
         report($exception);
+    }
+
+    private function getView(): string
+    {
+        if ($this->type === '1888') {
+            return 'export.pdf.tag-1888';
+        }
+        return 'export.pdf.tag';
     }
 }

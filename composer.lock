@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "32aa2344450540454044a903d561a2bf",
+    "content-hash": "cd713bd26c16247a2dd4fb6a078df210",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -914,20 +914,20 @@
         },
         {
             "name": "ezyang/htmlpurifier",
-            "version": "v4.16.0",
+            "version": "v4.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ezyang/htmlpurifier.git",
-                "reference": "523407fb06eb9e5f3d59889b3978d5bfe94299c8"
+                "reference": "bbc513d79acf6691fa9cf10f192c90dd2957f18c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/523407fb06eb9e5f3d59889b3978d5bfe94299c8",
-                "reference": "523407fb06eb9e5f3d59889b3978d5bfe94299c8",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/bbc513d79acf6691fa9cf10f192c90dd2957f18c",
+                "reference": "bbc513d79acf6691fa9cf10f192c90dd2957f18c",
                 "shasum": ""
             },
             "require": {
-                "php": "~5.6.0 || ~7.0.0 || ~7.1.0 || ~7.2.0 || ~7.3.0 || ~7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0"
+                "php": "~5.6.0 || ~7.0.0 || ~7.1.0 || ~7.2.0 || ~7.3.0 || ~7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0"
             },
             "require-dev": {
                 "cerdic/css-tidy": "^1.7 || ^2.0",
@@ -969,9 +969,9 @@
             ],
             "support": {
                 "issues": "https://github.com/ezyang/htmlpurifier/issues",
-                "source": "https://github.com/ezyang/htmlpurifier/tree/v4.16.0"
+                "source": "https://github.com/ezyang/htmlpurifier/tree/v4.17.0"
             },
-            "time": "2022-09-18T07:06:19+00:00"
+            "time": "2023-11-17T15:01:25+00:00"
         },
         {
             "name": "fruitcake/php-cors",
@@ -5621,16 +5621,16 @@
         },
         {
             "name": "psr/http-message",
-            "version": "2.0",
+            "version": "1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-message.git",
-                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71"
+                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/402d35bcb92c70c026d1a6a9883f06b2ead23d71",
-                "reference": "402d35bcb92c70c026d1a6a9883f06b2ead23d71",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
+                "reference": "cb6ce4845ce34a8ad9e68117c10ee90a29919eba",
                 "shasum": ""
             },
             "require": {
@@ -5639,7 +5639,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
@@ -5654,7 +5654,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "https://www.php-fig.org/"
+                    "homepage": "http://www.php-fig.org/"
                 }
             ],
             "description": "Common interface for HTTP messages",
@@ -5668,9 +5668,9 @@
                 "response"
             ],
             "support": {
-                "source": "https://github.com/php-fig/http-message/tree/2.0"
+                "source": "https://github.com/php-fig/http-message/tree/1.1"
             },
-            "time": "2023-04-04T09:54:51+00:00"
+            "time": "2023-04-04T09:50:52+00:00"
         },
         {
             "name": "psr/log",
@@ -10266,31 +10266,31 @@
         },
         {
             "name": "laradumps/laradumps",
-            "version": "v1.12.3",
+            "version": "v2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laradumps/laradumps.git",
-                "reference": "5bb1c9f97b5078a89b748f83cf5b05a03c2e54e0"
+                "reference": "3c273fe829c44c796e2fa2a68b22b535a39c8161"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laradumps/laradumps/zipball/5bb1c9f97b5078a89b748f83cf5b05a03c2e54e0",
-                "reference": "5bb1c9f97b5078a89b748f83cf5b05a03c2e54e0",
+                "url": "https://api.github.com/repos/laradumps/laradumps/zipball/3c273fe829c44c796e2fa2a68b22b535a39c8161",
+                "reference": "3c273fe829c44c796e2fa2a68b22b535a39c8161",
                 "shasum": ""
             },
             "require": {
-                "nunomaduro/termwind": "^1.12",
+                "illuminate/mail": "^9.0|^10.0",
+                "illuminate/support": "^9.0|^10.0",
+                "laradumps/laradumps-core": "^0.5.0",
+                "nunomaduro/termwind": "^1.15.1",
                 "php": "^8.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.8",
-                "illuminate/console": "^8.18 | ^9.0",
-                "illuminate/mail": "^8.18 | ^9.0",
-                "illuminate/support": "^8.18 | ^9.0",
-                "nunomaduro/larastan": "^1.0 | ^2.1",
-                "orchestra/testbench": "^6.17 | ^7.0",
-                "pestphp/pest": "^1.21",
-                "symfony/var-dumper": "^5.4 | ^6.0"
+                "laravel/pint": "^1.13.6",
+                "nunomaduro/larastan": "^2.6.4",
+                "orchestra/testbench": "^7.22|^8.15",
+                "pestphp/pest": "^2.24.3",
+                "symfony/var-dumper": "^5.0|^6.3.8"
             },
             "type": "library",
             "extra": {
@@ -10323,7 +10323,7 @@
             "homepage": "https://github.com/laradumps/laradumps",
             "support": {
                 "issues": "https://github.com/laradumps/laradumps/issues",
-                "source": "https://github.com/laradumps/laradumps/tree/v1.12.3"
+                "source": "https://github.com/laradumps/laradumps/tree/v2.2.1"
             },
             "funding": [
                 {
@@ -10331,7 +10331,75 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-05-30T20:24:09+00:00"
+            "time": "2023-11-14T15:32:53+00:00"
+        },
+        {
+            "name": "laradumps/laradumps-core",
+            "version": "v0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laradumps/laradumps-core.git",
+                "reference": "af5131a57fcdbe6b9ba4c25c3519d40dd6b132f3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laradumps/laradumps-core/zipball/af5131a57fcdbe6b9ba4c25c3519d40dd6b132f3",
+                "reference": "af5131a57fcdbe6b9ba4c25c3519d40dd6b132f3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "nesbot/carbon": "^2.71",
+                "nunomaduro/termwind": "^1.15.1",
+                "php": "^8.0",
+                "ramsey/uuid": "^3.9|^4.7.5",
+                "symfony/console": "^5.0|^6.3.8",
+                "symfony/finder": "^5.0|^6.3.5",
+                "symfony/process": "^5.0|^6.3.4",
+                "symfony/var-dumper": "^5.0|^6.3.8",
+                "vlucas/phpdotenv": "^5.6"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.13.6",
+                "pestphp/pest": "^2.24.3",
+                "phpstan/phpstan": "^1.10.41"
+            },
+            "bin": [
+                "bin/laradumps"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "LaraDumps\\LaraDumpsCore\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Luan Freitas",
+                    "email": "luanfreitas10@protonmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A dump component for php code.",
+            "homepage": "https://github.com/laradumps/laradumps-core",
+            "support": {
+                "issues": "https://github.com/laradumps/laradumps-core/issues",
+                "source": "https://github.com/laradumps/laradumps-core/tree/v0.5.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/luanfreitasdev",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-11-14T15:27:03+00:00"
         },
         {
             "name": "laravel/pint",

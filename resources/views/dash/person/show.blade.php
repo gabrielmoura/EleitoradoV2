@@ -66,7 +66,7 @@
                         - {{$person->address?->district}} - {{$person->address?->city}} - {{$person->address?->state}}
                         <br>
                         CEP: {{$person->address?->zipcode}} @if($person->address?->latitude && $person->address?->longitude)
-                            <a href="https://www.google.com/maps/search/?api=1&query={{$person->address->latitude}},{{$person->address->longitude}}">(Visualizar
+                            <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{$person->address->latitude}},{{$person->address->longitude}}">(Visualizar
                                 no Mapa)</a>
                         @endif <br>
 

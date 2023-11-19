@@ -34,35 +34,36 @@ class ExportPeopleAddressListener implements ShouldQueue
 
         })->catch(function (Batch $batch, \Throwable $e) use ($event) {
             FailedExportPeopleAddress::dispatch($batch->id, $event->company_id, $e->getMessage());
-        })->name('Export People Address')->dispatch();
+        })->name('Export People Address');
 
-        //        $data = $this->analyticsRepository->pessoas(
-        //            group_name: $request->input('group_name'),
-        //            tenant_id: $tenant_id,
-        //            district: $request->input('district'),
-        //            checked: $request->input('checked'),
-        //            lazy: false);
+        try {
+            $query = Person::with('address', 'groups')->whereTenantId($event->tenant_id)
+                ->whereHas('groups', function ($query) use (&$event) {
+                    $query->where('name', 'like', $event->group_name);
+                });
 
-        $query = Person::with('address', 'groups')->whereTenantId($event->tenant_id)
-            ->whereHas('groups', function ($query) use ($event) {
-                $query->where('name', 'like', $event->group_name);
+            if ($event->district) {
+                $query->whereHas('address', function ($query) use (&$event) {
+                    $query->where('district', 'like', $event->district);
+                });
+            }
+
+            $data = $query->get();
+
+            $data->groupBy('address.district')->each(function ($items, $district) use (&$batch, &$event) {
+                $items->chunk(100)->each(function ($item) use ($district, &$batch, &$event) {
+                    $batch->add(new ExportPeopleAddressJob(
+                        data: $item,
+                        filename: 'puxada',
+                        company_id: $event->company_id,
+                        group_by_name: $event->group_name . ':' . (strlen($district) > 0 ? $district : 'Sem Bairro'),
+                    ));
+                });
             });
-
-        if ($event->district) {
-            $query->whereHas('address', function ($query) use ($event) {
-                $query->where('district', 'like', $event->district);
-            });
+        } catch (\Throwable $th) {
+            report($th);
+        } finally {
+            $batch->dispatch();
         }
-
-        $query->get()->groupBy('address.district')->each(function ($items, $district) use (&$batch, &$event) {
-            $items->chunk(100)->each(function ($item) use ($district, &$batch, &$event) {
-                $batch->add(new ExportPeopleAddressJob(
-                    data: $item,
-                    filename: 'puxada',
-                    company_id: $event->company_id,
-                    group_by_name: $event->group_name.':'.(strlen($district) > 0 ? $district : 'Sem Bairro'),
-                ));
-            });
-        });
     }
 }

@@ -11,6 +11,10 @@
                     </h1>
                 </div>
                 <div class="col-12 col-xl-auto mb-3">
+                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#appointment-modal-delete">
+                        <i class="me-1 fad fa-trash"></i>
+                        Apagar
+                    </button>
                     <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#appointment-modal-edit">
                         <i class="me-1 fad fa-edit"></i>
                         Editar
@@ -68,4 +72,5 @@
         </div>
     </div>
     <livewire:appointment.appointment-modal-edit :appointment="$appointment"/>
+    <livewire:appointment.appointment-modal-delete :appointment="$appointment"/>
 </x-app-layout>

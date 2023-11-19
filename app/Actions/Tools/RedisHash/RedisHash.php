@@ -1,18 +1,13 @@
 <?php
 
-namespace App\Actions\Tools;
+namespace App\Actions\Tools\RedisHash;
 
+use Illuminate\Redis\Connections\Connection;
 use Illuminate\Support\Facades\Redis;
-
-enum Direction: string
-{
-    case ASC = 'ASC';
-    case DESC = 'DESC';
-}
 
 class RedisHash
 {
-    private \Illuminate\Redis\Connections\Connection $redis;
+    private Connection $redis;
 
     public function __construct(string $name = null)
     {
@@ -39,6 +34,23 @@ class RedisHash
     public function getArray(string $key): array
     {
         return $this->redis->command('HGETALL', [$key]);
+    }
+
+    /**
+     * @description Retorna um valor de um campo de um hash caso exista
+     * @param string $key
+     * @param array $data
+     * @return array
+     */
+    public function rememberArray(string $key, array $data): array
+    {
+        $value = $this->getArray($key);
+        if (empty($value)) {
+            $this->setArray($key, $data);
+            return $data;
+        }
+        $this->setArray($key, $data);
+        return $data;
     }
 
     /**

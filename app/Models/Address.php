@@ -30,11 +30,13 @@ class Address extends Model
         'tenant_id',
         'uf',
         'district',
+        'processed_at'
     ];
 
     protected $casts = [
         'latitude' => 'float',
         'longitude' => 'float',
+        'processed_at' => 'timestamp'
     ];
 
     public function full_address(): Attribute

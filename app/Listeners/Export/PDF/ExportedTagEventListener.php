@@ -2,10 +2,12 @@
 
 namespace App\Listeners\Export\PDF;
 
-use App\Events\Export\PDF\ExportedPeopleAddress;
+use App\Events\Export\PDF\ExportedTagEvent;
 use App\Notifications\System\GenericNotification;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 
-class ExportedPeopleAddressNotification
+class ExportedTagEventListener
 {
     /**
      * Create the event listener.
@@ -18,14 +20,13 @@ class ExportedPeopleAddressNotification
     /**
      * Handle the event.
      */
-    public function handle(ExportedPeopleAddress $event): void
+    public function handle(ExportedTagEvent $event): void
     {
-        //        $event->user->notify(new \App\Notifications\Export\PDF\ExportedPeopleAddress($event->file));
         $company = \App\Models\Company::find($event->companyId);
         $company->notify(new GenericNotification(
-            text: 'Puxada Disponível',
+            text: 'Tag Disponível',
             date: now(),
-            url: route('dash.report.get', ['id' => $event->batchId, 'name' => 'Puxada']),
+            url: route('dash.report.get', ['id' => $event->batchId,'name' => 'Tag']),
             uid: $event->batchId,
         ));
     }

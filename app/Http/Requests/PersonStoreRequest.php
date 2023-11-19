@@ -57,9 +57,9 @@ class PersonStoreRequest extends FormRequest
             'complement' => ['nullable', 'string', 'max:255'],
             'district' => ['nullable', 'string', 'max:255'],
             'city' => ['nullable', 'string', 'max:255'],
-            'state' => ['nullable', 'string', 'max:255'],
+            'state' => ['nullable', 'string', 'max:255', 'min:2'],
             'country' => ['nullable', 'string', 'max:255'],
-            'zipcode' => ['nullable', 'string', 'max:11'],
+            'zipcode' => ['nullable', 'string', 'min:8', 'max:9', 'regex:/^[0-9]{5}-?[0-9]{3}$/'],
             'uf' => 'nullable|string|max:2',
 
             /** Avatar */
@@ -70,6 +70,46 @@ class PersonStoreRequest extends FormRequest
                     ->maxTotalSizeInKb(2048),
             ],
 
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            /** Endereço */
+            'zipcode' => 'CEP',
+            'uf' => 'Estado',
+            'street' => 'Rua',
+            'number' => 'Número',
+            'complement' => 'Complemento',
+            'district' => 'Bairro',
+            'city' => 'Cidade',
+            'state' => 'Estado',
+            'country' => 'País',
+
+            'name' => 'Nome',
+            'email' => 'E-mail',
+            'cellphone' => 'Celular',
+            'telephone' => 'Telefone',
+            'cpf' => 'CPF',
+            'rg' => 'RG',
+            'dateOfBirth' => 'Data de Aniversário',
+            'sex' => 'Sexo',
+            'observation' => 'Observação',
+
+            /** Dados Eleitorais */
+            'voter_zone' => 'Zona Eleitoral',
+            'voter_section' => 'Seção Eleitoral',
+            'voter_registration' => 'Inscrição Eleitoral',
+            'skinColor' => 'Cor/Raça',
+            'maritalStatus' => 'Estado Civil',
+            'educationLevel' => 'Escolaridade',
+            'occupation' => 'Ocupação',
+            'religion' => 'Religião',
+            'housing' => 'Moradia',
+            'sexualOrientation' => 'Orientação Sexual',
+            'genderIdentity' => 'Identidade de Gênero',
+            'deficiencyType' => 'Tipo de Deficiência',
         ];
     }
 }

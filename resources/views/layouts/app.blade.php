@@ -40,9 +40,9 @@
                 <div class="row">
                     <div class="col-md-6 small">Copyright &copy; {{config('app.name')}} 2023</div>
                     <div class="col-md-6 text-md-end small">
-                        <a href="{{route('front.privacy')}}">Privacy Policy</a>
+                        <a href="{{route('front.privacy')}}">Política de Privacidade</a>
                         &middot;
-                        <a href="{{route('front.terms')}}">Terms &amp; Conditions</a>
+                        <a href="{{route('front.terms')}}">Termos de serviço</a>
                     </div>
                 </div>
             </div>

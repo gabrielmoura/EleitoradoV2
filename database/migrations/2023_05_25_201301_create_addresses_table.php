@@ -28,6 +28,8 @@ return new class extends Migration
             $table->string('reference')->nullable();
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
+
+            $table->timestamp('processed_at')->nullable()->comment('Data de processamento do endereço');
         });
     }
 

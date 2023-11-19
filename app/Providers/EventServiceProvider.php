@@ -7,7 +7,9 @@ use App\Events\Dash\User\UserUpdatedEvent;
 use App\Events\Demand\DemandClosedEvent;
 use App\Events\Demand\DemandCreatedEvent;
 use App\Events\Export\PDF\ExportedPeopleAddress;
+use App\Events\Export\PDF\ExportedTagEvent;
 use App\Events\Export\PDF\FailedExportPeopleAddress;
+use App\Events\Export\PDF\FailedExportTagEvent;
 use App\Events\Export\PDF\RequestExportPeopleAddressEvent;
 use App\Events\Export\PDF\RequestExportTagEvent;
 use App\Events\System\GeneratedInviteEvent;
@@ -17,9 +19,11 @@ use App\Listeners\Dash\User\UserUpdatedClearPermissionCache;
 use App\Listeners\Demand\DemandClosedMail;
 use App\Listeners\Demand\DemandCreatedMail;
 use App\Listeners\Export\PDF\ExportedPeopleAddressNotification;
+use App\Listeners\Export\PDF\ExportedTagEventListener;
 use App\Listeners\Export\PDF\ExportPeopleAddressListener;
 use App\Listeners\Export\PDF\ExportTagEventListener;
 use App\Listeners\Export\PDF\FailedExportedPeopleAddressNotification;
+use App\Listeners\Export\PDF\FailedExportTagEventListener;
 use App\Listeners\System\GeneratedInviteNotification;
 use App\Listeners\System\PlanCreatedUpdateStripeListener;
 use App\Listeners\System\StripeInvoiceMailerListener;
@@ -44,6 +48,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         FailedExportPeopleAddress::class => [
             FailedExportedPeopleAddressNotification::class,
+        ],
+        ExportedTagEvent::class => [
+            ExportedTagEventListener::class,
+        ],
+        FailedExportTagEvent::class => [
+            FailedExportTagEventListener::class,
         ],
         DemandCreatedEvent::class => [
             DemandCreatedMail::class,

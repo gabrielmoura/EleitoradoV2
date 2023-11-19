@@ -17,7 +17,7 @@ use Livewire\Component;
  */
 class RequestReportGroupModal extends Component
 {
-    public string $group_name;
+    public ?string $group_name;
     public array $data;
     public string $modalId = 'request-report-group-modal';
     protected $listeners = ['open' => 'showModal'];
@@ -35,7 +35,7 @@ class RequestReportGroupModal extends Component
     public function mount(): void
     {
         $this->data['checked'] = true;
-        $this->data['group_name'] = $group_name ?? '';
+        $this->data['group_name'] = $this->group_name;
     }
 
     public function render()
@@ -62,7 +62,7 @@ class RequestReportGroupModal extends Component
 
             event(new RequestExportPeopleAddressEvent(
                 group_name: $this->data['group_name'],
-                district: $this->data['district'],
+                district: $this->data['district']??null,
                 checked: $this->data['checked'],
                 tenant_id: session()->get('tenant_id'),
                 company_id: session()->get('company.id'),
