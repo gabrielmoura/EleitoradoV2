@@ -69,6 +69,10 @@ class Demand extends Model implements HasMedia
     {
         return $this->belongsToMany(Person::class, 'demand_people', 'demand_id', 'person_id');
     }
+    public function groups(): BelongsToMany
+    {
+        return $this->belongsToMany(Group::class, 'demand_group', 'demand_id', 'group_id');
+    }
 
     protected static function boot(): void
     {

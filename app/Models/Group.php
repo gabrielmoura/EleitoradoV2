@@ -45,6 +45,10 @@ class Group extends Model
     {
         return $query->where('pid', Ulid::fromString($pid)->toRfc4122());
     }
+    public function demands(): BelongsToMany
+    {
+        return $this->belongsToMany(Demand::class, 'demand_group', 'group_id', 'demand_id');
+    }
 
     //    protected function makeAllSearchableUsing(Builder $query): Builder
     //    {
