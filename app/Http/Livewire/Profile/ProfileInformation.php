@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Profile;
 
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use Illuminate\Support\Carbon;
 use Livewire\Component;
 
 class ProfileInformation extends Component
@@ -12,6 +13,7 @@ class ProfileInformation extends Component
     public function mount()
     {
         $this->state = auth()->user()->withoutRelations()->toArray();
+        $this->state['birthday'] = Carbon::parse($this->state['birthday'])->format('Y-m-d');
     }
 
     public function updateProfileInformation(UpdateUserProfileInformation $updater): void

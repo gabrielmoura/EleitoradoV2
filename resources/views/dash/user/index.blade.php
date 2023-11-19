@@ -36,7 +36,10 @@
             <tbody>
             @foreach($users as $user)
                 <tr>
-                    <td>{{$user->name}}</td>
+                    <td>
+                        {{$user?->birthday?->month == now()->month? '🎂🎉':''}}
+                        {{$user->name}}
+                    </td>
                     <td>{{$user->email}}</td>
                     <td>
                         <span
