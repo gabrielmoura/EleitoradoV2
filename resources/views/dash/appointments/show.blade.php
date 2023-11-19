@@ -64,7 +64,7 @@
                         Descrição: {{$appointment->description}}<br>
                         Inicio: {{$appointment->start_time->format('d/m/y H:i')}}<br>
                         Fim: {{$appointment->end_time?->format('d/m/y H:i')}}<br>
-                        Endereço: {{$appointment->address?->full_address}}<br>
+                        Endereço: {{$appointment?->address?->full_address}}<br>
                         <br>
                     </div>
                 </div>

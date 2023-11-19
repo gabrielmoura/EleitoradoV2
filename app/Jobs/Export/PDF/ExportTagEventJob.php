@@ -49,9 +49,8 @@ class ExportTagEventJob implements ShouldQueue
             \PDF::AddPage();
             \PDF::writeHTML($html, true, false, true, false, '');
         }
-        $random = Str::random();
         $content = \PDF::Output('', 'S');
-        $newName = "$this->filename-$this->tag_name-$random.pdf";
+        $newName = $this->generateName($this->filename, $this->tag_name);
 
         \Storage::disk('public')->put($newName, $content);
 
@@ -72,5 +71,13 @@ class ExportTagEventJob implements ShouldQueue
             return 'export.pdf.tag-1888';
         }
         return 'export.pdf.tag';
+    }
+
+    private function generateName(string $filename, string $tag_name): string
+    {
+        $random = Str::random(5);
+        $filename = removeAccentsSpecialCharacters($filename);
+        $tag_name = removeAccentsSpecialCharacters($tag_name);
+        return "$filename-$tag_name-$random.pdf";
     }
 }

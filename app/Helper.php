@@ -59,3 +59,18 @@ if (! function_exists('formatCurrency')) {
         return $cash->formatCurrency($value, $currency);
     }
 }
+
+if (! function_exists('removeAccentsSpecialCharacters')) {
+    function removeAccentsSpecialCharacters(string $string): string
+    {
+        // Remove acentos
+        $string = preg_replace('/[áàãâä]/u', 'a', $string);
+        $string = preg_replace('/[éèêë]/u', 'e', $string);
+        $string = preg_replace('/[íìîï]/u', 'i', $string);
+        $string = preg_replace('/[óòõôö]/u', 'o', $string);
+        $string = preg_replace('/[úùûü]/u', 'u', $string);
+
+        // Remove caracteres especiais e converte para minúsculas
+        return strtolower(preg_replace('/[^a-z0-9:]/i', '', $string));
+    }
+}

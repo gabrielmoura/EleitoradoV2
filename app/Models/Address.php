@@ -39,11 +39,9 @@ class Address extends Model
         'processed_at' => 'timestamp'
     ];
 
-    public function full_address(): Attribute
+    public function getFullAddressAttribute(): string
     {
-        return Attribute::get(function () {
             return "{$this->street}, {$this->number} - {$this->district}, {$this->city} - {$this->uf}";
-        });
     }
 
     public function getActivitylogOptions(): LogOptions

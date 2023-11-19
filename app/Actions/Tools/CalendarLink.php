@@ -7,19 +7,19 @@ use App\Models\Event;
 
 class CalendarLink
 {
-    public $title;
+    public string $title;
 
     public $start;
 
     public $end;
 
-    public $description;
+    public ?string $description;
 
-    public $location;
+    public ?string $location;
 
     public $uid;
 
-    private $dateTimeFormat = 'Ymd\THis';
+    private string $dateTimeFormat = 'Ymd\THis';
 
     public function __construct(Appointment|Event $calendar)
     {
@@ -80,31 +80,6 @@ class CalendarLink
         return $url;
     }
 
-//    public function ics()
-//    {
-//        $url = 'data:text/calendar;charset=utf8,';
-//        $url .= "BEGIN:VCALENDAR
-//        VERSION:2.0
-//        BEGIN:VEVENT
-//        UID:{$this->uid}
-//        URL:" . url()->current() . "
-//        DTSTART:{$this->start->format($this->dateTimeFormat)}
-//        DTEND:" . ($this->end ?->format($this->dateTimeFormat) ?? $this->start->format($this->dateTimeFormat)) . "
-//        SUMMARY:{$this->title}";
-//
-//        if ($this->description) {
-//            $url .= "DESCRIPTION:{$this->description}";
-//        }
-//
-//        if ($this->location) {
-//            $url .= "LOCATION:{$this->location}";
-//        }
-//
-//        $url .= "END:VEVENT
-//        END:VCALENDAR";
-//
-//        return $url;
-//    }
     public function ics()
     {
         $url = 'data:text/calendar;charset=utf8,';
@@ -123,7 +98,7 @@ class CalendarLink
         $url .= "URL:" . url()->current() . "\r\n";
         $url .= "DTSTAMP:{$dtStamp}\r\n";
         $url .= "DTSTART:{$this->start->format('Ymd\THis\Z')}\r\n";
-        $url .= "DTEND:" . ($this->end ?->format('Ymd\THis\Z') ?? $this->start->format('Ymd\THis\Z')) . "\r\n";
+        $url .= "DTEND:" . ($this->end?->format('Ymd\THis\Z') ?? $this->start->format('Ymd\THis\Z')) . "\r\n";
         $url .= "SUMMARY:{$this->title}\r\n";
 
         if ($this->description) {

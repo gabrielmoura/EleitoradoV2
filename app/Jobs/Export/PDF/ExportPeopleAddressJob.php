@@ -49,14 +49,14 @@ class ExportPeopleAddressJob implements ShouldQueue
             \PDF::AddPage();
             \PDF::writeHTML($html, true, false, true, false, '');
         }
-        $random = Str::random();
+
         $content = \PDF::Output('', 'S');
-        $newName = "$this->filename-$this->group_by_name-$random.pdf";
+        $newName = $this->generateName($this->filename, $this->group_by_name);
 
         \Storage::disk('public')->put($newName, $content);
 
         Company::find($this->company_id)
-            ->addMedia(storage_path('app/public/'.$newName))
+            ->addMedia(storage_path('app/public/' . $newName))
             ->withCustomProperties(['batchId' => $this->batch()->id])
             ->toMediaCollection('puxada');
     }
@@ -64,5 +64,13 @@ class ExportPeopleAddressJob implements ShouldQueue
     public function failed(Throwable $exception): void
     {
         report($exception);
+    }
+
+    private function generateName(string $filename, string $group_by_name): string
+    {
+        $random = Str::random(5);
+        $filename = removeAccentsSpecialCharacters($filename);
+        $group_by_name = removeAccentsSpecialCharacters($group_by_name);
+        return "$filename-$group_by_name-$random.pdf";
     }
 }

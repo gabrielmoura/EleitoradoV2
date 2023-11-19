@@ -32,7 +32,7 @@
         });
         map.addControl(new maplibregl.NavigationControl());
         const marker = new maplibregl.Marker()
-            .setLngLat([{{$lat}}, {{$long}}])
+            .setLngLat([{{$long}}, {{$lat}}])
             .addTo(map);
     </script>
 </div>
