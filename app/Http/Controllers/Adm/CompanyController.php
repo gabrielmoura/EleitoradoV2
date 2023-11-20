@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Adm;
 
+use App\Actions\Tools\CompanyConfig;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use Illuminate\Http\Request;
@@ -18,9 +19,7 @@ class CompanyController extends Controller
 
     public function store(Request $request)
     {
-
-        //        $data = $request->validated();
-        $this->validate($request, [
+        $request->validate([
             'name' => 'required',
             'email' => ['required', 'email', 'unique:companies,email'],
             'phone' => ['string', 'nullable'],
@@ -28,42 +27,30 @@ class CompanyController extends Controller
             'doc_type' => ['nullable', 'string', 'in:br_cnpj,br_cpf', 'required_with:doc'],
         ]);
 
-        $collection = collect($request->only(['name', 'email', 'phone']));
-        if ($request->has('doc') && $request->has('doc_type')) {
-            //https://stripe.com/docs/api/customers/create
-            $collection->put('tax_id_data', [
-                'type' => $request->doc_type,
-                'value' => $request->doc,
-            ]);
-        }
-        $collection->put('conf', [
-            'utalk' => [
-                'key' => null,
-                'phone' => null,
-                'organization_id' => null,
-            ],
-            'telegram' => [
-                'key' => null,
-                'name' => null,
-            ],
-            'send_birthday' => [
-                'mail' => false,
-                'whatsapp' => false,
-            ],
-            'appointment' => false,
-        ]);
-        $company = Company::create($collection->toArray());
+        $data = $request->only(['name', 'email', 'phone']);
 
-        if ($request->has('avatar')) {
-            $company
-                ->addFromMediaLibraryRequest($request->avatar)
-                ->toMediaCollection('avatar');
+        if ($request->filled('doc', 'doc_type')) {
+            $data['tax_id_data'] = [
+                'type' => $request->input('doc_type'),
+                'value' => $request->input('doc'),
+            ];
         }
-        // https://laravel.com/docs/10.x/billing#creating-customers
+
+        $data['conf'] = CompanyConfig::default();
+
+        $company = Company::create($data);
+
+        if ($request->hasFile('avatar')) {
+            $company->addMediaFromRequest('avatar')->toMediaCollection('avatar');
+        }
+
         $company->createAsStripeCustomer([
             'preferred_locales' => [str_replace('_', '-', app()->getLocale())],
         ]);
-        $company->createTaxId($request->doc_type, $request->doc);
+
+        if ($request->filled('doc_type', 'doc')) {
+            $company->createTaxId($request->input('doc_type'), $request->input('doc'));
+        }
 
         return redirect()->route('admin.company.index');
     }

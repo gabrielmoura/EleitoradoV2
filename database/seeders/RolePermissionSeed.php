@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Actions\Tools\CompanyConfig;
 use App\Models\Company;
 use App\Models\User;
 use App\Service\Enum\RoleOptions;
@@ -55,22 +56,7 @@ class RolePermissionSeed extends Seeder
                 'name' => 'Empresa 1',
                 'email' => 'company@example.com',
                 'hand_signing' => true,
-                'conf' => [
-                    'utalk' => [
-                        'key' => null,
-                        'phone' => null,
-                        'organization_id' => null,
-                    ],
-                    'telegram' => [
-                        'key' => null,
-                        'name' => null,
-                    ],
-                    'send_birthday' => [
-                        'mail' => false,
-                        'whatsapp' => false,
-                    ],
-                    'appointment' => false,
-                ]
+                'conf' => CompanyConfig::default(),
             ]);
             $adminUser = User::create([
                 'name' => 'Administrador',

@@ -32,30 +32,21 @@ class StripeInvoiceMailerListener implements ShouldQueue
      */
     public function handle(WebhookReceived $event): void
     {
-        if ($event->payload['type'] === 'invoice.finalized') {
-            // Let's find the relevant user/billable
+        $eventType = $event->payload['type'];
+
+        if (in_array($eventType, ['invoice.finalized', 'invoice.payment_succeeded'])) {
             $stripeCustomerId = $event->payload['data']['object']['customer'];
             $billable = Cashier::findBillable($stripeCustomerId);
 
-            // Get the Laravel\Cashier\Invoice object
-            $invoice = $billable->findInvoice($event->payload['data']['object']['id']);
-            $company = Company::whereStripeId($stripeCustomerId)->first();
+            if ($billable) {
+                $invoiceId = $event->payload['data']['object']['id'];
+                $invoice = $billable->findInvoice($invoiceId);
+                $company = Company::whereStripeId($stripeCustomerId)->first();
 
-            // Now we can send the invoice!
-            Mail::to($billable)->queue(new InvoiceFinalizedMail($invoice, $company));
-        }
-        //invoice.payment_succeeded
-        if ($event->payload['type'] === 'invoice.payment_succeeded') {
-            // Let's find the relevant user/billable
-            $stripeCustomerId = $event->payload['data']['object']['customer'];
-            $billable = Cashier::findBillable($stripeCustomerId);
-
-            // Get the Laravel\Cashier\Invoice object
-            $invoice = $billable->findInvoice($event->payload['data']['object']['id']);
-            $company = Company::whereStripeId($stripeCustomerId)->first();
-
-            // Now we can send the invoice!
-            Mail::to($billable)->queue(new InvoiceFinalizedMail($invoice, $company));
+                if ($invoice && $company) {
+                    Mail::to($billable)->queue(new InvoiceFinalizedMail($invoice, $company));
+                }
+            }
         }
     }
 }

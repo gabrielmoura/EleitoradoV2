@@ -15,6 +15,11 @@ class CompanyConfig
         $this->config = $this->company->conf;
     }
 
+    /**
+     * @description Retorna todas as configurações da empresa
+     * @param bool $dot
+     * @return Collection
+     */
     public function all(bool $dot = false): Collection
     {
         if ($dot) {
@@ -24,6 +29,11 @@ class CompanyConfig
         return $this->config;
     }
 
+    /**
+     * @description Retorna o valor da configuração
+     * @param string $key
+     * @return mixed
+     */
     public function get(string $key): mixed
     {
         $data = Arr::dot($this->config->toArray());
@@ -31,6 +41,12 @@ class CompanyConfig
         return $data[$key] ?? null;
     }
 
+    /**
+     * @description Altera o valor da configuração
+     * @param string $key
+     * @param mixed $value
+     * @return void
+     */
     public function set(string $key, mixed $value): void
     {
         $data = Arr::dot($this->config->toArray());
@@ -40,6 +56,11 @@ class CompanyConfig
         $this->company->save();
     }
 
+    /**
+     * @description Verifica se a configuração existe
+     * @param string $key
+     * @return bool
+     */
     public function has(string $key): bool
     {
         $data = Arr::dot($this->config->toArray());
@@ -47,15 +68,40 @@ class CompanyConfig
         return Arr::has($data, $key);
     }
 
+    /**
+     * @description Remove todas as configurações da empresa
+     * @return void
+     */
     public function setDefault(): void
     {
-        $this->company->conf = $this->default();
+        $this->company->conf = self::default();
         $this->company->save();
     }
 
-    protected function default(): Collection
+    /**
+     * @description Retorna os nomes das configurações
+     * @return string[]
+     */
+    public static function getNames(): array
     {
-        return collect([
+        return [
+            'utalk.key' => 'Chave Utalk',
+            'utalk.phone' => 'Telefone Utalk',
+            'utalk.organization_id' => 'ID da organização Utalk',
+            'telegram.key' => 'Chave do bot Telegram',
+            'telegram.name' => 'Nome do bot Telegram',
+            'send_birthday.mail' => 'Enviar email de aniversário',
+            'send_birthday.whatsapp' => 'Enviar whatsapp de aniversário',
+        ];
+    }
+
+    /**
+     * @description Retorna as configurações padrões
+     * @return array
+     */
+    public static function default(): array
+    {
+        return [
             'utalk' => [
                 'key' => null,
                 'phone' => null,
@@ -69,6 +115,6 @@ class CompanyConfig
                 'mail' => false,
                 'whatsapp' => false,
             ],
-        ]);
+        ];
     }
 }

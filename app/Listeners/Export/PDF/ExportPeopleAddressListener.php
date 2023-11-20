@@ -38,15 +38,8 @@ class ExportPeopleAddressListener implements ShouldQueue
 
         try {
             $query = Person::with('address', 'groups')->whereTenantId($event->tenant_id)
-                ->whereHas('groups', function ($query) use (&$event) {
-                    $query->where('name', 'like', $event->group_name);
-                });
-
-            if ($event->district) {
-                $query->whereHas('address', function ($query) use (&$event) {
-                    $query->where('district', 'like', $event->district);
-                });
-            }
+                ->whereHas('groups', fn ($query) => $query->where('name', 'like', $event->group_name))
+                ->when($event->district, fn ($query) => $query->whereHas('address', fn ($query) => $query->where('district', 'like', $event->district)));
 
             $data = $query->get();
 

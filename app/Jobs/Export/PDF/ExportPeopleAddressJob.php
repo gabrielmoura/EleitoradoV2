@@ -14,6 +14,8 @@ use Illuminate\Support\Str;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Throwable;
+use PDF;
+use Storage;
 
 /**
  * @description Exporta os endereços das pessoas em PDF, separando 10 pessoas por página.
@@ -38,22 +40,26 @@ class ExportPeopleAddressJob implements ShouldQueue
     public function handle(): void
     {
 
-        \PDF::reset();
-        \PDF::SetTitle('Puxada');
+        PDF::reset();
+        PDF::SetTitle('Puxada');
+        PDF::SetCreator(config('tcpdf.creator'));
+        PDF::SetAuthor(config('tcpdf.author'));
+        PDF::SetSubject($this->group_by_name);
+
         foreach ($this->data->chunk($this->peerPage) as $datum) {
             $data = $datum;
             $group_name = $this->group_by_name;
             $view = \View::make('export.pdf.puxada', compact('data', 'group_name'));
             $html = $view->render();
 
-            \PDF::AddPage();
-            \PDF::writeHTML($html, true, false, true, false, '');
+            PDF::AddPage();
+            PDF::writeHTML($html, true, false, true, false, '');
         }
 
-        $content = \PDF::Output('', 'S');
+        $content = PDF::Output('', 'S');
         $newName = $this->generateName($this->filename, $this->group_by_name);
 
-        \Storage::disk('public')->put($newName, $content);
+        Storage::disk('public')->put($newName, $content);
 
         Company::find($this->company_id)
             ->addMedia(storage_path('app/public/' . $newName))

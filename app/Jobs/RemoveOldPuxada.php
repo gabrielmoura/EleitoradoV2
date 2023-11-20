@@ -14,7 +14,7 @@ class RemoveOldPuxada implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $timeDelete = 7;
+    public int $timeDelete = 7;
 
     /**
      * Create a new job instance.
@@ -29,16 +29,31 @@ class RemoveOldPuxada implements ShouldQueue
      */
     public function handle(): void
     {
+        $collections = ['puxada', 'tag'];
         try {
-            Media::where('collection_name', 'puxada')
-                ->where('created_at', '<', now()->subDays($this->timeDelete))->get()
-                ->each(function ($media) {
-                    Storage::delete($media->getPath());
-                    $media->delete();
-                });
+            foreach ($collections as $collection) {
+                $this->deleteMediaCollection($collection);
+            }
+
         } catch (\Exception $e) {
             report($e);
         }
+    }
 
+    private function deleteMediaCollection(string $collection): void
+    {
+        $mediaToDelete = Media::where('collection_name', $collection)
+            ->where('created_at', '<', now()->subDays($this->timeDelete))
+            ->get();
+
+        $mediaToDelete->each(function ($media) {
+            $this->deleteMedia($media);
+        });
+    }
+
+    private function deleteMedia($media): void
+    {
+        Storage::delete($media->getPath());
+        $media->delete();
     }
 }
