@@ -6,11 +6,11 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{$group_name}}</title>
-    <link href="@vite('resources/scss/tail.scss')" rel="stylesheet">
+    @vite('resources/scss/tail.scss')
 </head>
 <body>
 <div class="flex flex-col">
-    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="overflow-x-auto sm:-mx-6 lg:-mx-12">
         <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
             <div class="overflow-hidden">
                 <h1>Puxada</h1>

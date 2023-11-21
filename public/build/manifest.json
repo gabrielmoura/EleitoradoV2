@@ -1,6 +1,6 @@
 {
-  "_vendor-dbd17352.js": {
-    "file": "assets/vendor-dbd17352.js"
+  "_vendor-c655e967.js": {
+    "file": "assets/vendor-c655e967.js"
   },
   "resources/images/calendario-g.webp": {
     "file": "assets/calendario-g-0dd9036b.webp",
@@ -12,11 +12,11 @@
   },
   "resources/images/f.png": {
     "file": "assets/f-5c7b4150.png",
-    "src": "resources/images/logo.png"
+    "src": "resources/images/f.png"
   },
   "resources/images/logo.png": {
     "file": "assets/f-5c7b4150.png",
-    "src": "resources/images/logo.png"
+    "src": "resources/images/f.png"
   },
   "resources/images/m.png": {
     "file": "assets/m-47a6550e.png",
@@ -31,9 +31,9 @@
     "src": "resources/images/protest-7818627_640.webp"
   },
   "resources/js/app.js": {
-    "file": "assets/app-816a50b0.js",
+    "file": "assets/app-b63d3604.js",
     "imports": [
-      "_vendor-dbd17352.js"
+      "_vendor-c655e967.js"
     ],
     "isEntry": true,
     "src": "resources/js/app.js"
@@ -44,7 +44,7 @@
     "src": "resources/scss/app.scss"
   },
   "resources/scss/tail.scss": {
-    "file": "assets/tail-678a10c6.css",
+    "file": "assets/tail-e2c82551.css",
     "isEntry": true,
     "src": "resources/scss/tail.scss"
   }

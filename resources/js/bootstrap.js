@@ -23,7 +23,7 @@ import axios from 'axios';
 //     enabledTransports: ['ws', 'wss'],
 // });
 import * as maplibregl from 'maplibre-gl';
-// window.TomSelect = TomSelect;
+window.TomSelect = TomSelect;
 document.querySelectorAll('.tselect').forEach((el) => {
     new TomSelect(el, {
         allowEmptyOption: true,
@@ -56,6 +56,11 @@ window.addEventListener('close-modal', event => {
         let currentModal = bootstrap.Modal.getInstance(modal)
         if (currentModal) currentModal.hide()
     })
+})
+// refresh the page
+window.addEventListener('refreshBrowser', event => {
+    console.log('refreshing')
+    window.location.reload();
 })
 
 window.axios = axios;

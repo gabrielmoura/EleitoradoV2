@@ -17,7 +17,7 @@ class AppointmentController extends Controller
      */
     public function index(Request $request)
     {
-        abort_if(Feature::active(AppointmentFeature::class), Response::HTTP_UNAUTHORIZED);
+        abort_if(!Feature::for($request->user())->active(AppointmentFeature::class), Response::HTTP_UNAUTHORIZED);
 
         return view('dash.appointments.index');
     }

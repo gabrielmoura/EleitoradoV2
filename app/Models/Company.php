@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Cashier\Billable;
+use Laravel\Pennant\Concerns\HasFeatures;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Image\Exceptions\InvalidManipulation;
@@ -26,6 +27,7 @@ class Company extends Model implements HasMedia
     use Notifiable;
     use InteractsWithMedia;
     use Billable;
+    use HasFeatures;
 
     protected $casts = [
         'created_at' => 'datetime',

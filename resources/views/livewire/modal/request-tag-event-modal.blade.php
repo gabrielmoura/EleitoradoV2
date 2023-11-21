@@ -31,7 +31,6 @@
 
                         <select wire:model.debounce.500ms="data.type" name="dato" class="form-select select"
                                 id="data.type">
-                            <option value="">Selecione</option>
                             <option value="">Padrão</option>
 
                         </select>

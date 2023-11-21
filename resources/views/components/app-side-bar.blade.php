@@ -64,7 +64,7 @@
                         Eventos
                     </a>
 
-                    @feature('appointment')
+                    @feature('App\Features\Appointment')
                     <a class="nav-link {{request()->routeIs('dash.appointment.*')?'active':null}}"
                        href="{{route('dash.appointment.index')}}">
                         <div class="nav-link-icon">

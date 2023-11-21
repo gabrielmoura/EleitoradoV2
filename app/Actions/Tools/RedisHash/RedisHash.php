@@ -26,6 +26,19 @@ class RedisHash
 
     }
 
+
+    /**
+     * @description Define um campo de um hash
+     * @param string $key
+     * @param string $field
+     * @param array $data
+     * @return bool
+     */
+    public function setArrayField(string $key, string $field, mixed $data): bool
+    {
+        return $this->redis->command('HSET', [$key, $field, $data]);
+    }
+
     /**
      * @description Retorna um array associativo de um hash
      * @param string $key
@@ -35,6 +48,18 @@ class RedisHash
     {
         return $this->redis->command('HGETALL', [$key]);
     }
+
+    /**
+     * @description Retorna um valor de um campo de um hash caso exista
+     * @param string $key
+     * @param string $field
+     * @return mixed
+     */
+    public function getArrayField(string $key, string $field): mixed
+    {
+        return $this->redis->command('HGET', [$key, $field]);
+    }
+
 
     /**
      * @description Retorna um valor de um campo de um hash caso exista
@@ -65,16 +90,6 @@ class RedisHash
         return $this->redis->command('HSET', [$key, $field, $value]);
     }
 
-    /**
-     * @description Retorna um valor de um campo de um hash
-     * @param string $key
-     * @param string $field
-     * @return string
-     */
-    public function get(string $key, string $field): string
-    {
-        return $this->redis->command('HGET', [$key, $field]);
-    }
 
     /**
      * @description Deleta um campo de um hash
@@ -82,11 +97,20 @@ class RedisHash
      * @param string $field
      * @return bool
      */
-    public function delete(string $key, string $field): bool
+    public function deleteArrayField(string $key, string $field): bool
     {
         return $this->redis->command('HDEL', [$key, $field]);
     }
 
+    /**
+     * @description Deleta um  hash
+     * @param string $key
+     * @return bool
+     */
+    public function deleteArray(string $key): bool
+    {
+        return $this->redis->command('DEL', [$key]);
+    }
 
     /**
      * @description Define uma lista

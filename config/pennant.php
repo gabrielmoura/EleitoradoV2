@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('PENNANT_STORE', 'database'),
+    'default' => env('PENNANT_STORE', 'redis'),
 
     /*
     |--------------------------------------------------------------------------
@@ -36,8 +36,12 @@ return [
 
         'database' => [
             'driver' => 'database',
-            'connection' => null,
+            'connection' => config('database.default'),
             'table' => 'features',
+        ],
+        'redis' => [
+            'driver' => 'redis',
+            'connection' => 'default',
         ],
 
     ],

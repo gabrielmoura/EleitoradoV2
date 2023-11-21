@@ -40,6 +40,7 @@ return [
         'provider' => '', // Instance of StorageInterface for custom driver
         'hostname' => '127.0.0.1', // Hostname to use with the "socket" driver
         'port' => 2304, // Port to use with the "socket" driver
+        'open' => env('DEBUGBAR_OPEN_STORAGE', true), // Keep the storage drawer open by default
     ],
 
     /*

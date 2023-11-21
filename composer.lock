@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cd713bd26c16247a2dd4fb6a078df210",
+    "content-hash": "458149f98c192526ca3626b29bc0e3b4",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1043,6 +1043,65 @@
                 }
             ],
             "time": "2023-10-12T05:21:21+00:00"
+        },
+        {
+            "name": "gabrielmoura/laravel-pennant-redis",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gabrielmoura/laravel-pennant-redis.git",
+                "reference": "16bad971ee01111cfec37f546f4f4642676c4aac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gabrielmoura/laravel-pennant-redis/zipball/16bad971ee01111cfec37f546f4f4642676c4aac",
+                "reference": "16bad971ee01111cfec37f546f4f4642676c4aac",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/redis": "^v10",
+                "laravel/pennant": "^1.5",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^8.0",
+                "phpstan/phpstan": "^1.10"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Gabrielmoura\\LaravelPennantRedis\\LaravelPennantRedisServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Gabrielmoura\\LaravelPennantRedis\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gabriel Moura",
+                    "email": "gmoura96@icloud.com"
+                }
+            ],
+            "description": "A Redis Driver for Laravel Pennant",
+            "keywords": [
+                "driver",
+                "laravel",
+                "pennant",
+                "redis"
+            ],
+            "support": {
+                "issues": "https://github.com/gabrielmoura/laravel-pennant-redis/issues",
+                "source": "https://github.com/gabrielmoura/laravel-pennant-redis/tree/1.0"
+            },
+            "time": "2023-11-21T19:00:25+00:00"
         },
         {
             "name": "graham-campbell/result-type",

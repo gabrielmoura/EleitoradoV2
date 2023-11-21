@@ -2,13 +2,17 @@
 
 namespace App\Providers;
 
+
 use App\Mail\JobFailedMailable;
 use App\Models\Company;
 use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Lottery;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
+use Laravel\Pennant\Feature;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,5 +36,7 @@ class AppServiceProvider extends ServiceProvider
         Queue::failing(function (JobFailed $event) {
             Mail::to(config('mail.to.address'))->queue(new JobFailedMailable($event));
         });
+
+        Feature::define('site-redesign', Lottery::odds(10, 100));
     }
 }

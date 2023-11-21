@@ -39,7 +39,7 @@ class ExportTagEventListener implements ShouldQueue
         })->name('Export People Address');
 
         try {
-            $data=Event::find($event->event_id)->persons()->with('address')->get();
+            $data = Event::find($event->event_id)->persons()->with('address')->get();
             $data->chunk(100)->each(function ($item) use (&$batch, &$event) {
                 $batch->add(new ExportTagEventJob(
                     data: $item,
