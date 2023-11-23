@@ -127,7 +127,7 @@ return [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
             'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
             'serializer' => 3, // \Redis::SERIALIZER_MSGPACK
-//            'compression' => Redis::COMPRESSION_LZ4,
+            //            'compression' => Redis::COMPRESSION_LZ4,
         ],
 
         'default' => [

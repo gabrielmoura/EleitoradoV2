@@ -16,7 +16,6 @@ use App\Http\Controllers\Dash\PersonController;
 use App\Http\Controllers\Dash\UserController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::get('/', HomeController::class)->name('index');
 
 Route::group(['middleware' => ['subscribed']], function () {
@@ -47,7 +46,7 @@ Route::group(['middleware' => ['subscribed']], function () {
         ->names('appointment')
         ->whereUuid('appointment');
     Route::get('/appointment/ajax', [AppointmentController::class, 'ajax'])
-        ->name('appointment.ajax')->middleware(['cache.headers:private;max_age=60;etag','ajaxOnly']);
+        ->name('appointment.ajax')->middleware(['cache.headers:private;max_age=60;etag', 'ajaxOnly']);
 
     Route::resource('/campaign', CampaignController::class)->names('campaign')->whereUuid('campaign');
     Route::resource('/directMail', DirectMailController::class)->names('directMail')->whereUuid('directMail');

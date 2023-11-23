@@ -25,5 +25,6 @@ Route::prefix('v1')->group(function () {
 });
 Route::post('/info', function () {
     $all = request()->json()->all();
+
     return response()->json(['status' => 'ok', 'data' => $all]);
 });
