@@ -4,8 +4,6 @@ namespace App\Listeners\Export\PDF;
 
 use App\Events\Export\PDF\ExportedTagEvent;
 use App\Notifications\System\GenericNotification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class ExportedTagEventListener
 {
@@ -26,7 +24,7 @@ class ExportedTagEventListener
         $company->notify(new GenericNotification(
             text: 'Tag Disponível',
             date: now(),
-            url: route('dash.report.get', ['id' => $event->batchId,'name' => 'Tag']),
+            url: route('dash.report.get', ['id' => $event->batchId, 'name' => 'Tag']),
             uid: $event->batchId,
         ));
     }

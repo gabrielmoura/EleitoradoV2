@@ -21,13 +21,13 @@ use Symfony\Component\Uid\Ulid;
 
 class Demand extends Model implements HasMedia
 {
-    use HasFactory;
-    use LogsActivity;
-    use InteractsWithMedia;
-    use Searchable;
-    use HasTenant;
-    use HasPid;
     use ChartScopeTrait;
+    use HasFactory;
+    use HasPid;
+    use HasTenant;
+    use InteractsWithMedia;
+    use LogsActivity;
+    use Searchable;
 
     protected $fillable = [
         'name',
@@ -69,6 +69,7 @@ class Demand extends Model implements HasMedia
     {
         return $this->belongsToMany(Person::class, 'demand_people', 'demand_id', 'person_id');
     }
+
     public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'demand_group', 'demand_id', 'group_id');

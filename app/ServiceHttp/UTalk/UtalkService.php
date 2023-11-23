@@ -26,10 +26,10 @@ use Illuminate\Support\Facades\Http;
  */
 class UtalkService
 {
-    use HasChat;
-    use HasMessage;
-    use HasMember;
     use HasChannel;
+    use HasChat;
+    use HasMember;
+    use HasMessage;
     use HasSector;
     use HasWebhook;
 

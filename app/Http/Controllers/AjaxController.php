@@ -24,7 +24,7 @@ class AjaxController extends Controller
 
     public function requestReportGroup(Request $request): JsonResponse
     {
-        if (RateLimiter::tooManyAttempts('export-pdf:' . $request->user()->id, $perMinute = 1)) {
+        if (RateLimiter::tooManyAttempts('export-pdf:'.$request->user()->id, $perMinute = 1)) {
             abort(Response::HTTP_TOO_MANY_REQUESTS, 'Too Many Attempts.');
         }
         $this->validate($request, [
@@ -41,7 +41,7 @@ class AjaxController extends Controller
             company_id: session()->get('company.id'),
         ));
 
-        RateLimiter::hit('export-pdf:' . $request->user()->id);
+        RateLimiter::hit('export-pdf:'.$request->user()->id);
 
         return response()->json(['message' => 'ok']);
     }
@@ -128,7 +128,7 @@ class AjaxController extends Controller
 
     public function requestTagEvent(Request $request): JsonResponse
     {
-        if (RateLimiter::tooManyAttempts('export-pdf:' . $request->user()->id, $perMinute = 1)) {
+        if (RateLimiter::tooManyAttempts('export-pdf:'.$request->user()->id, $perMinute = 1)) {
             abort(Response::HTTP_TOO_MANY_REQUESTS, 'Too Many Attempts.');
         }
         $request->validate([
@@ -140,7 +140,7 @@ class AjaxController extends Controller
             company_id: session()->get('company.id'),
             event_id: $request->input('event_id'),
         ));
-        RateLimiter::hit('export-pdf:' . $request->user()->id);
+        RateLimiter::hit('export-pdf:'.$request->user()->id);
 
         return response()->json(['message' => 'ok']);
     }

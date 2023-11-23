@@ -14,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Throwable;
 
-class SendWhatsapp implements ShouldQueue, ShouldBeUnique
+class SendWhatsapp implements ShouldBeUnique, ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 

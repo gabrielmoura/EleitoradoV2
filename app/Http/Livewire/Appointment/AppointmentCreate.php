@@ -67,7 +67,7 @@ class AppointmentCreate extends Component
         'app.address.district' => ['nullable', 'string', 'min:3', 'max:255'],
         'app.address.city' => ['nullable', 'string', 'min:3', 'max:255'],
         'app.address.state' => ['nullable', 'string', 'min:2', 'max:255'],
-        'app.address.zipcode' => ['required', 'string', 'min:8', 'max:9', 'regex:/^[0-9]{5}-?[0-9]{3}$/']
+        'app.address.zipcode' => ['required', 'string', 'min:8', 'max:9', 'regex:/^[0-9]{5}-?[0-9]{3}$/'],
     ];
 
     protected $validationAttributes = [
@@ -89,7 +89,7 @@ class AppointmentCreate extends Component
 
         $this->validate();
 
-        $db = DB::transaction(function ()  {
+        $db = DB::transaction(function () {
             if (preg_match('/^[0-9]{5}-?[0-9]{3}$/', $this->app['address']['zipcode'])) {
 
                 $address = Address::create($this->app['address']);

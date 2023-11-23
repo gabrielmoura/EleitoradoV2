@@ -20,11 +20,11 @@ use Symfony\Component\Uid\Ulid;
 class Event extends Model implements HasMedia
 {
     use HasFactory;
-    use LogsActivity;
-    use InteractsWithMedia;
-    use Searchable;
-    use HasTenant;
     use HasPid;
+    use HasTenant;
+    use InteractsWithMedia;
+    use LogsActivity;
+    use Searchable;
 
     protected $fillable = [
         'name',

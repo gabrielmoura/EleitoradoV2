@@ -13,8 +13,8 @@ use Livewire\WithPagination;
 
 class Index extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
     use WithReordering;
     use WithSearch;
 
@@ -68,9 +68,10 @@ class Index extends Component
         'closed_at' => ['nullable', 'string', 'min:3', 'max:255'],
         'demand_type_id' => ['required', 'integer', 'min:1', 'exists:demand_types,id'],
     ];
-//    protected array $messages = [
-//        'demand_type_id.required' => 'O campo Tipo de demanda é obrigatório.',
-//    ];
+
+    //    protected array $messages = [
+    //        'demand_type_id.required' => 'O campo Tipo de demanda é obrigatório.',
+    //    ];
     protected array $validationAttributes = [
         'demand_type_id' => 'Tipo de demanda',
         'name' => 'Nome',

@@ -11,11 +11,11 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use PDF;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
-use Throwable;
-use PDF;
 use Storage;
+use Throwable;
 
 /**
  * @description Exporta os endereços das pessoas em PDF, separando 10 pessoas por página.
@@ -62,7 +62,7 @@ class ExportPeopleAddressJob implements ShouldQueue
         Storage::disk('public')->put($newName, $content);
 
         Company::find($this->company_id)
-            ->addMedia(storage_path('app/public/' . $newName))
+            ->addMedia(storage_path('app/public/'.$newName))
             ->withCustomProperties(['batchId' => $this->batch()->id])
             ->toMediaCollection('puxada');
     }
@@ -77,6 +77,7 @@ class ExportPeopleAddressJob implements ShouldQueue
         $random = Str::random(5);
         $filename = removeAccentsSpecialCharacters($filename);
         $group_by_name = removeAccentsSpecialCharacters($group_by_name);
+
         return "$filename-$group_by_name-$random.pdf";
     }
 }

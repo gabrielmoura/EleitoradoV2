@@ -25,14 +25,14 @@ use Symfony\Component\Uid\Ulid;
 
 class Person extends Model implements HasMedia
 {
-    use HasFactory;
-    use LogsActivity;
-    use InteractsWithMedia;
-    use SoftDeletes;
-    use Searchable;
-    use HasTenant;
-    use HasPid;
     use ChartScopeTrait;
+    use HasFactory;
+    use HasPid;
+    use HasTenant;
+    use InteractsWithMedia;
+    use LogsActivity;
+    use Searchable;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',

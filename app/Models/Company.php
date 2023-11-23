@@ -21,13 +21,13 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Company extends Model implements HasMedia
 {
+    use Billable;
     use HasFactory;
-    use SoftDeletes;
+    use HasFeatures;
+    use InteractsWithMedia;
     use LogsActivity;
     use Notifiable;
-    use InteractsWithMedia;
-    use Billable;
-    use HasFeatures;
+    use SoftDeletes;
 
     protected $casts = [
         'created_at' => 'datetime',

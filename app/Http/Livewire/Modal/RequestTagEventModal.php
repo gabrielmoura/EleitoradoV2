@@ -11,23 +11,26 @@ use Livewire\Component;
 /**
  * @description Modal para solicitar etiquetas de eventos com endereços
  * Class PullRequestModal
- * @package App\Http\Livewire\Modal
  */
 class RequestTagEventModal extends Component
 {
     public array $data;
+
     public ?int $event_id;
+
     public string $modalId = 'request-tag-event-modal';
+
     protected $listeners = ['open' => 'showModal'];
+
     protected array $rules = [
         'data.event_id' => ['required', 'integer', 'max:150'],
         'data.type' => ['nullable', 'string', 'max:150'],
     ];
+
     protected array $validationAttributes = [
         'data.event_id' => 'Evento',
         'data.type' => 'Tipo',
     ];
-
 
     public function mount(): void
     {
@@ -51,7 +54,7 @@ class RequestTagEventModal extends Component
     public function store(Request $request): void
     {
         $this->validate();
-        if (RateLimiter::tooManyAttempts('export-pdf:' . $request->user()->id, $perMinute = 1)) {
+        if (RateLimiter::tooManyAttempts('export-pdf:'.$request->user()->id, $perMinute = 1)) {
             $this->addError('request', 'Muitas tentativas. Tente novamente mais tarde.');
         }
         event(new RequestExportTagEvent(
@@ -61,7 +64,7 @@ class RequestTagEventModal extends Component
             type: $this->data['type'] ?? null,
         ));
 
-        RateLimiter::hit('export-pdf:' . $request->user()->id);
+        RateLimiter::hit('export-pdf:'.$request->user()->id);
 
         flash()->addSuccess('Solicitação enviada com sucesso!');
         $this->closeModal();

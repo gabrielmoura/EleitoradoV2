@@ -54,6 +54,7 @@ class Create extends Component
         'closed_at' => 'nullable|string|min:3|max:255',
         //        'person_id' => ['nullable', 'integer', 'min:1', 'exists:people,id'],
     ];
+
     protected array $messages = [
         'demand_type_id.required' => 'O campo Tipo de demanda é obrigatório.',
         'demand_type_id.integer' => 'O campo Tipo de demanda deve ser um número inteiro.',
@@ -69,8 +70,9 @@ class Create extends Component
         'status.min' => 'O campo Status deve ter pelo menos :min caracteres.',
         'status.in' => 'O campo Status é inválido.',
     ];
+
     protected array $validationAttributes = [
-        'demand_type_id' => 'Tipo de demanda'
+        'demand_type_id' => 'Tipo de demanda',
     ];
 
     protected $listeners = ['refresh' => '$refresh'];

@@ -15,12 +15,11 @@ class RequestExportTagEvent
      * Create a new event instance.
      */
     public function __construct(
-        public string  $tenant_id,
-        public int     $company_id,
-        public int     $event_id,
+        public string $tenant_id,
+        public int $company_id,
+        public int $event_id,
         public ?string $type = null,
-    )
-    {
+    ) {
         //
     }
 

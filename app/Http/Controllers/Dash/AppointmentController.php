@@ -17,7 +17,7 @@ class AppointmentController extends Controller
      */
     public function index(Request $request)
     {
-        abort_if(!Feature::for($request->user())->active(AppointmentFeature::class), Response::HTTP_UNAUTHORIZED);
+        abort_if(! Feature::for($request->user())->active(AppointmentFeature::class), Response::HTTP_UNAUTHORIZED);
 
         return view('dash.appointments.index');
     }
@@ -29,7 +29,7 @@ class AppointmentController extends Controller
             'end' => 'required|date',
         ]);
         $events = Appointment::whereBetween('start_time', [$request->start, $request->end])->get()
-            ->collect()->map(fn($appointment) => [
+            ->collect()->map(fn ($appointment) => [
                 'title' => $appointment->name,
                 'start' => $appointment->start_time?->toDateTimeString(),
                 'end' => $appointment->finish_time?->toDateTimeString(),
@@ -54,6 +54,7 @@ class AppointmentController extends Controller
     public function show($pid)
     {
         $appointment = Appointment::with('address')->where('pid', $pid)->firstOrFail();
+
         return view('dash.appointments.show', compact('appointment'));
     }
 }

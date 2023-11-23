@@ -17,13 +17,13 @@ use Symfony\Component\Uid\Ulid;
 
 class Group extends Model
 {
+    use ChartScopeTrait;
     use HasFactory;
+    use HasPid;
+    use HasTenant;
     use LogsActivity;
     use Searchable;
     use SoftDeletes;
-    use HasTenant;
-    use HasPid;
-    use ChartScopeTrait;
 
     protected $fillable = [
         'name',
@@ -45,6 +45,7 @@ class Group extends Model
     {
         return $query->where('pid', Ulid::fromString($pid)->toRfc4122());
     }
+
     public function demands(): BelongsToMany
     {
         return $this->belongsToMany(Demand::class, 'demand_group', 'group_id', 'demand_id');

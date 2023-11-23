@@ -24,6 +24,6 @@ class ExportController extends Controller
         $company->notifications->where('data->uid', $id)->first()?->markAsRead();
         $custom = $company->getMedia(strtolower($name), ['batchId' => $id]);
 
-        return MediaStream::create($id . '.zip')->addMedia($custom);
+        return MediaStream::create($id.'.zip')->addMedia($custom);
     }
 }

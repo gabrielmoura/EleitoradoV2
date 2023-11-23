@@ -11,9 +11,13 @@ use Livewire\Component;
 class AppointmentModalEdit extends Component
 {
     public Appointment $appointment;
+
     public array $app = [];
+
     protected $listeners = ['refresh' => '$refresh'];
+
     public string $modalId = 'appointment-modal-edit';
+
     protected array $rules = [
         'app.event.name' => ['required', 'string', 'min:3', 'max:255'],
         'app.event.description' => ['nullable', 'string', 'min:3', 'max:255'],
@@ -27,8 +31,9 @@ class AppointmentModalEdit extends Component
         'app.address.district' => ['nullable', 'string', 'min:3', 'max:255'],
         'app.address.city' => ['nullable', 'string', 'min:3', 'max:255'],
         'app.address.state' => ['nullable', 'string', 'min:2', 'max:255'],
-        'app.address.zipcode' => ['nullable', 'string', 'min:8', 'max:9', 'regex:/^[0-9]{5}-?[0-9]{3}$/']
+        'app.address.zipcode' => ['nullable', 'string', 'min:8', 'max:9', 'regex:/^[0-9]{5}-?[0-9]{3}$/'],
     ];
+
     protected array $validationAttributes = [
         'app.event.name' => 'Nome',
         'app.event.description' => 'Descrição',
@@ -104,5 +109,4 @@ class AppointmentModalEdit extends Component
             $this->app['address']['state'] = $cep->uf;
         }
     }
-
 }

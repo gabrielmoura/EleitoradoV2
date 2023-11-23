@@ -15,11 +15,11 @@ use Livewire\WithPagination;
 
 class Index extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithBulkActions;
+    use WithPagination;
     use WithReordering;
     use WithSearch;
-    use WithBulkActions;
 
     public string $name;
 

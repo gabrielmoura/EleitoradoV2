@@ -17,8 +17,6 @@ class CompanyConfig
 
     /**
      * @description Retorna todas as configurações da empresa
-     * @param bool $dot
-     * @return Collection
      */
     public function all(bool $dot = false): Collection
     {
@@ -31,8 +29,6 @@ class CompanyConfig
 
     /**
      * @description Retorna o valor da configuração
-     * @param string $key
-     * @return mixed
      */
     public function get(string $key): mixed
     {
@@ -43,9 +39,6 @@ class CompanyConfig
 
     /**
      * @description Altera o valor da configuração
-     * @param string $key
-     * @param mixed $value
-     * @return void
      */
     public function set(string $key, mixed $value): void
     {
@@ -58,8 +51,6 @@ class CompanyConfig
 
     /**
      * @description Verifica se a configuração existe
-     * @param string $key
-     * @return bool
      */
     public function has(string $key): bool
     {
@@ -70,7 +61,6 @@ class CompanyConfig
 
     /**
      * @description Remove todas as configurações da empresa
-     * @return void
      */
     public function setDefault(): void
     {
@@ -80,6 +70,7 @@ class CompanyConfig
 
     /**
      * @description Retorna os nomes das configurações
+     *
      * @return string[]
      */
     public static function getNames(): array
@@ -97,7 +88,6 @@ class CompanyConfig
 
     /**
      * @description Retorna as configurações padrões
-     * @return array
      */
     public static function default(): array
     {

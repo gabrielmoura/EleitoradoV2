@@ -24,15 +24,17 @@ class HomeController extends Controller
             'pointHoverRadius' => 2,
         ];
     }
+
     private function getDemandTypeData($demand): array
     {
-        return $demand->pluck('type')->groupBy(fn($date) => $date->name)->map(fn($item) => $item->count())->values()->toArray();
+        return $demand->pluck('type')->groupBy(fn ($date) => $date->name)->map(fn ($item) => $item->count())->values()->toArray();
     }
 
     private function getDemandTypeLabels($demand): array
     {
-        return $demand->pluck('type')->groupBy(fn($date) => $date->name)->map(fn($item) => $item->count())->keys()->toArray();
+        return $demand->pluck('type')->groupBy(fn ($date) => $date->name)->map(fn ($item) => $item->count())->keys()->toArray();
     }
+
     public function __invoke(Request $request)
     {
         $labels = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho',
@@ -64,13 +66,13 @@ class HomeController extends Controller
         $demandChartType->labels($this->getDemandTypeLabels($demand))->title('Demandas por Tipo');
 
         // Contagem de pessoas por sexo
-        $personSex = $personAll->countBy(fn(Person $person) => PersonOptions::getSexOption($person->sex));
+        $personSex = $personAll->countBy(fn (Person $person) => PersonOptions::getSexOption($person->sex));
         $personSexChart = new PersonChart;
         $personSexChart->dataset('Pessoas', 'pie', $personSex->values())->options($this->getChartOptions('#51C1C0'));
         $personSexChart->title('Pessoas por Sexo')->label('Quantidade')->labels($personSex->keys());
 
         // Contagem de pessoas por bairro
-        $cities = $personAll->countBy(fn(Person $person) => $person->address->district ?? 'Não informado');
+        $cities = $personAll->countBy(fn (Person $person) => $person->address->district ?? 'Não informado');
         $citiesChart = new PersonChart;
         $citiesChart->dataset('Pessoas', 'line', $cities->values())->options($this->getChartOptions('#51C1C0'));
         $citiesChart->title('Pessoas por Bairro')->label('Quantidade')->labels($cities->keys());

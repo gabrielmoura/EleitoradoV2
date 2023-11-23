@@ -12,8 +12,8 @@ use Livewire\WithPagination;
 
 class Index extends Component
 {
-    use WithPagination;
     use AuthorizesRequests;
+    use WithPagination;
     use WithReordering;
     use WithSearch;
 

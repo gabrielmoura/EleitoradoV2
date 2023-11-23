@@ -10,7 +10,7 @@ use Livewire\Component;
 /**
  * @description Modal para solicitar relatório de pessoas por grupo
  * Class PullRequestModal
- * @package App\Http\Livewire\Modal
+ *
  * @property mixed group_name
  * @property mixed district
  * @property mixed checked
@@ -18,14 +18,19 @@ use Livewire\Component;
 class RequestReportGroupModal extends Component
 {
     public ?string $group_name;
+
     public array $data;
+
     public string $modalId = 'request-report-group-modal';
+
     protected $listeners = ['open' => 'showModal'];
+
     protected array $rules = [
         'data.group_name' => ['required', 'string', 'max:150'],
         'data.district' => ['nullable', 'string', 'max:150', 'min:3', 'in:address,district'],
         'data.checked' => ['nullable', 'boolean'],
     ];
+
     protected array $validationAttributes = [
         'data.group_name' => 'Nome do grupo',
         'data.district' => 'Bairro',
@@ -54,7 +59,7 @@ class RequestReportGroupModal extends Component
 
     public function store(Request $request): void
     {
-        $rateLimit = RateLimiter::tooManyAttempts('export-pdf:' . $request->user()->id, $perMinute = 1);
+        $rateLimit = RateLimiter::tooManyAttempts('export-pdf:'.$request->user()->id, $perMinute = 1);
         if ($rateLimit) {
             $this->addError('request', 'Muitas tentativas. Tente novamente mais tarde.');
         } else {
@@ -62,7 +67,7 @@ class RequestReportGroupModal extends Component
 
             event(new RequestExportPeopleAddressEvent(
                 group_name: $this->data['group_name'],
-                district: $this->data['district']??null,
+                district: $this->data['district'] ?? null,
                 checked: $this->data['checked'],
                 tenant_id: session()->get('tenant_id'),
                 company_id: session()->get('company.id'),
@@ -70,7 +75,7 @@ class RequestReportGroupModal extends Component
 
             flash()->addSuccess("Solicitação de relatório enviada com sucesso.\n Aguarde alguns minutos e verifique seu e-mail.");
 
-            RateLimiter::hit('export-pdf:' . $request->user()->id);
+            RateLimiter::hit('export-pdf:'.$request->user()->id);
 
             $this->closeModal();
             $this->emit('refresh');

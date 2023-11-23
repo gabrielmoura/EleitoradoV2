@@ -34,14 +34,14 @@ class CalendarLink
     public function google()
     {
         $url = 'https://calendar.google.com/calendar/render?action=TEMPLATE';
-        $url .= '&text=' . urlencode($this->title);
-        $url .= '&dates=' . urlencode($this->start->format($this->dateTimeFormat)) . '/'
-            . urlencode($this->end?->format($this->dateTimeFormat) ?? $this->start->format($this->dateTimeFormat));
+        $url .= '&text='.urlencode($this->title);
+        $url .= '&dates='.urlencode($this->start->format($this->dateTimeFormat)).'/'
+            .urlencode($this->end?->format($this->dateTimeFormat) ?? $this->start->format($this->dateTimeFormat));
         if ($this->description) {
-            $url .= '&details=' . urlencode($this->description);
+            $url .= '&details='.urlencode($this->description);
         }
         if ($this->location) {
-            $url .= '&location=' . urlencode($this->location);
+            $url .= '&location='.urlencode($this->location);
         }
 
         return $url;
@@ -50,14 +50,14 @@ class CalendarLink
     public function yahoo()
     {
         $url = 'https://calendar.yahoo.com/?v=60&view=d&type=20';
-        $url .= '&TITLE=' . urlencode($this->title);
-        $url .= '&ST=' . urlencode($this->start->format($this->dateTimeFormat)) . '&ET='
-            . urlencode($this->end?->format($this->dateTimeFormat) ?? $this->start->format($this->dateTimeFormat));
+        $url .= '&TITLE='.urlencode($this->title);
+        $url .= '&ST='.urlencode($this->start->format($this->dateTimeFormat)).'&ET='
+            .urlencode($this->end?->format($this->dateTimeFormat) ?? $this->start->format($this->dateTimeFormat));
         if ($this->description) {
-            $url .= '&DESC=' . urlencode($this->description);
+            $url .= '&DESC='.urlencode($this->description);
         }
         if ($this->location) {
-            $url .= '&in_loc=' . urlencode($this->location);
+            $url .= '&in_loc='.urlencode($this->location);
         }
 
         return $url;
@@ -67,14 +67,14 @@ class CalendarLink
     {
         $this->dateTimeFormat = 'Y-m-d\TH:i:s\Z';
         $url = 'https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent';
-        $url .= '&subject=' . urlencode($this->title);
-        $url .= '&startdt=' . urlencode($this->start->format($this->dateTimeFormat)) . '&enddt=' .
+        $url .= '&subject='.urlencode($this->title);
+        $url .= '&startdt='.urlencode($this->start->format($this->dateTimeFormat)).'&enddt='.
             urlencode($this->end?->format($this->dateTimeFormat));
         if ($this->description) {
-            $url .= '&body=' . urlencode($this->description);
+            $url .= '&body='.urlencode($this->description);
         }
         if ($this->location) {
-            $url .= '&location=' . urlencode($this->location);
+            $url .= '&location='.urlencode($this->location);
         }
 
         return $url;
@@ -85,20 +85,19 @@ class CalendarLink
         $url = 'data:text/calendar;charset=utf8,';
         $prodId = '-//Moura Tech//Eleitorado//EN'; // Adicione uma identificação de produto (PRODID)
 
-
         $dtStamp = now()->format('Ymd\THis\Z'); // Adicione um carimbo de data/hora (DTSTAMP)
 
         $url .= "BEGIN:VCALENDAR\r\n";
         $url .= "VERSION:2.0\r\n";
         $url .= "CALSCALE:GREGORIAN\r\n";
-//        $url .= "PRODID:{$prodId}\r\n";
+        //        $url .= "PRODID:{$prodId}\r\n";
 
         $url .= "BEGIN:VEVENT\r\n";
         $url .= "UID:{$this->uid}\r\n";
-        $url .= "URL:" . url()->current() . "\r\n";
+        $url .= 'URL:'.url()->current()."\r\n";
         $url .= "DTSTAMP:{$dtStamp}\r\n";
         $url .= "DTSTART:{$this->start->format('Ymd\THis\Z')}\r\n";
-        $url .= "DTEND:" . ($this->end?->format('Ymd\THis\Z') ?? $this->start->format('Ymd\THis\Z')) . "\r\n";
+        $url .= 'DTEND:'.($this->end?->format('Ymd\THis\Z') ?? $this->start->format('Ymd\THis\Z'))."\r\n";
         $url .= "SUMMARY:{$this->title}\r\n";
 
         if ($this->description) {
@@ -119,10 +118,10 @@ class CalendarLink
     {
         $this->dateTimeFormat = 'Y-m-d\TH:i:s\Z';
         $url = 'https://outlook.office.com/calendar/deeplink/compose?path=/calendar/action/compose&rru=addevent';
-        $url .= '?subject=' . urlencode($this->title);
-        $url .= '&body=' . urlencode($this->description);
-        $url .= '&location=' . urlencode($this->location);
-        $url .= '&startdt=' . urlencode($this->start->toAtomString()) . '&enddt=' . urlencode($this->end?->format($this->dateTimeFormat));
+        $url .= '?subject='.urlencode($this->title);
+        $url .= '&body='.urlencode($this->description);
+        $url .= '&location='.urlencode($this->location);
+        $url .= '&startdt='.urlencode($this->start->toAtomString()).'&enddt='.urlencode($this->end?->format($this->dateTimeFormat));
 
         return $url;
     }
@@ -131,10 +130,10 @@ class CalendarLink
     {
         $this->dateTimeFormat = 'Y-m-d\TH:i:s\Z';
         $url = 'https://outlook.live.com/calendar/deeplink/compose?path=/calendar/action/compose&rru=addevent';
-        $url .= '&subject=' . urlencode($this->title);
-        $url .= '&startdt=' . urlencode($this->start->format($this->dateTimeFormat)) . '&enddt=' . urlencode($this->end?->format($this->dateTimeFormat));
-        $url .= '&body=' . urlencode($this->description);
-        $url .= '&location=' . urlencode($this->location);
+        $url .= '&subject='.urlencode($this->title);
+        $url .= '&startdt='.urlencode($this->start->format($this->dateTimeFormat)).'&enddt='.urlencode($this->end?->format($this->dateTimeFormat));
+        $url .= '&body='.urlencode($this->description);
+        $url .= '&location='.urlencode($this->location);
 
         return $url;
     }

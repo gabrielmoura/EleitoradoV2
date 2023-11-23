@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-
 use App\Mail\JobFailedMailable;
 use App\Models\Company;
 use Illuminate\Queue\Events\JobFailed;
@@ -12,7 +11,6 @@ use Illuminate\Support\Lottery;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
 use Laravel\Pennant\Feature;
-
 
 class AppServiceProvider extends ServiceProvider
 {

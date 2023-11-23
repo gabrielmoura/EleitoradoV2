@@ -43,9 +43,9 @@ class ExportTagEventListener implements ShouldQueue
             $data->chunk(100)->each(function ($item) use (&$batch, &$event) {
                 $batch->add(new ExportTagEventJob(
                     data: $item,
-                    filename: 'tag-' . $event->event_id,
+                    filename: 'tag-'.$event->event_id,
                     company_id: $event->company_id,
-                    tag_name: 'tag-' . $event->event_id,
+                    tag_name: 'tag-'.$event->event_id,
                     type: $event->type,
                 ));
             });

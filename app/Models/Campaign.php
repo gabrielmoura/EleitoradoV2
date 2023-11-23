@@ -12,9 +12,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Campaign extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-    use HasTenant;
     use HasPid;
+    use HasTenant;
+    use SoftDeletes;
 
     protected $fillable = [
         'title',

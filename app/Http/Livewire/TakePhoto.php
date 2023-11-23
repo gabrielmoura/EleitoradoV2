@@ -8,7 +8,10 @@ use Livewire\Component;
 class TakePhoto extends Component
 {
     protected $listeners = ['fileUpload' => 'handleFileUpload'];
-    public string $width = '640', $height = '480';
+
+    public string $width = '640';
+
+    public string $height = '480';
 
     public function render()
     {
@@ -18,11 +21,12 @@ class TakePhoto extends Component
     public function handleFileUpload(string $photoData): void
     {
         try {
-            $path = sys_get_temp_dir() . '/photo/' . now()->timestamp . '.jpg';
+            $path = sys_get_temp_dir().'/photo/'.now()->timestamp.'.jpg';
             Image::make($photoData)->save($path);
             $this->emitUp('photoUploaded', $path);
         } catch (\Exception $e) {
             $this->emitUp('photoUploadError', $e->getMessage());
+
             return;
         }
     }

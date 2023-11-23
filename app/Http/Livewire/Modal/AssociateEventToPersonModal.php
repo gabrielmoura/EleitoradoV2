@@ -9,11 +9,13 @@ use Livewire\Component;
 class AssociateEventToPersonModal extends Component
 {
     public Event $event;
+
     public $assoc = [];
+
     protected $listeners = [
         'refresh' => '$refresh',
         'multiSelectItemAdded' => 'multiSelectItemAdded',
-        'store' => 'store'
+        'store' => 'store',
     ];
 
     public function render()
@@ -54,6 +56,6 @@ class AssociateEventToPersonModal extends Component
         $this->emit('refresh');
         $this->dispatchBrowserEvent('close-modal');
         $this->dispatchBrowserEvent('refreshBrowser');
-//        $this->resetInput();
+        //        $this->resetInput();
     }
 }

@@ -16,9 +16,9 @@ use Symfony\Component\Uid\Ulid;
 class Appointment extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-    use HasTenant;
     use HasPid;
+    use HasTenant;
+    use SoftDeletes;
 
     const RECURRENCE_RADIO = [
         'none' => 'Nenhum',

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 class GeoCoding
 {
     private PendingRequest $http;
+
     private PromiseInterface|Response $response;
 
     public function __construct()
@@ -20,24 +21,25 @@ class GeoCoding
         $this->http = Http::withUserAgent($userAgent)->acceptJson();
     }
 
-
     public function getCached(?string $street, ?string $district, ?string $city, ?string $state, ?string $country, ?string $postal_code): Collection
     {
         $key = $this->generateCacheKey($street, $district, $postal_code);
         $string = $this->generateString($street, $district, $city, $state, $country, $postal_code);
 
-        if (!Cache::has('geocode:' . $key)) {
+        if (! Cache::has('geocode:'.$key)) {
             $this->geocodeAddress($string);
             $response = $this->response->json();
             // Verifica a resposta e caso seja nula, retorna um array vazio
-            Cache::set('geocode:' . $key, $response, 60 * 60 * 24 * 30); // 30 dias
+            Cache::set('geocode:'.$key, $response, 60 * 60 * 24 * 30); // 30 dias
             if (empty($response)) {
                 return collect();
             }
+
             return $this->transformResponse($response);
         } else {
             // Caso exista, retorna o cache
-            $response = Cache::get('geocode:' . $key);
+            $response = Cache::get('geocode:'.$key);
+
             return $this->transformResponse($response);
         }
     }
@@ -68,7 +70,6 @@ class GeoCoding
         });
     }
 
-
     private function geocodeAddress(string $string): void
     {
         $enderecoFormatado = str_replace(' ', '+', $string);
@@ -89,5 +90,4 @@ class GeoCoding
     {
         return $postal_code ?? implode(',', array_filter([$street, $district, $city, $state, $country]));
     }
-
 }

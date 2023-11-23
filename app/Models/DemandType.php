@@ -15,10 +15,10 @@ use Symfony\Component\Uid\Ulid;
 class DemandType extends Model
 {
     use HasFactory;
-    use Searchable;
-    use LogsActivity;
-    use HasTenant;
     use HasPid;
+    use HasTenant;
+    use LogsActivity;
+    use Searchable;
 
     protected $fillable = [
         'name',

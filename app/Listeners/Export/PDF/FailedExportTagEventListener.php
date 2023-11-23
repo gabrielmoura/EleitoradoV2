@@ -4,8 +4,6 @@ namespace App\Listeners\Export\PDF;
 
 use App\Events\Export\PDF\FailedExportTagEvent;
 use App\Notifications\System\GenericNotification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class FailedExportTagEventListener
 {

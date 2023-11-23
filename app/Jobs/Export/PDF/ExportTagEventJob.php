@@ -55,7 +55,7 @@ class ExportTagEventJob implements ShouldQueue
         \Storage::disk('public')->put($newName, $content);
 
         Company::find($this->company_id)
-            ->addMedia(storage_path('app/public/' . $newName))
+            ->addMedia(storage_path('app/public/'.$newName))
             ->withCustomProperties(['batchId' => $this->batch()->id])
             ->toMediaCollection('tag');
     }
@@ -70,6 +70,7 @@ class ExportTagEventJob implements ShouldQueue
         if ($this->type === '1888') {
             return 'export.pdf.tag-1888';
         }
+
         return 'export.pdf.tag';
     }
 
@@ -78,6 +79,7 @@ class ExportTagEventJob implements ShouldQueue
         $random = Str::random(5);
         $filename = removeAccentsSpecialCharacters($filename);
         $tag_name = removeAccentsSpecialCharacters($tag_name);
+
         return "$filename-$tag_name-$random.pdf";
     }
 }

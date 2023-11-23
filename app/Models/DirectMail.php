@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 class DirectMail extends Model
 {
     use HasFactory;
-    use HasTenant;
     use HasPid;
+    use HasTenant;
 
     protected $fillable = [
         'person_id',

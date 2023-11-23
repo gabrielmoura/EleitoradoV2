@@ -8,8 +8,11 @@ use Livewire\Component;
 class AppointmentModalDelete extends Component
 {
     public Appointment $appointment;
+
     public string $modalId = 'appointment-modal-delete';
+
     protected $listeners = ['refresh' => '$refresh'];
+
     public function closeModal(): void
     {
         $this->emit('refresh');

@@ -50,7 +50,7 @@ class ImportCsvPerson extends Command
 
     private function importData(int $tenant_id, int $chunkSize)
     {
-        $path = (string)storage_path($this->ask('Qual o caminho do arquivo?ex: app/imports/2021-01-01.csv'));
+        $path = (string) storage_path($this->ask('Qual o caminho do arquivo?ex: app/imports/2021-01-01.csv'));
         $handle = fopen($path, 'r');
 
         LazyCollection::make(function () use ($handle) {
@@ -103,7 +103,7 @@ class ImportCsvPerson extends Command
 
     private function val(array $item, int $index, string $type = 'string', int $max = null): mixed
     {
-        if (!array_key_exists($index, $item) || strlen(trim($item[$index])) === 0) {
+        if (! array_key_exists($index, $item) || strlen(trim($item[$index])) === 0) {
             return null;
         }
 

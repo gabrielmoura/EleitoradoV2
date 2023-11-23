@@ -32,7 +32,7 @@ class SendBirthday extends Command
         $this->info('Envio de notificações para aniversariantes do dia.');
 
         Company::whereBanned(false)->get()->each(function (Company $company) {
-            if (!$company->config()->get('send_birthday.mail') && !$company->config()->get('send_birthday.whatsapp')) {
+            if (! $company->config()->get('send_birthday.mail') && ! $company->config()->get('send_birthday.whatsapp')) {
                 return;
             }
 
@@ -56,6 +56,7 @@ class SendBirthday extends Command
 
         $this->info('Envio de notificações finalizado com sucesso');
     }
+
     private function sendWhatsappNotifications(Company $company, $people): void
     {
         if ($company->config()->get('send_birthday.whatsapp') && $company->config()->has('utalk.key')) {
@@ -71,12 +72,13 @@ class SendBirthday extends Command
             $batchWpp->dispatch();
         }
     }
+
     private function sendMailNotifications(Company $company, $people): void
     {
         if ($company->config()->get('send_birthday.mail')) {
             $batchMail = Bus::batch([]);
 
-            $people->whereNotNull('email')->each(function (Person $person) use ($batchMail) {
+            $people->whereNotNull('email')->each(function (Person $person) {
                 // Uncomment the line below if you want to send mail notifications
                 // $batchMail->add(new SendMail($person));
             });

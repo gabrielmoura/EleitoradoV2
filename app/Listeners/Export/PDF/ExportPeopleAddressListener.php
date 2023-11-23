@@ -49,7 +49,7 @@ class ExportPeopleAddressListener implements ShouldQueue
                         data: $item,
                         filename: 'puxada',
                         company_id: $event->company_id,
-                        group_by_name: $event->group_name . ':' . (strlen($district) > 0 ? $district : 'Sem Bairro'),
+                        group_by_name: $event->group_name.':'.(strlen($district) > 0 ? $district : 'Sem Bairro'),
                     ));
                 });
             });
