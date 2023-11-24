@@ -26,12 +26,12 @@
                     </thead>
                     <tbody>
                     @foreach($data as $item)
-                        <tr class="bg-gray-100 border-b">
+                        <tr class="bg-gray-100 border-b" id="{{$item->id}}">
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{$item->name}}</td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{$item?->tel??null}}</td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{$item?->phone??null}}</td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{$item?->telephone??null}}</td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{$item?->cellphone??null}}</td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{$item->street??null.' '.$item->number??null.', '.$item->district??null}}
+                                {{$item->address->full_address}}
                             </td>
                         </tr>
                     @endforeach

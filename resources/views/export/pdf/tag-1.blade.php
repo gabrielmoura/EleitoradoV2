@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{config('app.name')}} {{$tag_name??null}}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,20 +29,24 @@
     </style>
 </head>
 <body>
-@foreach($data->chunk(3) as $tags)
-
-    @foreach($tags as $tag)
-        <div class="pdf-container">
-            <div class="pdf-item">
-                <h2>{{$tag->name}}</h2>
-                <p>{{$tag->address->street}}, {{$tag->address->number}}</p>
-                <p>{{$tag->address->district}}</p>
-                <p>{{$tag->address->zipcode}}</p>
-                <p>{{$tag->address->city}}, {{$tag->address->uf}}</p>
-            </div>
+<div class="container">
+    @foreach($data->chunk(3) as $tags)
+        <div class="row">
+            @foreach($tags as $tag)
+                <div class="col s4">
+                    <div class="pdf-container">
+                        <div class="pdf-item">
+                            <h2>{{$tag->name}}</h2>
+                            <p>{{$tag->address->street}}, {{$tag->address->number}}</p>
+                            <p>{{$tag->address->district}}</p>
+                            <p>{{$tag->address->zipcode}}</p>
+                            <p>{{$tag->address->city}}, {{$tag->address->uf}}</p>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
     @endforeach
-
-@endforeach
+</div>
 </body>
 </html>
