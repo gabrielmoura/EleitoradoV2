@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Service\Trait\HasTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -47,5 +48,10 @@ class Address extends Model
     {
         return LogOptions::defaults();
         // Chain fluent methods for configuration options
+    }
+
+    public function person(): BelongsTo
+    {
+        return $this->belongsTo(Person::class, 'id', 'address_id');
     }
 }

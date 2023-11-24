@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
+use App\Models\Company;
 use App\Models\Event;
-use App\Models\Person;
+use Illuminate\Support\Collection;
 
 class PreviewExportController extends Controller
 {
@@ -17,14 +19,27 @@ class PreviewExportController extends Controller
 
     protected function puxada($param)
     {
-        $query = Person::with('address', 'groups')->whereTenantId(session()->get('tenant_id'))
-            ->whereHas('groups', fn ($query) => $query->where('name', 'like', 'Teste'))
-            ->when($param, fn ($query) => $query->whereHas('address', fn ($query) => $query->where('district', 'like', $param)));
+        //        $query = Person::with('address', 'groups')->whereTenantId(session()->get('tenant_id'))
+        //            ->whereHas('groups', fn ($query) => $query->where('name', 'like', 'Teste'))
+        //            ->when($param, fn ($query) => $query->whereHas('address', fn ($query) => $query->where('district', 'like', $param)));
+        //
+        //        $data = $query->get();
 
-        $data = $query->get();
-        $group_name = 'group_name';
+        $group = 'Teste';
+        $streets = $this->prepare(Address::with('person', 'person.groups')
+            ->whereHas('person', function ($query) use ($group) {
+                $query->whereHas('groups', function ($query) use ($group) {
+                    $query->where('name', 'like', $group);
+                });
+            })
+            ->when($param, function ($query) use ($param) {
+                $query->where('district', 'like', $param);
+            })
+            ->get());
 
-        return view('export.pdf.puxada', compact('data', 'group_name'));
+        $group_name = $group;
+
+        return view('export.pdf.puxada-1', compact('streets', 'group_name'));
     }
 
     protected function tag($param)
@@ -35,16 +50,50 @@ class PreviewExportController extends Controller
             abort(404, 'Evento não encontrado');
         }
 
-        return view('export.pdf.tag', compact('data', 'tag_name'));
+        return view('export.pdf.tag-1', compact('data', 'tag_name'));
     }
 
     protected function licensePlate($param)
     {
-        $street['odd_people'] = 1;
-        $street['even_people'] = 1;
+        $group = 'Teste';
+        $streets = $this->prepare(Address::with('person', 'person.groups')
+            ->whereHas('person', function ($query) use ($group) {
+                $query->whereHas('groups', function ($query) use ($group) {
+                    $query->where('name', 'like', $group);
+                });
+            })
+            ->when($param, function ($query) use ($param) {
+                $query->where('district', 'like', $param);
+            })
+            ->get());
+        $company = Company::first();
 
-        return view('export.pdf.license-plate', [
-            'streets' => $street,
-        ]);
+        $group_name = $group;
+
+        return view('export.pdf.license-plate', compact('streets', 'group_name', 'company'));
+    }
+
+    private function prepare(Collection $data): Collection
+    {
+        return $data->groupBy('street')
+            ->map(function ($street, $key) {
+                return [
+                    'name' => $key,
+                    'even_address' => $street->filter(fn ($person) => $person->number % 2 === 0)->map(function ($address) {
+                        $love = $address->person;
+                        $love->address = $address;
+                        $love->checked_at = $address->person->groups->first()->pivot->checked_at;
+
+                        return $love;
+                    }),
+                    'odd_address' => $street->filter(fn ($person) => $person->number % 2 === 1)->map(function ($address) {
+                        $love = $address->person;
+                        $love->address = $address;
+                        $love->checked_at = $address->person->groups->first()->pivot->checked_at;
+
+                        return $love;
+                    }),
+                ];
+            });
     }
 }
