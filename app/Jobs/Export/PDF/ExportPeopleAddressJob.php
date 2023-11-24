@@ -10,10 +10,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use PDF;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Storage;
 use Throwable;
 
@@ -24,7 +23,7 @@ class ExportPeopleAddressJob implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public int $peerPage = 10;
+    public int $perPage = 10;
 
     public Collection $data;
 
@@ -33,10 +32,6 @@ class ExportPeopleAddressJob implements ShouldQueue
         $this->data = collect($data);
     }
 
-    /**
-     * @throws FileDoesNotExist
-     * @throws FileIsTooBig
-     */
     public function handle(): void
     {
 
@@ -46,7 +41,7 @@ class ExportPeopleAddressJob implements ShouldQueue
         PDF::SetAuthor(config('tcpdf.author'));
         PDF::SetSubject($this->group_by_name);
 
-        foreach ($this->data->chunk($this->peerPage) as $datum) {
+        foreach ($this->data->chunk($this->perPage) as $datum) {
             $data = $datum;
             $group_name = $this->group_by_name;
             $view = \View::make('export.pdf.puxada', compact('data', 'group_name'));
@@ -61,10 +56,29 @@ class ExportPeopleAddressJob implements ShouldQueue
 
         Storage::disk('public')->put($newName, $content);
 
-        Company::find($this->company_id)
-            ->addMedia(storage_path('app/public/'.$newName))
-            ->withCustomProperties(['batchId' => $this->batch()->id])
-            ->toMediaCollection('puxada');
+        $company = Company::find($this->company_id);
+        $this->updateMedia($company, $newName);
+
+    }
+
+    private function updateMedia(Company $company, string $newName): void
+    {
+        try {
+            $company->addMedia(storage_path('app/public/'.$newName))
+                ->withCustomProperties([
+                    'batchId' => $this->batch()->id,
+                    'tenant_id' => $company->tenant_id,
+                ])->toMediaCollection('puxada');
+
+            DB::table('media')
+                ->where('model_type', \App\Models\Company::class)
+                ->where('model_id', $company->id)
+                ->where('collection_name', 'puxada')
+                ->update(['tenant_id' => $company->tenant_id]);
+
+        } catch (\Throwable $throwable) {
+            report($throwable);
+        }
     }
 
     public function failed(Throwable $exception): void

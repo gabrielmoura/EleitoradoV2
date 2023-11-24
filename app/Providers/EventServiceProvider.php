@@ -27,6 +27,7 @@ use App\Listeners\Export\PDF\FailedExportTagEventListener;
 use App\Listeners\System\GeneratedInviteNotification;
 use App\Listeners\System\PlanCreatedUpdateStripeListener;
 use App\Listeners\System\StripeInvoiceMailerListener;
+use App\Listeners\System\UpdateMediaInfoListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -90,6 +91,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         RequestExportTagEvent::class => [
             ExportTagEventListener::class,
+        ],
+        \Spatie\MediaLibrary\MediaCollections\Events\MediaHasBeenAdded::class => [
+            UpdateMediaInfoListener::class,
         ],
 
     ];

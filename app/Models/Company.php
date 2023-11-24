@@ -65,6 +65,31 @@ class Company extends Model implements HasMedia
         return $this->hasMany(Person::class, 'tenant_id', 'tenant_id');
     }
 
+    public function users(): HasMany
+    {
+        return $this->hasMany(User::class, 'company_id', 'id');
+    }
+
+    public function groups(): HasMany
+    {
+        return $this->hasMany(Group::class, 'tenant_id', 'tenant_id');
+    }
+
+    public function appointments(): HasMany
+    {
+        return $this->hasMany(Appointment::class, 'tenant_id', 'tenant_id');
+    }
+
+    public function demands(): HasMany
+    {
+        return $this->hasMany(Demand::class, 'tenant_id', 'tenant_id');
+    }
+
+    public function events(): HasMany
+    {
+        return $this->hasMany(Event::class, 'tenant_id', 'tenant_id');
+    }
+
     protected static function boot(): void
     {
         parent::boot();

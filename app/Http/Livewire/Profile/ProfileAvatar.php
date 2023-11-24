@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Profile;
 
+use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -14,7 +15,7 @@ class ProfileAvatar extends Component
 
     public $photo;
 
-    public $user;
+    public User $user;
 
     public function mount(): void
     {

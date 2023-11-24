@@ -74,3 +74,14 @@ if (! function_exists('removeAccentsSpecialCharacters')) {
         return strtolower(preg_replace('/[^a-z0-9:]/i', '', $string));
     }
 }
+
+if (! function_exists('formatBytes')) {
+    function formatBytes(int|float $bytes, int $precision = 2): string
+    {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+
+        $pow = min((int) floor(log($bytes, 1024)), count($units) - 1);
+
+        return sprintf('%.'.$precision.'F %s', $bytes / (1024 ** $pow), $units[$pow]);
+    }
+}

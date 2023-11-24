@@ -39,12 +39,9 @@ class EloquentPersonRepository implements PersonRepository
             ]);
             $person = Person::create($personData);
 
-            $this->createAddress($request, $person);
+            $this->createAddress(request: $request, person: $person);
 
-            if ($request->has('avatar')) {
-                $person->addFromMediaLibraryRequest($request->avatar)
-                    ->toMediaCollection('avatar');
-            }
+            $this->addAvatar(request: $request, person: $person);
 
             if ($request->has('events')) {
                 $person->events()->sync($request->events);
@@ -91,11 +88,7 @@ class EloquentPersonRepository implements PersonRepository
 
             $this->createAddress(request: $request, person: $person, update: true);
 
-            if ($request->has('avatar')) {
-                $person->clearMediaCollection('avatar');
-                $person->addFromMediaLibraryRequest($request->avatar)
-                    ->toMediaCollection('avatar');
-            }
+            $this->addAvatar(request: $request, person: $person, update: true);
 
             if ($request->has('events')) {
                 $person->events()->sync($request->events);
@@ -109,7 +102,21 @@ class EloquentPersonRepository implements PersonRepository
 
     }
 
-    private function createAddress($request, $person, $update = false): void
+    private function addAvatar($request, Person $person, bool $update = false): void
+    {
+        if ($request->has('avatar')) {
+            if ($update) {
+                $person->clearMediaCollection('avatar');
+            }
+            $person->addFromMediaLibraryRequest($request->avatar)
+                ->addCustomHeaders(['tenantId' => session()->get('tenant_id')])
+
+//                ->withCustomProperties(['tenantId' => session()->get('tenant_id')])
+                ->toMediaCollection('avatar');
+        }
+    }
+
+    private function createAddress($request, Person $person, bool $update = false): void
     {
         if ($request->has('zipcode') || $request->has('street')) {
             if ($update) {
@@ -161,7 +168,7 @@ class EloquentPersonRepository implements PersonRepository
             ->firstOrFail();
     }
 
-    public function getPerson($pid)
+    public function getPerson($pid): Person
     {
         return Person::findPid($pid)
             ->with(['groups', 'media', 'events', 'address'])
