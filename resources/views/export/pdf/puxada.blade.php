@@ -31,7 +31,7 @@
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{$item?->telephone??null}}</td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{$item?->cellphone??null}}</td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{$item->address->full_address}}
+                                {{$item?->address?->full_address??null}}
                             </td>
                         </tr>
                     @endforeach
