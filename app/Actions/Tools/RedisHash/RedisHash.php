@@ -52,17 +52,20 @@ class RedisHash
     /**
      * @description Retorna um valor de um campo de um hash caso exista
      */
-    public function rememberArray(string $key, array $data): array
+    public function rememberArray(string $key, \Closure $callback, int $ttl = null): array
     {
         $value = $this->getArray($key);
         if (empty($value)) {
+            $data = $callback();
             $this->setArray($key, $data);
+            if ($ttl !== null) {
+                $this->setExpire($key, $ttl);
+            }
 
             return $data;
         }
-        $this->setArray($key, $data);
 
-        return $data;
+        return $value;
     }
 
     /**
