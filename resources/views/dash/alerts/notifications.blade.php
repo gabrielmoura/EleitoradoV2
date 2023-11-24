@@ -1,12 +1,15 @@
 <x-app-layout>
     <div class="container-fluid">
         <h3 class="text-dark mb-4">Avisos</h3>
+        @if($alerts->count() > 0 )
+            <btn class="btn btn-primary" onclick="Livewire.emit('markAllAsRead')">Marcar todos como lidos</btn>
+        @endif
         <div class="col-lg-12">
             <div class="row">
                 <div class="col">
                     <div class="d-block">
                         @foreach($alerts as $alert)
-                            <div class="card">
+                            <div class="card m-3">
                                 <div class="card-title">
                                 </div>
                                 <div class="card-body">

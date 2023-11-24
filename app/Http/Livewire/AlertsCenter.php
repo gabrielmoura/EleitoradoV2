@@ -14,7 +14,7 @@ class AlertsCenter extends Component
 
     public Company $company;
 
-    protected $listeners = ['refresh' => '$refresh'];
+    protected $listeners = ['refresh' => '$refresh', 'markAllAsRead' => 'markAllAsRead'];
 
     public function mount(): void
     {
@@ -31,9 +31,17 @@ class AlertsCenter extends Component
         ]);
     }
 
+    public function markAllAsRead(): void
+    {
+        $this->company->unreadNotifications->markAsRead();
+        flash()->addSuccess(__('Todas as notificações foram marcadas como lidas.'));
+        $this->emit('refresh');
+    }
+
     public function markAsRead($notificationId): void
     {
         $this->company->unreadNotifications->where('id', $notificationId)->markAsRead();
+        flash()->addSuccess(__('Notificação marcada como lida.'));
         $this->emit('refresh');
     }
 }

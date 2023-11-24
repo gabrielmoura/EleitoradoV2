@@ -17,7 +17,7 @@
             <i class="me-2 fa fa-bell"></i>
             Alerts Center
         </h6>
-        @foreach($notifications as $alert)
+        @foreach($notifications?->take(3) as $alert)
             <a class="dropdown-item dropdown-notifications-item" href="{{$alert->data['url']??'#'}}"
                wire:click="markAsRead('{{$alert->id}}')"
             >
