@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\Autorization;
+use App\Http\Controllers\Api\Dash\AppointmentController;
+use App\Http\Controllers\Api\Dash\EventController;
+use App\Http\Controllers\Api\Dash\GroupController;
+use App\Http\Controllers\Api\Dash\PersonController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,14 +21,21 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
 
-    Route::post('/authorization', [\App\Http\Controllers\Api\Autorization::class, 'login'])->block();
+    Route::post('/authorization', [Autorization::class, 'login'])->block();
 
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         return $request->user();
     });
 
+    /** Rotas Protegidas */
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::apiResource('person', PersonController::class);
+        Route::apiResource('event', EventController::class);
+        Route::apiResource('group', GroupController::class);
+        Route::apiResource('appointment', AppointmentController::class);
+    });
 });
-Route::post('/info', function () {
+Route::post('/eco', function () {
     $all = request()->json()->all();
 
     return response()->json(['status' => 'ok', 'data' => $all]);

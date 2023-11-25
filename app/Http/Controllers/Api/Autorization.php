@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Autorization extends Controller
 {
@@ -11,27 +13,28 @@ class Autorization extends Controller
     {
         $request->validate(['email' => 'required|email', 'password' => 'required|min:5']);
         try {
-            $auth = auth();
-            if ($auth->attempt($request->only('email', 'password'))) {
-                $user = $auth->user();
-
-                if (! $user->hasPermissionTo('use_api')) {
-                    return response(null, 401);
-                }
-                if ($user->hasRole('admin')) {
-                    $ability = ['admin', 'clients', 'lawyer', 'employer', 'companies', 'edit-company', 'analytics', 'users'];
-                } else {
-                    $ability = ['analytics'];
-                }
-
-                $token = $auth->user()->createToken('Token Api', $ability);
-
-                return ['token' => $token->plainTextToken];
-            } else {
-                return response()->json(['error' => __('error.Unauthorized')], 401);
+            if (Auth::attempt($request->only('email', 'password'))) {
+                return $this->createToken(Auth::user());
             }
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], $e->getCode());
+            report($e);
+            abort(401, __('error.Unauthorized'));
         }
+    }
+
+    private function createToken(User $user): array
+    {
+        abort_if(! $user->hasPermissionTo('update_person'), 401, __('error.Unauthorized'));
+
+        $ability = $user->permissions()->pluck('name')->toArray();
+
+        $token = $user->createToken('Token Api', $ability, now()->addHours(8));
+
+        return [
+            'token' => $token->plainTextToken,
+            'token_type' => 'Bearer',
+            'expires_at' => $token->accessToken->expires_at,
+            'user' => $user,
+        ];
     }
 }
