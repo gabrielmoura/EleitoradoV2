@@ -1,12 +1,12 @@
 version: '3'
 services:
-  php-fpm:
+  octane:
     build:
-      context: ./docker-prod/fpm
+      context: ./docker-prod/octane
       dockerfile: Dockerfile
       args:
         WWWGROUP: '${WWWGROUP}'
-    image: blx32/laravel-fpm:latest
+    image: blx32/laravel-octane:latest
     restart: "on-failure"
     extra_hosts:
       - 'host.docker.internal:host-gateway'
