@@ -87,3 +87,4 @@ Route::get('/invoice/preview', function () {
 
     return new Response('No invoice found', 404);
 });
+Route::get('/preview/{name}', [\App\Http\Controllers\PreviewExportController::class, 'index'])->name('preview');
