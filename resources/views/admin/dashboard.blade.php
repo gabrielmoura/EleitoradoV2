@@ -13,5 +13,5 @@
 {{--        rules="mimes:png,jpeg"--}}
 
     />
-    <x-jet-welcome />
+{{--    <x-jet-welcome />--}}
 </x-app-layout>
