@@ -16,15 +16,16 @@ class AddressFactory extends Factory
 
         return [
             'tenant_id' => $tenant_id,
-            'street' => $this->faker->streetAddress(),
+            'street' => $this->faker->streetName(),
             'number' => $this->faker->buildingNumber(),
             'complement' => $this->faker->currencyCode(),
-            'district' => $this->faker->citySuffix(),
+            'district' => $this->faker->city(),
             'city' => $this->faker->city(),
             'state' => $this->faker->city(),
             'uf' => $this->faker?->stateAbbr(),
             'country' => 'BR',
             'zipcode' => $this->faker->postcode(),
+            'processed_at' => now(),
         ];
     }
 }

@@ -28,6 +28,8 @@ services:
             - mailpit
             - meilisearch
             - mysql
+        cap_add:
+            - SYS_ADMIN
     pgsql:
         image: 'postgres:14'
         ports:

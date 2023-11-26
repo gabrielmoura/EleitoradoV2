@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Address;
 use App\Models\Company;
 use App\Models\Event;
+use Elibyy\TCPDF\Facades\TCPDF as PDF;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\View;
+use Spatie\Browsershot\Browsershot;
 
 class PreviewExportController extends Controller
 {
@@ -95,5 +99,72 @@ class PreviewExportController extends Controller
                     }),
                 ];
             });
+    }
+
+    public function puxadaC()
+    {
+        $param = request()->get('param');
+
+        $group = 'Reinaldo Caio Verdugo Sobrinho';
+        $data = Address::with('person', 'person.groups')
+            ->whereHas('person', function ($query) use ($group) {
+                $query->whereHas('groups', function ($query) use ($group) {
+                    $query->where('name', 'like', $group);
+                });
+            })
+            ->when($param, function ($query) use ($param) {
+                $query->where('district', 'like', $param);
+            })
+            ->get();
+
+//        $groups = $data->groupBy('district')->first();
+
+        $streets = $data->groupBy('street')
+            ->map(function ($street, $key) {
+                return [
+                    'name' => $key,
+                    'even_address' => $street->filter(fn ($person) => $person->number % 2 === 0)->map(function ($address) {
+                        if (empty($address->person)) {
+                            return null;
+                        }
+                        $love = $address->person;
+                        $love->address = $address;
+                        $love->checked_at = $address->person->groups->first()->pivot->checked_at;
+
+                        return $love;
+                    }),
+                    'odd_address' => $street->filter(fn ($person) => $person->number % 2 === 1)->map(function ($address) {
+                        if (empty($address->person)) {
+                            return null;
+                        }
+                        $love = $address->person;
+                        $love->address = $address;
+                        $love->checked_at = $address->person->groups->first()->pivot->checked_at;
+
+                        return $love;
+                    }),
+                ];
+            })->take(10);
+        $group_name = $group;
+
+//                return View::make('export.pdf.puxada-1', compact('streets', 'group_name'))->render();
+
+        //        PDF::reset();
+        //        PDF::SetTitle('Puxada');
+        //        PDF::SetCreator(config('tcpdf.creator'));
+        //        PDF::SetAuthor(config('tcpdf.author'));
+        //        PDF::SetSubject($group);
+
+        $html = View::make('export.pdf.puxada-1', compact('streets', 'group_name'))->render();
+
+        return Response::make(Browsershot::html($html)->setNodeModulePath(base_path('node_modules'))
+            ->setOption('headless',"new")->noSandbox()->showBackground()->base64pdf())->header('Content-Type', 'application/pdf');
+        //chromium-browser
+
+        //        PDF::addPage();
+        //        PDF::writeHTML($html);
+        //
+        //
+        //        return PDF::Output('', 'I');
     }
 }

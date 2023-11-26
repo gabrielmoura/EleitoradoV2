@@ -17,7 +17,7 @@ class AppointmentFactory extends Factory
     public function definition(): array
     {
         return [
-            'pid' => $this->faker->word(),
+            'pid' => $this->faker->uuid(),
             'tenant_id' => $this->faker->word(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

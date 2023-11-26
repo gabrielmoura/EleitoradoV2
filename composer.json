@@ -33,6 +33,7 @@
         "meilisearch/meilisearch-php": "^1.1",
         "php-flasher/flasher-laravel": "^1.13",
         "predis/predis": "^2.2",
+        "spatie/browsershot": "^3.60",
         "spatie/calendar-links": "^1.8",
         "spatie/laravel-activitylog": "^4.7",
         "spatie/laravel-backup": "^8.1",

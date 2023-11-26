@@ -6,7 +6,7 @@ use App\Events\Export\PDF\ExportedPeopleAddress;
 use App\Events\Export\PDF\FailedExportPeopleAddress;
 use App\Events\Export\PDF\RequestExportPeopleAddressEvent;
 use App\Jobs\Export\PDF\ExportPeopleAddressJob;
-use App\Models\Person;
+use App\Models\Address;
 use Illuminate\Bus\Batch;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -37,21 +37,31 @@ class ExportPeopleAddressListener implements ShouldQueue
         })->name('Export People Address');
 
         try {
-            $query = Person::with('address', 'groups')->whereTenantId($event->tenant_id)
-                ->whereHas('groups', fn ($query) => $query->where('name', 'like', $event->group_name))
-                ->when($event->district, fn ($query) => $query->whereHas('address', fn ($query) => $query->where('district', 'like', $event->district)));
+            //            $query = Person::with('address', 'groups')->whereTenantId($event->tenant_id)
+            //                ->whereHas('groups', fn ($query) => $query->where('name', 'like', $event->group_name))
+            //                ->when($event->district, fn ($query) => $query->whereHas('address', fn ($query) => $query->where('district', 'like', $event->district)));
+            //
+            //            $data = $query->get();
 
-            $data = $query->get();
+            $data = Address::with('person', 'person.groups')
+                ->whereHas('person', function ($query) use ($event) {
+                    $query->whereHas('groups', function ($query) use ($event) {
+                        $query->where('name', 'like', $event->group_name);
+                    });
+                })
+                ->when($event->district, function ($query) use ($event) {
+                    $query->where('district', 'like', $event->district);
+                })
+                ->get();
 
-            $data->groupBy('address.district')->each(function ($items, $district) use (&$batch, &$event) {
-                $items->chunk(100)->each(function ($item) use ($district, &$batch, &$event) {
-                    $batch->add(new ExportPeopleAddressJob(
-                        data: $item,
-                        filename: 'puxada',
-                        company_id: $event->company_id,
-                        group_by_name: $event->group_name.':'.(strlen($district) > 0 ? $district : 'Sem Bairro'),
-                    ));
-                });
+            $data->groupBy('district')->each(function ($items) use ($batch, $event) {
+                $batch->add(new ExportPeopleAddressJob(
+                    data: $items,
+                    filename: 'puxada',
+                    company_id: $event->company_id,
+                    group_by_name: $event->group_name,
+                    district: $items->first()->district,
+                ));
             });
         } catch (\Throwable $th) {
             report($th);

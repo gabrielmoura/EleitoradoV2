@@ -45,7 +45,7 @@
         <h1 class="center-align">Relatório Puxada</h1>
         @foreach ($streets as $street => $people)
 
-            @if ($people['even_address'])
+            @if ($people['even_address'] && $people['even_address']?->IsNotEmpty())
                 <div class='row'>
                     <h2 class='pdf-street'>
                         {{ $street }} - Pares
@@ -82,44 +82,45 @@
                 </div>
             @endif
 
-            <div class="page-break"></div>
+            {{--                <div class="page-break"></div>--}}
 
-            @if ($people['odd_address'])
-                <div class='row'>
-                    <h2 class='pdf-street'>{{ $street }} - Ímpares</h2>
-                    <table cellpadding="100">
-                        <thead>
-                        <tr>
-                            <th width='30%' class='th-pdf'>nome</th>
-                            <th width='30%' class='th-pdf'>endereço</th>
-                            <th width='10%' class='th-pdf'>telefones</th>
-                            <th width='10%' class='th-pdf'>nascimento</th>
-                            <th width='10%' class='th-pdf'>atualização</th>
-                            <th width='10%' class='th-pdf'>código</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($people['odd_address'] as $person)
+            @if ($people['odd_address'] && $people['odd_address']?->IsNotEmpty())
+                <div class="page-break">
+                    <div class='row'>
+                        <h2 class='pdf-street'>{{ $street }} - Ímpares</h2>
+                        <table cellpadding="100">
+                            <thead>
                             <tr>
-                                <td class='td-pdf'>{{ $person->name ? strtoupper($person->name) : '' }}</td>
-                                <td class='td-pdf'>{{ $person?->address?->full_address }}</td>
-                                <td class='td-pdf'>{{ $person->cellphone }} {{ $person->telephone }}</td>
-                                <td class='td-pdf'>{{ $person->dateOfBirth ? $person->dateOfBirth->format('d/m/Y') : '' }}</td>
-                                <td class='td-pdf'>
-                                    {{\Illuminate\Support\Carbon::parse($person->groups->first()->pivot?->checked_at)->format('d/m/Y')}}
-                                </td>
-                                <td class='td-pdf'>{{ $person->pid }}</td>
+                                <th width='30%' class='th-pdf'>nome</th>
+                                <th width='30%' class='th-pdf'>endereço</th>
+                                <th width='10%' class='th-pdf'>telefones</th>
+                                <th width='10%' class='th-pdf'>nascimento</th>
+                                <th width='10%' class='th-pdf'>atualização</th>
+                                <th width='10%' class='th-pdf'>código</th>
                             </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            @endif
+                            </thead>
+                            <tbody>
+                            @foreach ($people['odd_address'] as $person)
+                                <tr>
+                                    <td class='td-pdf'>{{ $person->name ? strtoupper($person->name) : '' }}</td>
+                                    <td class='td-pdf'>{{ $person?->address?->full_address }}</td>
+                                    <td class='td-pdf'>{{ $person->cellphone }} {{ $person->telephone }}</td>
+                                    <td class='td-pdf'>{{ $person->dateOfBirth ? $person->dateOfBirth->format('d/m/Y') : '' }}</td>
+                                    <td class='td-pdf'>
+                                        {{\Illuminate\Support\Carbon::parse($person->groups->first()->pivot?->checked_at)->format('d/m/Y')}}
+                                    </td>
+                                    <td class='td-pdf'>{{ $person->pid }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @endif
 
-            @unless ($loop->last)
-                <div class="page-break"></div>
-            @endunless
-        @endforeach
+                    {{--            @unless ($loop->last)--}}
+                    <div class="page-break"></div>
+                    {{--            @endunless--}}
+                    @endforeach
     </div>
 </div>
 </body>
