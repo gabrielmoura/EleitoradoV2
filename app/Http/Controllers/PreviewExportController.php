@@ -117,7 +117,7 @@ class PreviewExportController extends Controller
             })
             ->get();
 
-//        $groups = $data->groupBy('district')->first();
+        //        $groups = $data->groupBy('district')->first();
 
         $streets = $data->groupBy('street')
             ->map(function ($street, $key) {
@@ -147,7 +147,7 @@ class PreviewExportController extends Controller
             })->take(10);
         $group_name = $group;
 
-//                return View::make('export.pdf.puxada-1', compact('streets', 'group_name'))->render();
+        //                return View::make('export.pdf.puxada-1', compact('streets', 'group_name'))->render();
 
         //        PDF::reset();
         //        PDF::SetTitle('Puxada');
@@ -158,7 +158,7 @@ class PreviewExportController extends Controller
         $html = View::make('export.pdf.puxada-1', compact('streets', 'group_name'))->render();
 
         return Response::make(Browsershot::html($html)->setNodeModulePath(base_path('node_modules'))
-            ->setOption('headless',"new")->noSandbox()->showBackground()->base64pdf())->header('Content-Type', 'application/pdf');
+            ->setOption('headless', 'new')->noSandbox()->showBackground()->base64pdf())->header('Content-Type', 'application/pdf');
         //chromium-browser
 
         //        PDF::addPage();

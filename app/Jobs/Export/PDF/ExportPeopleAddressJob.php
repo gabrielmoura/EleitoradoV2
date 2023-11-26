@@ -11,7 +11,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Spatie\Browsershot\Browsershot;
@@ -35,8 +34,7 @@ class ExportPeopleAddressJob implements ShouldQueue
         public string $group_by_name,
         public ?string $type = 'export.pdf.puxada-1',
         public ?string $district = null
-    )
-    {
+    ) {
         $this->data = collect($data);
     }
 
@@ -47,14 +45,14 @@ class ExportPeopleAddressJob implements ShouldQueue
             ->map(function ($street, $key) {
                 return [
                     'name' => $key,
-                    'even_address' => $street->filter(fn($person) => $person->number % 2 === 0)->map(function ($address) {
+                    'even_address' => $street->filter(fn ($person) => $person->number % 2 === 0)->map(function ($address) {
                         $love = $address->person;
                         $love->address = $address;
                         $love->checked_at = $address->person->groups->first()->pivot->checked_at;
 
                         return $love;
                     }),
-                    'odd_address' => $street->filter(fn($person) => $person->number % 2 === 1)->map(function ($address) {
+                    'odd_address' => $street->filter(fn ($person) => $person->number % 2 === 1)->map(function ($address) {
                         $love = $address->person;
                         $love->address = $address;
                         $love->checked_at = $address->person->groups->first()->pivot->checked_at;
@@ -63,9 +61,9 @@ class ExportPeopleAddressJob implements ShouldQueue
                     }),
                 ];
             });
-//        foreach ($data as $items) {
+        //        foreach ($data as $items) {
         $this->makePdf($data);
-//        }
+        //        }
     }
 
     private function makePdf($data)
@@ -74,9 +72,6 @@ class ExportPeopleAddressJob implements ShouldQueue
             'streets' => $data,
             'group_name' => $this->group_by_name,
         ])->render();
-
-
-//        $newName = $this->generateName($this->filename, $this->district ?? $this->group_by_name);
 
         $company = Company::find($this->company_id);
         $content = Browsershot::html($html)
@@ -93,7 +88,9 @@ class ExportPeopleAddressJob implements ShouldQueue
     {
         try {
             $company->addMediaFromBase64($content)
-                ->withCustomProperties([
+                ->usingFileName(
+                    $this->generateName($this->filename, $this->district ?? $this->group_by_name)
+                )->withCustomProperties([
                     'batchId' => $this->batch()->id,
                     'tenant_id' => $company->tenant_id,
                 ])->toMediaCollection('puxada');
