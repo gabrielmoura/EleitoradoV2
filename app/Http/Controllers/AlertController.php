@@ -7,16 +7,27 @@ class AlertController extends Controller
     public function notifications()
     {
         $alerts = auth()->user()->company->unreadNotifications()->paginate(10);
+        $markRead = true;
 
-        return view('dash.alerts.notifications', compact('alerts'));
+        return view('dash.alerts.notifications', compact('alerts', 'markRead'));
+    }
+
+    public function notificationAll()
+    {
+        $alerts = auth()->user()->company->notifications()->paginate(10);
+        $markRead = false;
+
+        return view('dash.alerts.notifications', compact('alerts', 'markRead'));
     }
 
     public function notificationShow($id)
     {
         $alert = auth()->user()->company->unreadNotifications()->findOrFail($id);
-        $alert->markAsRead();
+        if ($alert) {
+            $alert->markAsRead();
+        }
 
-        return redirect()->route('dash.alerts.notifications');
+        return redirect()->route('user.alert');
     }
 
     public function alertDestroy($id)

@@ -34,7 +34,9 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
 
 Route::group(['prefix' => 'user', 'middleware' => 'auth:sanctum'], function () {
     Route::get('alerts', [AlertController::class, 'notifications'])->name('user.alert');
-    Route::get('/alerts/{notification}', [AlertController::class, 'notificationShow'])->name('user.alert.show');
+    Route::get('/alerts/all', [AlertController::class, 'notificationAll'])->name('user.alert.all');
+    Route::get('/alerts/{notification}', [AlertController::class, 'notificationShow'])
+        ->whereUuid('notification')->name('user.alert.show');
 
     Route::get('messages', [MessageController::class, 'notifications'])->name('user.message');
     Route::get('/messages/{notification}', [MessageController::class, 'notificationShow'])->name('user.message.show');
@@ -58,15 +60,15 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
     //    'hasCompany'
-])->prefix('dash')->name('dash.')->group(fn() => require_once 'dash.php');
+])->prefix('dash')->name('dash.')->group(fn () => require_once 'dash.php');
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-])->prefix('admin')->name('admin.')->group(fn() => require_once 'admin.php');
+])->prefix('admin')->name('admin.')->group(fn () => require_once 'admin.php');
 
 Route::middleware([
     'auth',
     'ajaxOnly',
-])->prefix('ajax')->name('ajax.')->group(fn() => require_once 'ajax.php');
+])->prefix('ajax')->name('ajax.')->group(fn () => require_once 'ajax.php');
