@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="container-fluid">
         <h3 class="text-dark mb-4">Avisos</h3>
-        @if($alerts->count() > 0 )
+        @if($alerts->count() > 0 && $markRead)
             <btn class="btn btn-primary" onclick="Livewire.emit('markAllAsRead')">Marcar todos como lidos</btn>
         @endif
         <div class="col-lg-12">
