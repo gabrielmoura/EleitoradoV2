@@ -43,11 +43,6 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:sanctum'], function () {
 Route::group(['prefix' => 'webhook', 'name' => 'webhook.'], function () {
     // Use queue to process webhooks
     //    Route::post('/stripe', [WebhookController::class, 'stripe'])->name('stripe');
-    Route::any('/utalk', function () {
-        event(new \App\Events\WebHook\UtalkWebhookEvent(request()->all()));
-
-        return response()->noContent();
-    })->name('utalk');
 });
 Route::middleware([
     'auth:sanctum',
@@ -63,15 +58,15 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
     //    'hasCompany'
-])->prefix('dash')->name('dash.')->group(fn () => require_once 'dash.php');
+])->prefix('dash')->name('dash.')->group(fn() => require_once 'dash.php');
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-])->prefix('admin')->name('admin.')->group(fn () => require_once 'admin.php');
+])->prefix('admin')->name('admin.')->group(fn() => require_once 'admin.php');
 
 Route::middleware([
     'auth',
     'ajaxOnly',
-])->prefix('ajax')->name('ajax.')->group(fn () => require_once 'ajax.php');
+])->prefix('ajax')->name('ajax.')->group(fn() => require_once 'ajax.php');
