@@ -173,8 +173,6 @@ return [
         App\Providers\JetstreamServiceProvider::class,
         //        App\Providers\TelescopeServiceProvider::class,
 
-        Elibyy\TCPDF\ServiceProvider::class,
-
         //        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         App\Providers\RepositoryProvider::class,
@@ -182,6 +180,8 @@ return [
 
         Spatie\Permission\PermissionServiceProvider::class,
         Spatie\MediaLibraryPro\MediaLibraryProServiceProvider::class,
+        Gabrielmoura\LaravelUtalk\LaravelUtalkServiceProvider::class,
+
     ])->toArray(),
 
     /*
@@ -198,7 +198,6 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
         'Redis' => Illuminate\Support\Facades\Redis::class,
-        'PDF' => Elibyy\TCPDF\Facades\TCPDF::class,
         'Markdown' => Illuminate\Mail\Markdown::class,
         //        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
