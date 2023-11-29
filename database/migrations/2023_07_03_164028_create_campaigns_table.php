@@ -1,5 +1,6 @@
 <?php
 
+use App\Service\Enum\CampaignOptions;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,20 +15,27 @@ return new class extends Migration
         Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
             $table->uuid('tenant_id')->index();
+            $table->uuid('pid')->comment('Person Public id');
             $table->timestamps();
             $table->string('title', 100);
-            $table->string('description', 100);
-            $table->text('message');
-            $table->string('status', 100);
-            $table->string('url', 100);
-            $table->string('attachment', 100)
-                ->nullable();
+            $table->string('description', 100)->nullable();
+            $table->longText('message');
+            $table->enum('status', array_values(CampaignOptions::STATUS))->default(CampaignOptions::STATUS_PENDING);
+            $table->string('url', 100)->nullable();
+
+            /** Indereçavel a */
+            $table->nullableNumericMorphs('to');
+
+            /** Canal */
+            $table->enum('channel', array_values(CampaignOptions::CHANNELS))->default(CampaignOptions::CHANNEL_EMAIL);
+
+            /** Meta */
+            $table->json('meta')->nullable();
+
+            /** Batch */
+            $table->uuid('batch_id')->nullable();
+
             $table->softDeletes();
-            $table->foreignId('direct_mail_id')
-                ->nullable()
-                ->constrained('direct_mails')
-                ->cascadeOnUpdate()
-                ->nullOnDelete();
         });
     }
 
