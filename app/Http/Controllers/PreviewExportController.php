@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Address;
 use App\Models\Company;
 use App\Models\Event;
-use Elibyy\TCPDF\Facades\TCPDF as PDF;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\View;
@@ -19,6 +18,8 @@ class PreviewExportController extends Controller
         if (method_exists($this, $name)) {
             return $this->$name($param);
         }
+
+        return get_class_methods($this);
     }
 
     protected function puxada($param)
@@ -59,7 +60,7 @@ class PreviewExportController extends Controller
 
     protected function licensePlate($param)
     {
-        $group = 'Teste';
+        $group = 'Reinaldo Caio Verdugo Sobrinho';
         $streets = $this->prepare(Address::with('person', 'person.groups')
             ->whereHas('person', function ($query) use ($group) {
                 $query->whereHas('groups', function ($query) use ($group) {

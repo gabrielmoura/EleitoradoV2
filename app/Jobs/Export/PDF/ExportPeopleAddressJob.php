@@ -81,10 +81,10 @@ class ExportPeopleAddressJob implements ShouldQueue
             ->noSandbox()
             ->showBackground()
             ->base64pdf();
-        $this->updateMedia($company, $content);
+        $this->updateMedia($company, 'puxada', $content);
     }
 
-    private function updateMedia(Company $company, $content): void
+    private function updateMedia(Company $company, string $collection_name, $content): void
     {
         try {
             $company->addMediaFromBase64($content)
@@ -93,12 +93,12 @@ class ExportPeopleAddressJob implements ShouldQueue
                 )->withCustomProperties([
                     'batchId' => $this->batch()->id,
                     'tenant_id' => $company->tenant_id,
-                ])->toMediaCollection('puxada');
+                ])->toMediaCollection($collection_name);
 
             DB::table('media')
                 ->where('model_type', \App\Models\Company::class)
                 ->where('model_id', $company->id)
-                ->where('collection_name', 'puxada')
+                ->where('collection_name', $collection_name)
                 ->update(['tenant_id' => $company->tenant_id]);
 
         } catch (\Throwable $throwable) {

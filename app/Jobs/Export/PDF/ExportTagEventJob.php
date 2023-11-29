@@ -10,9 +10,10 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
-use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
+use Spatie\Browsershot\Browsershot;
 use Throwable;
 
 /**
@@ -22,58 +23,47 @@ class ExportTagEventJob implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public int $peerPage = 10;
-
     public Collection $data;
 
+    /**
+     * ExportTagEventJob constructor.
+     */
     public function __construct($data, public string $filename, public int $company_id, public string $tag_name, public ?string $type)
     {
         $this->data = collect($data);
     }
 
     /**
-     * @throws FileDoesNotExist
-     * @throws FileIsTooBig
+     * @description Executa o job
      */
     public function handle(): void
     {
-
-        \PDF::reset();
-        \PDF::SetTitle('Tags');
-        foreach ($this->data->chunk($this->peerPage) as $datum) {
-            $data = $datum;
-            $tag_name = $this->tag_name;
-            $view = \View::make($this->getView(), compact('data', 'tag_name'));
-            $html = $view->render();
-
-            \PDF::AddPage();
-            \PDF::writeHTML($html, true, false, true, false, '');
-        }
-        $content = \PDF::Output('', 'S');
-        $newName = $this->generateName($this->filename, $this->tag_name);
-
-        \Storage::disk('public')->put($newName, $content);
-
-        Company::find($this->company_id)
-            ->addMedia(storage_path('app/public/'.$newName))
-            ->withCustomProperties(['batchId' => $this->batch()->id])
-            ->toMediaCollection('tag');
+        $this->makePdf($this->data);
     }
 
+    /**
+     * @description Executa quando o job falha
+     */
     public function failed(Throwable $exception): void
     {
         report($exception);
     }
 
+    /**
+     * @description Retorna a view que será renderizada
+     */
     private function getView(): string
     {
         if ($this->type === '1888') {
             return 'export.pdf.tag-1888';
         }
 
-        return 'export.pdf.tag';
+        return 'export.pdf.tag-1';
     }
 
+    /**
+     * @description Gera o nome do arquivo
+     */
     private function generateName(string $filename, string $tag_name): string
     {
         $random = Str::random(5);
@@ -81,5 +71,54 @@ class ExportTagEventJob implements ShouldQueue
         $tag_name = removeAccentsSpecialCharacters($tag_name);
 
         return "$filename-$tag_name-$random.pdf";
+    }
+
+    /**
+     * @description Gera o PDF
+     */
+    private function makePdf($data): void
+    {
+        $html = View::make($this->getView(), [
+            'data' => $data,
+            'tag_name' => $this->tag_name,
+        ])->render();
+
+        $company = Company::find($this->company_id);
+        // define A4
+        $content = Browsershot::html($html)
+            ->setNodeModulePath(base_path('node_modules'))
+            ->setChromePath('/usr/bin/google-chrome-stable')
+            ->newHeadless()
+            ->noSandbox()
+            ->format('A4')
+            ->margins(0, 0, 0, 0)
+            ->showBackground()
+            ->base64pdf();
+        $this->updateMedia($company, 'tag', $content);
+    }
+
+    /**
+     * @description Atualiza o media do company
+     */
+    private function updateMedia(Company $company, string $collection_name, $content): void
+    {
+        try {
+            $company->addMediaFromBase64($content)
+                ->usingFileName(
+                    $this->generateName($this->filename, $this->tag_name)
+                )->withCustomProperties([
+                    'batchId' => $this->batch()->id,
+                    'tenant_id' => $company->tenant_id,
+                ])->toMediaCollection($collection_name);
+
+            DB::table('media')
+                ->where('model_type', \App\Models\Company::class)
+                ->where('model_id', $company->id)
+                ->where('collection_name', $collection_name)
+                ->update(['tenant_id' => $company->tenant_id]);
+
+        } catch (\Throwable $throwable) {
+            report($throwable);
+        }
     }
 }

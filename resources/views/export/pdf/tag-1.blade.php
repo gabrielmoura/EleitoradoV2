@@ -26,26 +26,36 @@
             font-size: 14px;
         }
 
+        .page-break {
+            display: block;
+            clear: both;
+            page-break-after: always;
+        }
+
     </style>
 </head>
 <body>
 <div class="container">
-    @foreach($data->chunk(3) as $tags)
-        <div class="row">
-            @foreach($tags as $tag)
-                <div class="col s4">
-                    <div class="pdf-container">
-                        <div class="pdf-item">
-                            <h2>{{$tag->name}}</h2>
-                            <p>{{$tag->address->street}}, {{$tag->address->number}}</p>
-                            <p>{{$tag->address->district}}</p>
-                            <p>{{$tag->address->zipcode}}</p>
-                            <p>{{$tag->address->city}}, {{$tag->address->uf}}</p>
+    @foreach($data->chunk(12) as $line)
+        @foreach($line->chunk(3) as $tags)
+            {{--        Linha--}}
+            <div class="row">
+                @foreach($tags as $tag)
+                    <div class="col s4">
+                        <div class="pdf-container">
+                            <div class="pdf-item">
+                                <h2>{{$tag->name}}</h2>
+                                <p>{{$tag->address->street}}, {{$tag->address->number}}</p>
+                                <p>{{$tag->address->district}}</p>
+                                <p>{{$tag->address->zipcode}}</p>
+                                <p>{{$tag->address->city}}, {{$tag->address->uf}}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
-        </div>
+                @endforeach
+            </div>
+        @endforeach
+        <div class="page-break"></div>
     @endforeach
 </div>
 </body>
