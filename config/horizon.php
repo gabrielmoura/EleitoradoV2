@@ -84,7 +84,9 @@ return [
     */
 
     'waits' => [
+        'redis:critical' => 30,
         'redis:default' => 60,
+        'redis:batch' => 120,
     ],
 
     /*
@@ -99,12 +101,12 @@ return [
     */
 
     'trim' => [
-        'recent' => 60,
-        'pending' => 60,
-        'completed' => 60,
-        'recent_failed' => 10080,
-        'failed' => 10080,
-        'monitored' => 10080,
+        'recent' => 60, // Trabalhos recentes são mantidos por 1 hora
+        'pending' => 60, // Trabalhos pendentes são mantidos por 1 hora
+        'completed' => 60,  // Trabalhos concluídos são mantidos por 1 hora
+        'recent_failed' => 60 * 24, // Trabalhos recentes falhados são mantidos por 24 horas
+        'failed' => 60 * 24, // Trabalhos falhados são mantidos por 24 horas
+        'monitored' => 60 * 24 * 7, // Trabalhos monitorados são mantidos por 1 semana
     ],
 
     /*
