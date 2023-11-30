@@ -979,12 +979,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gabrielmoura/laravel-utalk.git",
-                "reference": "23f5a0efe7cbbc75d14baac462069c08773588ab"
+                "reference": "6544112c95b48956da5f2cd5c784d8f0fcb98959"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gabrielmoura/laravel-utalk/zipball/23f5a0efe7cbbc75d14baac462069c08773588ab",
-                "reference": "23f5a0efe7cbbc75d14baac462069c08773588ab",
+                "url": "https://api.github.com/repos/gabrielmoura/laravel-utalk/zipball/6544112c95b48956da5f2cd5c784d8f0fcb98959",
+                "reference": "6544112c95b48956da5f2cd5c784d8f0fcb98959",
                 "shasum": ""
             },
             "require": {
@@ -1048,7 +1048,7 @@
                 "source": "https://github.com/gabrielmoura/laravel-utalk/tree/main",
                 "issues": "https://github.com/gabrielmoura/laravel-utalk/issues"
             },
-            "time": "2023-11-29T19:47:25+00:00"
+            "time": "2023-11-30T19:36:10+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -4991,16 +4991,16 @@
         },
         {
             "name": "php-http/discovery",
-            "version": "1.19.1",
+            "version": "1.19.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/discovery.git",
-                "reference": "57f3de01d32085fea20865f9b16fb0e69347c39e"
+                "reference": "61e1a1eb69c92741f5896d9e05fb8e9d7e8bb0cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/discovery/zipball/57f3de01d32085fea20865f9b16fb0e69347c39e",
-                "reference": "57f3de01d32085fea20865f9b16fb0e69347c39e",
+                "url": "https://api.github.com/repos/php-http/discovery/zipball/61e1a1eb69c92741f5896d9e05fb8e9d7e8bb0cb",
+                "reference": "61e1a1eb69c92741f5896d9e05fb8e9d7e8bb0cb",
                 "shasum": ""
             },
             "require": {
@@ -5063,9 +5063,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-http/discovery/issues",
-                "source": "https://github.com/php-http/discovery/tree/1.19.1"
+                "source": "https://github.com/php-http/discovery/tree/1.19.2"
             },
-            "time": "2023-07-11T07:02:26+00:00"
+            "time": "2023-11-30T16:49:05+00:00"
         },
         {
             "name": "php-http/httplug",

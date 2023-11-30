@@ -72,3 +72,5 @@ Route::middleware([
     'auth',
     'ajaxOnly',
 ])->prefix('ajax')->name('ajax.')->group(fn () => require_once 'ajax.php');
+
+Route::utalk();
