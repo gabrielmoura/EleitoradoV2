@@ -106,8 +106,7 @@ class Company extends Model implements HasMedia
 
     /**
      * @description Conversões de mídia
-     * @param Media|null $media
-     * @return void
+     *
      * @throws InvalidManipulation
      */
     public function registerMediaConversions(Media $media = null): void

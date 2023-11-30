@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <img width="250px" height="250px" class="avatar-img img-thumbnail" alt="{{$company->name}}"
-                             src="{{$company->logo??\Illuminate\Support\Facades\Vite::asset('resources/images/company-logo.png')}}">
+                             src="{{$avatar}}">
                     </div>
                     <div class="col-md-4">
                         <h2>Dados</h2>

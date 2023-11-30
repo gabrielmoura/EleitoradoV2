@@ -37,9 +37,9 @@
                             @foreach($history?->properties as $key=>$item)
                                 <li>{{\App\Service\Enum\HistoryOptions::getAttributeOption($key)}}
                                     <ul>
-                                        @foreach($item as $key=>$value)
+                                        @foreach($item as $name=>$value)
                                             <li>
-                                                <span class="h5 ml-3">{{$key}}</span>
+                                                <span class="h5 ml-3">{{__("cruds.fields.$name")}}</span>
                                                 <span>{{$value}}</span>
                                             </li>
                                         @endforeach

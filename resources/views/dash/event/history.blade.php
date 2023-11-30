@@ -31,15 +31,15 @@
                 <tr>
                     <td>{{$history->created_at}}</td>
                     <td>{{\App\Service\Enum\HistoryOptions::getStatusOption($history->event)}}</td>
-                    <td>{{($history->causer_type=='App\Models\Group')? $history->causer()->first()->name:null}}</td>
+                    <td>{{($history->causer_type=='App\Models\Group')? $history->causer()->first()->name :null}}</td>
                     <td>
                         <ul>
                             @foreach($history?->properties as $key=>$item)
                                 <li>{{\App\Service\Enum\HistoryOptions::getAttributeOption($key)}}
                                     <ul>
-                                        @foreach($item as $key=>$value)
+                                        @foreach($item as $name=>$value)
                                             <li>
-                                                <span class="h5 ml-3">{{$key}}</span>
+                                                <span class="h5 ml-3">{{__("cruds.fields.$name")}}</span>
                                                 <span>{{$value}}</span>
                                             </li>
                                         @endforeach
