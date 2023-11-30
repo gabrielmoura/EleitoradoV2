@@ -6,7 +6,7 @@
          aria-labelledby="navbarDropdownMessages">
         <h6 class="dropdown-header dropdown-notifications-header">
             <i class="me-2" data-feather="mail"></i>
-            Message Center
+            {{__('Message Center')}}
         </h6>
 
         @foreach($messages as $message)
@@ -23,7 +23,7 @@
             </a>
         @endforeach
         @if(count($messages)>0)
-            <a class="dropdown-item dropdown-notifications-footer" href="#!">Read All Messages</a>
+            <a class="dropdown-item dropdown-notifications-footer" href="#!">{{__('Read All Messages')}}</a>
         @endif
     </div>
 </li>

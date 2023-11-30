@@ -63,11 +63,11 @@
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{route('profile.show')}}">
                     <div class="dropdown-item-icon"><i data-feather="settings"></i></div>
-                    Account
+                    {{__('Account')}}
                 </a>
                 <a class="dropdown-item" href="javascript:{}" onclick="document.getElementById('logout-form').submit();">
                     <i class="dropdown-item-icon" data-feather="log-out"></i>
-                    Logout</a>
+                    {{__('Logout')}}</a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>

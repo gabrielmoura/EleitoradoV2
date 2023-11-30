@@ -191,5 +191,10 @@
     "You may not delete your personal team.": "Você não pode excluir o seu time pessoal.",
     "You may not leave a team that you created.": "Você não pode sair de um time que você criou.",
     "Your email address is unverified.": "Seu endereço de e-mail não foi verificado.",
-    "This action is unauthorized." : "Esta ação não é autorizada."
+    "This action is unauthorized." : "Esta ação não é autorizada.",
+    "Read All Messages" : "Ler todas as mensagens",
+    "Message Center" : "Central de mensagens",
+    "Account Settings" : "Configurações da conta",
+    "Profile Settings" : "Configurações do perfil",
+    "Account": "Conta"
 }
