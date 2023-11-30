@@ -27,7 +27,7 @@ class CompanyController extends Controller
     public function update(CompanyUpdateRequest $request, $pid)
     {
         $data = $request->validated();
-        Company::wherePid($pid)->firstOrFail()->update($data);
+        Company::where('pid',$pid)->firstOrFail()->update($data);
 
         return redirect()->route('dash.company.index');
     }

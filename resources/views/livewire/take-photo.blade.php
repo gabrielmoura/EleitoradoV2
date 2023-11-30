@@ -21,7 +21,7 @@
                         //Definir o elemento vídeo a carregar o capturado pela webcam
                         video.srcObject = stream;
                     })
-                    .catch(function (error) {
+                    .catch(function () {
                         alert("Oooopps... Falhou :'(");
                     });
             }

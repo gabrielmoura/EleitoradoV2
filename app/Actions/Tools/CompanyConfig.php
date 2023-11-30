@@ -45,7 +45,7 @@ class CompanyConfig
         $data = Arr::dot($this->config->toArray());
         $data[$key] = $value;
 
-        $this->company->conf = Arr::undot($data);
+        $this->company->conf = collect(Arr::undot($data));
         $this->company->save();
     }
 
@@ -64,7 +64,7 @@ class CompanyConfig
      */
     public function setDefault(): void
     {
-        $this->company->conf = self::default();
+        $this->company->conf = collect(self::default());
         $this->company->save();
     }
 

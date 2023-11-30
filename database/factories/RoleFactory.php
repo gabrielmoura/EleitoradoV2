@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
+use Spatie\Permission\Models\Role;
 
 class RoleFactory extends Factory
 {

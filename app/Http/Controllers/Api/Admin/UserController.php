@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
-use App\Mail\System\WelcomeSystemMail;
+use App\Mail\System\WelcomeMail;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -42,7 +42,7 @@ class UserController extends Controller
             return $user;
         });
         if ($transaction) {
-            Mail::to($transaction)->send(new WelcomeSystemMail());
+            Mail::to($transaction)->send(new WelcomeMail());
 
             return $transaction;
         }

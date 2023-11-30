@@ -27,7 +27,7 @@
                     navLinks: true, // can click day/week names to navigate views
                     selectable: false, // permite selecionar um dia/hora
                     eventDidMount: function (info) {
-                        var tooltip = new bootstrap.Tooltip(info.el, {
+                        new bootstrap.Tooltip(info.el, {
                             title: info.event.extendedProps?.description ?? '',
                             placement: 'top',
                             trigger: 'hover',

@@ -24,7 +24,7 @@
                     <div class="form-group @if ($errors->has('name')) has-error @endif">
 
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" placeholder="Role Name" name="name" />
+                        <input type="text" class="form-control" placeholder="Role Name" id="name" name="name" />
                         @if ($errors->has('name'))
                             <p class="help-block">{{ $errors->first('name') }}</p>
                         @endif

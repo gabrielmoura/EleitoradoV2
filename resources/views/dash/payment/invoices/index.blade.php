@@ -44,16 +44,16 @@
             </thead>
             <tbody>
 
-            @forelse($invoices as $invoices)
+            @forelse($invoices as $invoice)
                 <tr>
-                    <td class="d-none">{{$invoices->id}}</td>
-                    <td>{{$invoices->number}}</td>
-                    <td>{{$invoices->status}}</td>
-                    <td>{{formatCurrency($invoices->amount_paid/100,$invoices->currency)}}</td>
-                    <td>{{formatCurrency($invoices->total/100,$invoices->currency)}}</td>
-                    <td>{{\Illuminate\Support\Carbon::parse($invoices->period_start)->translatedFormat('D, d M Y H:i:s')}}</td>
+                    <td class="d-none">{{$invoice->id}}</td>
+                    <td>{{$invoice->number}}</td>
+                    <td>{{$invoice->status}}</td>
+                    <td>{{formatCurrency($invoice->amount_paid/100,$invoice->currency)}}</td>
+                    <td>{{formatCurrency($invoice->total/100,$invoice->currency)}}</td>
+                    <td>{{\Illuminate\Support\Carbon::parse($invoice->period_start)->translatedFormat('D, d M Y H:i:s')}}</td>
                     {{--        <td>{{\Illuminate\Support\Carbon::parse($invoices->period_end)->translatedFormat('D, d M Y H:i:s')}}</td>--}}
-                    <td>{{$invoices->livemode?'Ativo':'Test'}}</td>
+                    <td>{{$invoice->livemode?'Ativo':'Test'}}</td>
 
 
                 </tr>

@@ -53,10 +53,11 @@
 
                 <div class="form-group mb-3 col-md-6">
                     <label for="recurrence" class="form-label">Recorrencia *</label>
-                    <select class="select form-control @error('recurrence') is-invalid @enderror" name="recurrence">
-                        @foreach(\App\Models\Event::RECURRENCE_RADIO as $key => $label)
+                    <select class="select form-control @error('recurrence') is-invalid @enderror" name="recurrence"
+                            id="recurrence">
+                        @foreach(\App\Service\Enum\EventOptions::RECURRENCE_RADIO as $key => $label)
                             <option value="{{$key}}"
-                                {{(isset($event)&&$event->recurrence==$key)?'selected':null}}>{{$label}}</option>
+                                    {{(isset($event)&&$event->recurrence==$key)?'selected':null}}>{{$label}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -89,7 +90,7 @@
                            value="{{$event->address->street??old('street')}}">
                 </div>
                 <div class="form-group mb-3 col-md-3">
-                    <label for="email" class="form-label">Numero</label>
+                    <label for="number" class="form-label">Numero</label>
                     <input type="number" name="number" class="form-control  @error('number') is-invalid @enderror"
                            id="number"
                            placeholder=""
@@ -138,6 +139,6 @@
                     document.getElementById('state').value = r.data.uf;
                     document.getElementById('complement').value = r.data.complemento;
                 });
-        };
+        }
     </script>
 </x-app-layout>

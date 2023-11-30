@@ -50,9 +50,9 @@ class Index extends Component
         $this->emit('refresh');
     }
 
-    public function exportSelected()
+    public function exportSelected(): void
     {
-        dd($this->selected, $this->selectAll);
+        //        $this->selected, $this->selectAll);
     }
 
     // edit function

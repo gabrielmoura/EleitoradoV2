@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Permission;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
+use Spatie\Permission\Models\Permission;
 
 class PermissionFactory extends Factory
 {

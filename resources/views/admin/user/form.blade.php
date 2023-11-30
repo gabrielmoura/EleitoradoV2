@@ -49,10 +49,11 @@
 
                 <div class="form-group mb-3 col-md-6">
                     <label for="recurrence" class="form-label">Recorrencia *</label>
-                    <select class="select form-control @error('recurrence') is-invalid @enderror" name="recurrence">
-                        @foreach(\App\Models\Event::RECURRENCE_RADIO as $key => $label)
+                    <select class="select form-control @error('recurrence') is-invalid @enderror" name="recurrence"
+                            is="recurrence">
+                        @foreach(\App\Service\Enum\EventOptions::RECURRENCE_RADIO as $key => $label)
                             <option value="{{$key}}"
-                                {{(isset($event)&&$event->recurrence==$key)?'selected':null}}>{{$label}}</option>
+                                    {{(isset($event)&&$event->recurrence==$key)?'selected':null}}>{{$label}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -71,7 +72,8 @@
             <div class="row">
                 <div class="form-group mb-3 col-md-3">
                     <label for="post_code" class="form-label">CEP</label>
-                    <input type="text" name="post_code" class="form-control cep @error('post_code') is-invalid @enderror" id="post_code"
+                    <input type="text" name="post_code"
+                           class="form-control cep @error('post_code') is-invalid @enderror" id="post_code"
                            placeholder=""
                            onblur="getCep(this.value);"
                            value="{{$event->address->post_code??old('post_code')}}">
@@ -84,7 +86,7 @@
                            value="{{$event->address->street??old('street')}}">
                 </div>
                 <div class="form-group mb-3 col-md-3">
-                    <label for="email" class="form-label">Numero</label>
+                    <label for="number" class="form-label">Numero</label>
                     <input type="number" name="number" class="form-control  @error('number') is-invalid @enderror"
                            id="number"
                            placeholder=""
@@ -132,6 +134,6 @@
                     document.getElementById('district').value = r.data.bairro;
                     document.getElementById('state').value = r.data.uf;
                 });
-        };
+        }
     </script>
 </x-app-layout>

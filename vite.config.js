@@ -1,6 +1,10 @@
 import {defineConfig, splitVendorChunkPlugin} from 'vite';
 import laravel, {refreshPaths} from 'laravel-vite-plugin';
+import path from 'path';
 
+/**
+ * @type {import('vite').UserConfig}
+ */
 export default defineConfig({
     plugins: [
         laravel({
@@ -16,4 +20,10 @@ export default defineConfig({
         }),
         splitVendorChunkPlugin(),
     ],
+    resolve: {
+        alias: {
+            '@vendor/spatie/laravel-medialibrary-pro': path.resolve(__dirname, 'vendor/spatie/laravel-medialibrary-pro/resources/js'),
+        },
+    },
+
 });

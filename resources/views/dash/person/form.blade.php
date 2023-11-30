@@ -25,7 +25,7 @@
             <legend>Dados Principais</legend>
             <div class="row">
                 <div class="form-group mb-3 col-md-3">
-                    <label for="cel" class="form-label">Celular</label>
+                    <label for="cellphone" class="form-label">Celular</label>
                     <input type="text" name="cellphone"
                            class="form-control tel @error('cellphone') is-invalid @enderror" id="cellphone"
                            placeholder=""
@@ -39,7 +39,7 @@
                 </div>
                 <div class="form-group mb-3  col-md-3">
                     <label for="sex" class="form-label">Sexo</label>
-                    <select class="select form-control" name="sex">
+                    <select class="select form-control" name="sex" id="sex">
                         @foreach(\App\Service\Enum\PersonOptions::getSexOptions() as $key=>$value)
                             <option value="{{$value}}" {{$person?->sex===$value?'selected':null}}>{{$key}}</option>
                         @endforeach
@@ -59,7 +59,7 @@
                            value="{{old('email',$person->email)}}">
                 </div>
                 <div class="form-group mb-3 col-md-3">
-                    <label for="tel" class="form-label">Telefone</label>
+                    <label for="telephone" class="form-label">Telefone</label>
                     <input type="text" name="telephone"
                            class="form-control tel @error('telephone') is-invalid @enderror" id="telephone"
                            placeholder=""
@@ -83,7 +83,7 @@
             <legend>Endereço</legend>
             <div class="row">
                 <div class="form-group mb-3 col-md-3">
-                    <label for="post_code" class="form-label">CEP</label>
+                    <label for="zipcode" class="form-label">CEP</label>
                     <input type="text" name="zipcode"
                            class="form-control cep @error('zipcode') is-invalid @enderror" id="zipcode"
                            placeholder=""
@@ -101,7 +101,7 @@
                     >
                 </div>
                 <div class="form-group mb-3 col-md-3">
-                    <label for="email" class="form-label">Numero</label>
+                    <label for="number" class="form-label">Numero</label>
                     <input type="number" name="number" class="form-control  @error('number') is-invalid @enderror"
                            id="number"
                            placeholder=""
@@ -133,7 +133,7 @@
                     <label for="state" class="form-label">Estado</label>
                     <input type="text" name="state" class="form-control @error('state') is-invalid @enderror" id="state"
                            placeholder=""
-                        {{--                           value="{{$person->addresses->last()->state??old('state')}}"--}}
+                            {{--                           value="{{$person->addresses->last()->state??old('state')}}"--}}
                     >
                 </div>
             </div>
@@ -172,7 +172,7 @@
                         <option value="">Selecione</option>
                         @foreach(\App\Service\Enum\PersonOptions::getSkinColorOptions() as $key=>$value)
                             <option
-                                value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
+                                    value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -182,7 +182,7 @@
                         <option value="">Selecione</option>
                         @foreach(\App\Service\Enum\PersonOptions::getMaritalStatusOptions() as $key=>$value)
                             <option
-                                value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
+                                    value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -192,7 +192,7 @@
                         <option value="">Selecione</option>
                         @foreach(\App\Service\Enum\PersonOptions::getEducationLevelOptions() as $key=>$value)
                             <option
-                                value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
+                                    value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -202,7 +202,7 @@
                         <option value="">Selecione</option>
                         @foreach(\App\Service\Enum\PersonOptions::getOccupationOptions() as $key=>$value)
                             <option
-                                value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
+                                    value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -212,7 +212,7 @@
                         <option value="">Selecione</option>
                         @foreach(\App\Service\Enum\PersonOptions::getReligionOptions() as $key=>$value)
                             <option
-                                value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
+                                    value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -222,7 +222,7 @@
                         <option value="">Selecione</option>
                         @foreach(\App\Service\Enum\PersonOptions::getHousingOptions() as $key=>$value)
                             <option
-                                value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
+                                    value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -232,7 +232,7 @@
                         <option value="">Selecione</option>
                         @foreach(\App\Service\Enum\PersonOptions::sexualOrientationOptions() as $key=>$value)
                             <option
-                                value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
+                                    value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -242,7 +242,7 @@
                         <option value="">Selecione</option>
                         @foreach(\App\Service\Enum\PersonOptions::genderIdentityOptions() as $key=>$value)
                             <option
-                                value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
+                                    value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -252,7 +252,7 @@
                         <option value="">Selecione</option>
                         @foreach(\App\Service\Enum\PersonOptions::getDeficiencyTypeOptions() as $key=>$value)
                             <option
-                                value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
+                                    value="{{$value}}" {{(isset($person)&&$person->maritalStatus==$value)?'selected':null}}>{{$key}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -262,47 +262,48 @@
             <legend>Dados Adicionais</legend>
             <div class="row">
                 <div class="form-group mb-3 col-md-12">
-                    <label for="tags[]" class="form-label">Grupos associados</label>
-                    <select class="tselect-multi" name="groups[]" multiple="multiple">
+                    <label for="groups" class="form-label">Grupos associados</label>
+                    <select class="tselect-multi" name="groups[]" multiple="multiple" id="groups">
                         @foreach($groups as $group)
                             <option
-                                value="{{$group->id}}"
-                                {{(isset($person)&&$person->groups->contains( fn($value,$key)=>$value->name==$group->name))?'selected':null}}>
+                                    value="{{$group->id}}"
+                                    {{(isset($person)&&$person->groups->contains( fn($value,$key)=>$value->name==$group->name))?'selected':null}}>
                                 > {{$group->name}}
                             </option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group mb-3 col-md-12">
-                    <label for="events[]" class="form-label">Eventos associados</label>
-                    <select class="form-control tselect-multi" name="events[]" multiple="multiple">
+                    <label for="events" class="form-label">Eventos associados</label>
+                    <select class="form-control tselect-multi" name="events[]" multiple="multiple" id="events">
                         @foreach($events as $event)
                             <option
-                                value="{{$event->id}}"
-                                {{(isset($person)&&$person->events->contains( fn($value,$key)=>$value->name==$event->name))?'selected':null}}>
+                                    value="{{$event->id}}"
+                                    {{(isset($person)&&$person->events->contains( fn($value,$key)=>$value->name==$event->name))?'selected':null}}>
                                 {{$event->name}}
                             </option>
                         @endforeach
                     </select>
                 </div>
 
-{{--                <div class="form-group mb-3 col-md-12">--}}
-{{--                    <label for="events[]" class="form-label">Demandas associadas</label>--}}
-{{--                    <select class="form-control tselect-multi" name="events[]" multiple="multiple">--}}
-{{--                        @foreach($demands as $demand)--}}
-{{--                            <option--}}
-{{--                                value="{{$demand->id}}"--}}
-{{--                                {{(isset($person)&&$person->demands->contains( fn($value,$key)=>$value->name==$demand->name))?'selected':null}}>--}}
-{{--                                {{$demand->name}}--}}
-{{--                            </option>--}}
-{{--                        @endforeach--}}
-{{--                    </select>--}}
-{{--                </div>--}}
+                {{--                <div class="form-group mb-3 col-md-12">--}}
+                {{--                    <label for="events[]" class="form-label">Demandas associadas</label>--}}
+                {{--                    <select class="form-control tselect-multi" name="events[]" multiple="multiple">--}}
+                {{--                        @foreach($demands as $demand)--}}
+                {{--                            <option--}}
+                {{--                                value="{{$demand->id}}"--}}
+                {{--                                {{(isset($person)&&$person->demands->contains( fn($value,$key)=>$value->name==$demand->name))?'selected':null}}>--}}
+                {{--                                {{$demand->name}}--}}
+                {{--                            </option>--}}
+                {{--                        @endforeach--}}
+                {{--                    </select>--}}
+                {{--                </div>--}}
 
 
                 <div class="form-group mb-3 col-md-12">
                     <label for="avatar" class="form-label">Foto</label>
-                    <x-media-library-attachment name="avatar" rules="mimes:jpeg,png,jpg|max:2048" max-items="1" editableName/>
+                    <x-media-library-attachment name="avatar" rules="mimes:jpeg,png,jpg|max:2048" max-items="1"
+                                                editableName/>
                 </div>
 
                 @can('add_property')

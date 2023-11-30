@@ -3,7 +3,7 @@
 namespace App\Jobs\Send;
 
 use App\Models\Company;
-use App\ServiceHttp\UTalk\UtalkService;
+use Gabrielmoura\LaravelUtalk\UtalkService;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -12,6 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
+use InvalidArgumentException;
 use Throwable;
 
 class SendWhatsapp implements ShouldBeUnique, ShouldQueue
@@ -26,10 +27,10 @@ class SendWhatsapp implements ShouldBeUnique, ShouldQueue
     public function __construct(array $data, public Company $company)
     {
         if (array_key_exists('phone', $data)) {
-            throw new \Exception('O campo phone é obrigatório');
+            throw new InvalidArgumentException('O campo phone é obrigatório');
         }
         if (array_key_exists('message', $data)) {
-            throw new \Exception('O campo message é obrigatório');
+            throw new InvalidArgumentException('O campo message é obrigatório');
         }
 
         if (array_key_exists('phone', $data) && ! str_starts_with($data['phone'], '55')) {
@@ -41,7 +42,7 @@ class SendWhatsapp implements ShouldBeUnique, ShouldQueue
     /**
      * The unique ID of the job.
      */
-    public function uniqueId(): string
+    public function uniqueId(): int
     {
         return $this->company->id;
     }

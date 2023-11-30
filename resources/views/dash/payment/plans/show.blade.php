@@ -56,7 +56,7 @@
     </form>
     <script src="https://js.stripe.com/v3/"></script>
     <script>
-        var stripe = Stripe('{{ env('STRIPE_KEY') }}');
+        var stripe = Stripe('{{ config('cashier.key') }}');
         var elements = stripe.elements();
         var style = {
             base: {

@@ -30,8 +30,8 @@
                     <td>{{($history->causer_type=='App\Models\User')? $history->causer()->first()->name:null}}</td>
                     <td>
                         <ul>
-                            @foreach($history?->properties as $key=>$item)
-                                <li>{{__($key)}}
+                            @foreach($history?->properties as $name=>$item)
+                                <li>{{__($name)}}
                                     <ul>
                                         @foreach($item as $key=>$value)
                                             <li>

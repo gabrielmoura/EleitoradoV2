@@ -39,8 +39,8 @@ class SendBirthday extends Command
             $this->info("Empresa: {$company->name}");
 
             $people = $company->people()
-                ->whereDay('dateOfBirth', now()->day)
-                ->whereMonth('dateOfBirth', now()->month)
+                ->whereDay('dateOfBirth', (string) now()->day)
+                ->whereMonth('dateOfBirth', (string) now()->month)
                 ->get();
 
             $this->info("Total de pessoas com celular e aniversário: {$people->whereNotNull('cellphone')->count()}");

@@ -10,4 +10,5 @@ return [
     'ServerError' => 'Erro do servidor',
     'ServiceUnavailable' => 'Serviço indisponível',
     'Forbidden' => 'Proibido',
+    'BadGateway' => 'Gateway ruim',
 ];

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Dash;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CampaignStoreRequest;
-use App\Http\Requests\CampaignUpdateRequest;
 use App\Models\Campaign;
 use App\Service\Enum\CampaignOptions;
 use Illuminate\Support\Facades\Bus;
@@ -39,7 +38,7 @@ class CampaignController extends Controller
      */
     public function store(CampaignStoreRequest $request)
     {
-        $batch = Bus::batch([])->name('Campaign');
+        $batch = Bus::batch([])->name('Campaign')->dispatch();
 
         $data = [
             'batch_id' => $batch->id,
@@ -65,21 +64,6 @@ class CampaignController extends Controller
     }
 
     public function show(Campaign $campaign)
-    {
-        //
-    }
-
-    public function edit(Campaign $campaign)
-    {
-        return view('dash.campaign.edit', compact('campaign'));
-    }
-
-    public function update(CampaignUpdateRequest $request, Campaign $campaign)
-    {
-        //
-    }
-
-    public function destroy(Campaign $campaign)
     {
         //
     }

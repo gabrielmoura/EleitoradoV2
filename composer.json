@@ -10,7 +10,7 @@
         "ext-pdo": "*",
         "ext-redis": "*",
         "ext-xml": "*",
-        "blx32/laravel-medialibrary": "^1.0",
+        "spatie/laravel-medialibrary-pro": "dev-main",
         "consoletvs/charts": "6.*",
         "gabrielmoura/laravel-pennant-redis": "1.0",
         "guzzlehttp/guzzle": "^7.2",
@@ -105,12 +105,13 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "repositories": [
-        {
-            "type": "path",
-            "url": "3PartyPackages/laravel-medialibrary"
-        },{
+      {
             "type": "vcs",
             "url": "git@github.com:gabrielmoura/laravel-utalk.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:gabrielmoura/spatie-laravel-medialibrary-pro.git"
         }
     ]
 }

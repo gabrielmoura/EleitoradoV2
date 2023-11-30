@@ -26,7 +26,7 @@ trait WithColumnSelect
 
     public function getDefaultVisibleColumns(): array
     {
-        return collect($this->getColumns())
+        return collect($this->columns)
             ->filter(function ($column) {
                 return $column->isVisible() && $column->isSelectable() && $column->isSelected();
             })

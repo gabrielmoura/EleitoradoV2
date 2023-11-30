@@ -58,10 +58,11 @@
 
                 <div class="form-group mb-3 col-md-6">
                     <label for="recurrence" class="form-label">Recorrencia *</label>
-                    <select class="select form-control @error('recurrence') is-invalid @enderror" name="recurrence">
-                        @foreach(\App\Models\Event::RECURRENCE_RADIO as $key => $label)
+                    <select class="select form-control @error('recurrence') is-invalid @enderror" name="recurrence"
+                            id="recurrence">
+                        @foreach(\App\Service\Enum\EventOptions::RECURRENCE_RADIO as $key => $label)
                             <option value="{{$key}}"
-                                {{(isset($event)&&$event->recurrence==$key)?'selected':null}}>{{$label}}</option>
+                                    {{(isset($event)&&$event->recurrence==$key)?'selected':null}}>{{$label}}</option>
                         @endforeach
                     </select>
                 </div>
