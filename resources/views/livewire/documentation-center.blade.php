@@ -9,27 +9,27 @@
         <a class="dropdown-item py-3" href="https://docs.startbootstrap.com/sb-admin-pro" target="_blank">
             <div class="icon-stack bg-primary-soft text-primary me-4"><i data-feather="book"></i></div>
             <div>
-                <div class="small text-gray-500">Documentation</div>
-                Usage instructions and reference
+                <div class="small text-gray-500">Documentação</div>
+                Ainda não há tutoriais cadastrados
             </div>
         </a>
-        <div class="dropdown-divider m-0"></div>
-        <a class="dropdown-item py-3" href="https://docs.startbootstrap.com/sb-admin-pro/components"
-           target="_blank">
-            <div class="icon-stack bg-primary-soft text-primary me-4"><i data-feather="code"></i></div>
-            <div>
-                <div class="small text-gray-500">Components</div>
-                Code snippets and reference
-            </div>
-        </a>
-        <div class="dropdown-divider m-0"></div>
-        <a class="dropdown-item py-3" href="https://docs.startbootstrap.com/sb-admin-pro/changelog"
-           target="_blank">
-            <div class="icon-stack bg-primary-soft text-primary me-4"><i data-feather="file-text"></i></div>
-            <div>
-                <div class="small text-gray-500">Changelog</div>
-                Updates and changes
-            </div>
-        </a>
+        {{--        <div class="dropdown-divider m-0"></div>--}}
+        {{--        <a class="dropdown-item py-3" href="https://docs.startbootstrap.com/sb-admin-pro/components"--}}
+        {{--           target="_blank">--}}
+        {{--            <div class="icon-stack bg-primary-soft text-primary me-4"><i data-feather="code"></i></div>--}}
+        {{--            <div>--}}
+        {{--                <div class="small text-gray-500">Components</div>--}}
+        {{--                Code snippets and reference--}}
+        {{--            </div>--}}
+        {{--        </a>--}}
+        {{--        <div class="dropdown-divider m-0"></div>--}}
+        {{--        <a class="dropdown-item py-3" href="https://docs.startbootstrap.com/sb-admin-pro/changelog"--}}
+        {{--           target="_blank">--}}
+        {{--            <div class="icon-stack bg-primary-soft text-primary me-4"><i data-feather="file-text"></i></div>--}}
+        {{--            <div>--}}
+        {{--                <div class="small text-gray-500">Changelog</div>--}}
+        {{--                Updates and changes--}}
+        {{--            </div>--}}
+        {{--        </a>--}}
     </div>
 </li>
