@@ -15,7 +15,7 @@
     >
         <h6 class="dropdown-header dropdown-notifications-header">
             <i class="me-2 fa fa-bell"></i>
-            Alerts Center
+            Central de Alertas
         </h6>
         @foreach($notifications?->take(3) as $alert)
             <a class="dropdown-item dropdown-notifications-item" href="{{$alert->data['url']??'#'}}"
@@ -37,7 +37,7 @@
             </a>
         @endforeach
 {{--        @if(count($notifications) > 0)--}}
-            <a class="dropdown-item dropdown-notifications-footer" href="{{route('user.alert')}}">View All Alerts</a>
+            <a class="dropdown-item dropdown-notifications-footer" href="{{route('user.alert')}}">Ver todos os alertas</a>
 {{--        @endif--}}
     </div>
 </li>
