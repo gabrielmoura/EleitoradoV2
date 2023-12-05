@@ -1,51 +1,196 @@
 {
   "_vendor-c655e967.js": {
-    "file": "assets/vendor-c655e967.js"
+    "file": "assets/vendor-c655e967.js",
+    "integrity": "sha384-JDVCx8zn2QwwnbysRpbnq2QupjAsFFHQ3LwLly/GQ3Emoaaik+YR6nyqm+SelF5H"
+  },
+  "node_modules/workbox-window/build/workbox-window.prod.es5.mjs": {
+    "file": "assets/workbox-window.prod.es5-a7b12eab.js",
+    "isDynamicEntry": true,
+    "src": "node_modules/workbox-window/build/workbox-window.prod.es5.mjs",
+    "integrity": "sha384-rL2ZcIjn+mvUH3jcIQL45MP+w255Fw/SJzBcJsR/YiG70Rm6dIODTLasET6yY8SB"
+  },
+  "resources/fonts/fa-brands-400.eot": {
+    "file": "assets/fa-brands-400-7060f1c8.eot",
+    "src": "resources/fonts/fa-brands-400.eot",
+    "integrity": "sha384-oj7aCpuFE2waoDIuBwLEZcFQws/dQoy4Syab/4dwvnnLi+frtZqcq1u1ASp6/u2V"
+  },
+  "resources/fonts/fa-brands-400.svg": {
+    "file": "assets/fa-brands-400-7301d37c.svg",
+    "src": "resources/fonts/fa-brands-400.svg",
+    "integrity": "sha384-5JisPaznLm4TvD6MmFcE1wj7RFxs2mzmnWGgIHnEoe22Y70JG3bOqeljbxN/ApRL"
+  },
+  "resources/fonts/fa-brands-400.ttf": {
+    "file": "assets/fa-brands-400-01711d34.ttf",
+    "src": "resources/fonts/fa-brands-400.ttf",
+    "integrity": "sha384-pCX6gwhXE7MMFp3GuY404A3FClJzVvQ2dUFqALSPAkHu3d35EvJFomizzn9wzJIy"
+  },
+  "resources/fonts/fa-brands-400.woff": {
+    "file": "assets/fa-brands-400-1a199a66.woff",
+    "src": "resources/fonts/fa-brands-400.woff",
+    "integrity": "sha384-B8Chi+MbL+YqVhNpLU4jKriv1VjozaMar/+S5Oi4Im3xqWvIK8xbkf6sy8jObOck"
+  },
+  "resources/fonts/fa-brands-400.woff2": {
+    "file": "assets/fa-brands-400-ec2e22fd.woff2",
+    "src": "resources/fonts/fa-brands-400.woff2",
+    "integrity": "sha384-0szWpQSM3IxB5KdeixCD4gnaBFffhyhN3ZgF2RmPU/umMBUyy/AxkqTXuhott7v8"
+  },
+  "resources/fonts/fa-duotone-900.eot": {
+    "file": "assets/fa-duotone-900-83603de5.eot",
+    "src": "resources/fonts/fa-duotone-900.eot",
+    "integrity": "sha384-N3RGJnC4hlwWoQclM/YXjB7s0k3KqWSo2LcQ7nulbJg5ZWZEiySJLr8UaP8eT7HB"
+  },
+  "resources/fonts/fa-duotone-900.svg": {
+    "file": "assets/fa-duotone-900-d803db59.svg",
+    "src": "resources/fonts/fa-duotone-900.svg",
+    "integrity": "sha384-nbBVuUyCoIsFr+4RqE154pRaTn3QG7Ndk5ZveVkO/Y2iiDF2aK5DGyB0Ne/Oupsa"
+  },
+  "resources/fonts/fa-duotone-900.ttf": {
+    "file": "assets/fa-duotone-900-d98f270f.ttf",
+    "src": "resources/fonts/fa-duotone-900.ttf",
+    "integrity": "sha384-ktGh5h6ib52oyfT3ZvFYu1uZbzyICOwCU0KicWE0DhojSWj4QXwfGcuYkQSDb9+1"
+  },
+  "resources/fonts/fa-duotone-900.woff": {
+    "file": "assets/fa-duotone-900-b8556db4.woff",
+    "src": "resources/fonts/fa-duotone-900.woff",
+    "integrity": "sha384-kWhTvraIbywoGzntzHBCH59x9Vzka83f3nobkpuSDJnXdtSITnv2GqgyL9sQJ/dm"
+  },
+  "resources/fonts/fa-duotone-900.woff2": {
+    "file": "assets/fa-duotone-900-e228b909.woff2",
+    "src": "resources/fonts/fa-duotone-900.woff2",
+    "integrity": "sha384-JgmUdg6SPdC6COR28Qf7NH0tXuC47Iui050qt8T4YFvBrbAreaXGzHXF1TfFonA9"
+  },
+  "resources/fonts/fa-light-300.eot": {
+    "file": "assets/fa-light-300-aa1ec029.eot",
+    "src": "resources/fonts/fa-light-300.eot",
+    "integrity": "sha384-THOhjNaki1IEAWX+1ILBHpKzjTAwMhu1FEpg6hvFxLkfsVyCwWl5IrYPpRZ0tZeX"
+  },
+  "resources/fonts/fa-light-300.svg": {
+    "file": "assets/fa-light-300-2fb61589.svg",
+    "src": "resources/fonts/fa-light-300.svg",
+    "integrity": "sha384-KuJC0gCLKpRgLWyIk7NFFA0+cr0m6nm0Shv38HTtVUCjpUHxpB8vVp9G+j2m6P0g"
+  },
+  "resources/fonts/fa-light-300.ttf": {
+    "file": "assets/fa-light-300-470ba5e8.ttf",
+    "src": "resources/fonts/fa-light-300.ttf",
+    "integrity": "sha384-mmy2Z5G3gRRipROTY5yDlm5kjLDMVKqzp3dOXdV96JCuar8qwBf5oLdOq5zp1mPu"
+  },
+  "resources/fonts/fa-light-300.woff": {
+    "file": "assets/fa-light-300-a7dbdfa8.woff",
+    "src": "resources/fonts/fa-light-300.woff",
+    "integrity": "sha384-2ZtSmqbvpD30IEZ/BAd32nwv983OOX24+iNvOx6Hcz1j9daPMLssDjlaLJ9hJNLu"
+  },
+  "resources/fonts/fa-light-300.woff2": {
+    "file": "assets/fa-light-300-2dc0e215.woff2",
+    "src": "resources/fonts/fa-light-300.woff2",
+    "integrity": "sha384-6YteqpeUqY8Xnip9HdUmde/keVR7wE44bxf/G02yiEg2188iVECXQFZTMf/TCDSx"
+  },
+  "resources/fonts/fa-regular-400.eot": {
+    "file": "assets/fa-regular-400-e63844a0.eot",
+    "src": "resources/fonts/fa-regular-400.eot",
+    "integrity": "sha384-CqTvElobmRgTl5zET0Dpk/BJ6nAGHZw/pphYa4R+kAatdasxrLfkKQ9TUZUhUiWa"
+  },
+  "resources/fonts/fa-regular-400.svg": {
+    "file": "assets/fa-regular-400-d0a57a23.svg",
+    "src": "resources/fonts/fa-regular-400.svg",
+    "integrity": "sha384-xVIHByJ3NSavh/pPD9iMVKqW+GKEN061TaUqEIVIb+R1hrmoCE73qtk1y9vK609H"
+  },
+  "resources/fonts/fa-regular-400.ttf": {
+    "file": "assets/fa-regular-400-84575bae.ttf",
+    "src": "resources/fonts/fa-regular-400.ttf",
+    "integrity": "sha384-rwEy0c4B8nQh65DNHxDTLmR8YkwBMFJOPPgo9jAZvZbuLHL4U9Xf/IUx0MzIGI4u"
+  },
+  "resources/fonts/fa-regular-400.woff": {
+    "file": "assets/fa-regular-400-c169747d.woff",
+    "src": "resources/fonts/fa-regular-400.woff",
+    "integrity": "sha384-scEdjuRd8zZ6M3COqhI2qYtLYxFFwNPM4rsbaw17xJCs1rkKbF0V17bH37mFPkCB"
+  },
+  "resources/fonts/fa-regular-400.woff2": {
+    "file": "assets/fa-regular-400-ec686d10.woff2",
+    "src": "resources/fonts/fa-regular-400.woff2",
+    "integrity": "sha384-e0JU0MS5Fls8cX3xnNz4Mjq2zxLuZiUp84X0Y3KC9hRmBwkwvsYVH/HlW8xk4jlV"
+  },
+  "resources/fonts/fa-solid-900.eot": {
+    "file": "assets/fa-solid-900-8e199fcb.eot",
+    "src": "resources/fonts/fa-solid-900.eot",
+    "integrity": "sha384-rdCfXwzI680RbsAftRto+zNaE2YCPCLxbscgjYJHSHpo0GJbxZ7BEbUrB3syVe77"
+  },
+  "resources/fonts/fa-solid-900.svg": {
+    "file": "assets/fa-solid-900-65effbb9.svg",
+    "src": "resources/fonts/fa-solid-900.svg",
+    "integrity": "sha384-X9le+2ZAo3x/4jLCIPHbKqfUEO1X9cdiiBm/liZcjmHIWolUBxbe5SXSzIMWnqmy"
+  },
+  "resources/fonts/fa-solid-900.ttf": {
+    "file": "assets/fa-solid-900-c3ecc5fe.ttf",
+    "src": "resources/fonts/fa-solid-900.ttf",
+    "integrity": "sha384-KpZ/uiNJTtP51AFLzPKWS6kRpYG8ZEbA/Y9zK0Dgd1qm6nRgpw15GsExFRH1JOkB"
+  },
+  "resources/fonts/fa-solid-900.woff": {
+    "file": "assets/fa-solid-900-85528db3.woff",
+    "src": "resources/fonts/fa-solid-900.woff",
+    "integrity": "sha384-J3yW9jDfXGj6LkW1njQlqDBoYpIysPxDgnx4NuN+Qqt+pFVR2ncL7OCSScMqOEwo"
+  },
+  "resources/fonts/fa-solid-900.woff2": {
+    "file": "assets/fa-solid-900-68eb827a.woff2",
+    "src": "resources/fonts/fa-solid-900.woff2",
+    "integrity": "sha384-JD033n1QTqVpbDSn6KD/SlFI0EbaVumDiLQCwLSUGSivUP8IChAsI/pvlJ79Wwd1"
   },
   "resources/images/calendario-g.webp": {
     "file": "assets/calendario-g-0dd9036b.webp",
-    "src": "resources/images/calendario-g.webp"
+    "src": "resources/images/calendario-g.webp",
+    "integrity": "sha384-+NKodSyG9bfHAE/52fW9Akw0g8cseCWkxVVkGn4HhlkH82UkjSUHno1pcjxy9e3T"
   },
   "resources/images/company-logo.png": {
     "file": "assets/company-logo-a23f1821.png",
-    "src": "resources/images/company-logo.png"
+    "src": "resources/images/company-logo.png",
+    "integrity": "sha384-FbqPK25b3AA1YnF6PQKd0EaiaFO/YNTmiLSriQtusItDFad7Sx7W+XzyfNEDnCUE"
   },
   "resources/images/f.png": {
     "file": "assets/f-5c7b4150.png",
-    "src": "resources/images/logo.png"
+    "src": "resources/images/logo.png",
+    "integrity": "sha384-W9wNhXc+ItyuWAmpkhBKwo+4t1z4xCtXmU0pgTgmbTy40A4fiPhskR+l/XUKxeaz"
   },
   "resources/images/logo.png": {
     "file": "assets/f-5c7b4150.png",
-    "src": "resources/images/logo.png"
+    "src": "resources/images/logo.png",
+    "integrity": "sha384-W9wNhXc+ItyuWAmpkhBKwo+4t1z4xCtXmU0pgTgmbTy40A4fiPhskR+l/XUKxeaz"
   },
   "resources/images/m.png": {
     "file": "assets/m-47a6550e.png",
-    "src": "resources/images/m.png"
+    "src": "resources/images/m.png",
+    "integrity": "sha384-fjo2+FTOaFlkZA9hhWRB4yUwCo/rF/DOWzk6hOl0EP/YYf10x8QGzBW8NqDc2gT7"
   },
   "resources/images/o.png": {
     "file": "assets/o-5d0cebfe.png",
-    "src": "resources/images/o.png"
+    "src": "resources/images/o.png",
+    "integrity": "sha384-+ghYtE5vKsbQqI5DoQO4U/THXPCwz8vtP1mUSnXft7g3jIC29ar/RncPtLn5kNgR"
   },
   "resources/images/protest-7818627_640.webp": {
     "file": "assets/protest-7818627_640-bc8de01f.webp",
-    "src": "resources/images/protest-7818627_640.webp"
+    "src": "resources/images/protest-7818627_640.webp",
+    "integrity": "sha384-LG/G/H2nWrck3+7zxx2+mpxhYZ1hWSB822//Q6DlPzo9zKr5I3iiDxwB7J3tWS+P"
   },
   "resources/js/app.js": {
-    "file": "assets/app-b63d3604.js",
+    "dynamicImports": [
+      "node_modules/workbox-window/build/workbox-window.prod.es5.mjs"
+    ],
+    "file": "assets/app-dac08f74.js",
     "imports": [
       "_vendor-c655e967.js"
     ],
     "isEntry": true,
-    "src": "resources/js/app.js"
+    "src": "resources/js/app.js",
+    "integrity": "sha384-sDLMLNJyqOaFKJLRNIdsVXGChUwnn4cKTAiOtn9fcsmuv2Ybp40SRrwShb8cM2jC"
   },
   "resources/scss/app.scss": {
-    "file": "assets/app-587618b8.css",
+    "file": "assets/app-af24db95.css",
     "isEntry": true,
-    "src": "resources/scss/app.scss"
+    "src": "resources/scss/app.scss",
+    "integrity": "sha384-XNzHQFD1UkaADwKMT8QJj6xB0E7Avba5+1E0dB08lmZxY4kA31K7qjToqvi4lWn7"
   },
   "resources/scss/tail.scss": {
-    "file": "assets/tail-68dd034d.css",
+    "file": "assets/tail-3697b218.css",
     "isEntry": true,
-    "src": "resources/scss/tail.scss"
+    "src": "resources/scss/tail.scss",
+    "integrity": "sha384-SigoSidqWPt34KfvnxfjBXqcMv8NL3hUgcvhUhsv3/aPedeYkSHkMbRCyaix4Q9B"
   }
 }

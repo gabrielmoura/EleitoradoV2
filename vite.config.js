@@ -1,6 +1,8 @@
 import {defineConfig, splitVendorChunkPlugin} from 'vite';
 import laravel, {refreshPaths} from 'laravel-vite-plugin';
 import path from 'path';
+import {VitePWA} from 'vite-plugin-pwa'
+import manifestSRI from 'vite-plugin-manifest-sri';
 
 /**
  * @type {import('vite').UserConfig}
@@ -19,6 +21,39 @@ export default defineConfig({
             ],
         }),
         splitVendorChunkPlugin(),
+        VitePWA({
+            injectRegister: 'auto',
+            registerType: 'autoUpdate',
+            workbox: {
+                globPatterns: ['**/*.{js,css,ico,png,svg,webp,eot,ttf,woff,woff2,json}'],
+                sourcemap: true,
+
+            },
+            devOptions: {
+                enabled: true,
+                type: 'module',
+            },
+            manifest: {
+                name: 'Eleitorado',
+                short_name: 'Eleitorado',
+                description: 'CRM Politico',
+                theme_color: '#ffffff',
+                icons: [
+                    {
+                        src: 'pwa-192x192.png',
+                        sizes: '192x192',
+                        type: 'image/png'
+                    },
+                    {
+                        src: 'pwa-512x512.png',
+                        sizes: '512x512',
+                        type: 'image/png'
+                    }
+                ]
+            }
+
+        }),
+        manifestSRI(),
     ],
     resolve: {
         alias: {
