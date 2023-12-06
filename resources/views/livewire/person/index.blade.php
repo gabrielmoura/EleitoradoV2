@@ -12,7 +12,16 @@
                            class="btn btn-primary btn-sm ms-0 ms-md-2">Criar
                         </a>
                     @endcan
+                    <button class="btn btn-primary btn-sm ms-0 ms-md-2 mx-1" type="button"
+                            title="Filtrar elementos"
+                            data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false"
+                            {{(isset($page)&&$page>1)?'disabled':false}}
+                            aria-controls="collapseExample">
+                        Filtrar
+                    </button>
+
                 </div>
+
 
                 <div class="d-md-flex">
                     @if(($bulkActionsEnabled??false) && $selected>0)
@@ -35,40 +44,10 @@
                             </div>
                         </div>
                     @endif
-
-                    <div class=" mb-3 mb-md-0 md-0 ms-md-2">
-                        <div x-data="{ open: false, childElementOpen: false }"
-                             x-on:keydown.escape.stop="if (!childElementOpen) { open = false }"
-                             x-on:mousedown.away="if (!childElementOpen) { open = false }"
-                             class="dropdown d-block d-md-inline" wire:key="column-select-button-table">
-                            <button x-on:click="open = !open" class="btn dropdown-toggle d-block w-100 d-md-inline"
-                                    type="button" id="columnSelect-table" aria-haspopup="true"
-                                    x-bind:aria-expanded="open" aria-expanded="false">
-                                Columns
-                            </button>
-
-                            <div class="dropdown-menu dropdown-menu-end w-100" x-bind:class="{ 'show': open }"
-                                 aria-labelledby="columnSelect-table">
-                                <div class="form-check ms-2">
-                                    <input checked="" wire:click="deselectAllColumns" wire:loading.attr="disabled"
-                                           type="checkbox" class="form-check-input">
-                                    <label wire:loading.attr="disabled" class="form-check-label">
-                                        All Columns
-                                    </label>
-                                </div>
-                                <div wire:key="columnSelect-0-table" class="form-check ms-2">
-                                    <input wire:model="selectedColumns" wire:target="selectedColumns"
-                                           wire:loading.attr="disabled" type="checkbox" class="form-check-input"
-                                           value="id">
-                                    <label wire:loading.attr="disabled" wire:target="selectedColumns"
-                                           class="mb-1 form-check-label">Id</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="ms-0 ms-md-2">
-                        <select wire:model="perPage" id="perPage" class="form-select">
+                        <select wire:model="perPage" id="perPage" class="form-select"
+                                title="Quantidade por página"
+                        >
                             <option value="10">
                                 10
                             </option>
@@ -83,6 +62,44 @@
 
                 </div>
             </div>
+
+            <div
+                wire:ignore.self
+                class="collapse"
+                id="collapseFilter">
+                <div class="card card-body">
+                    <div class="form-inline">
+                        <label>
+                            Bairro
+                            <input name="district" wire:model.debounce.500ms="filter.district" class="form-control-sm">
+                        </label>
+                        <label>
+                            Cidade
+                            <input name="city" wire:model.debounce.500ms="filter.city" class="form-control-sm">
+                        </label>
+                        <label>
+                            E-mail
+                            <input name="email" wire:model.debounce.500ms="filter.email" class="form-control-sm">
+                        </label>
+                        <label>
+                            Telefone
+                            <input name="phone" wire:model.debounce.500ms="filter.telephone" class="form-control-sm">
+                        </label>
+                        <label>
+                            Celular
+                            <input name="cellphone" wire:model.debounce.500ms="filter.cellphone"
+                                   class="form-control-sm">
+                        </label>
+                    </div>
+                    <button
+                        class="btn btn-sm btn-primary"
+                        wire:click="resetFilter"
+                    >
+                        Limpar
+                    </button>
+                </div>
+            </div>
+
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -100,10 +117,10 @@
                                         :defaultReorderASC="$defaultReorderASC"/>
                     </th>
 
-                    <th>
-                        <x-table-column name="email" title="Email" :defaultReorderColumn="$defaultReorderColumn"
-                                        :defaultReorderASC="$defaultReorderASC"/>
-                    </th>
+                    {{--                    <th>--}}
+                    {{--                        <x-table-column name="email" title="Email" :defaultReorderColumn="$defaultReorderColumn"--}}
+                    {{--                                        :defaultReorderASC="$defaultReorderASC"/>--}}
+                    {{--                    </th>--}}
                     <th>
                         <x-table-column name="cellphone" title="Celular" :defaultReorderColumn="$defaultReorderColumn"
                                         :defaultReorderASC="$defaultReorderASC"/>
@@ -133,26 +150,26 @@
                             </td>
                         @endif
                         <td>{{ $person->name }}</td>
-                        <td>{{ $person->email }}</td>
+                        {{--                        <td>{{ $person->email }}</td>--}}
                         <td>{{ $person->cellphone }}</td>
                         <td>{{ $person->cpf }}</td>
-                        <td>{{ $person->address?->street }}</td>
+                        <td>{{ $person->address?->street }}, {{ $person->address?->district }}</td>
                         <td class="d-flex">
                             <a href="{{route('dash.person.show',$person->pid)}}" class="btn btn-black btn-sm m-1">
                                 Ver
                             </a>
-                            @can('update_group')
-                                <a href="{{route('dash.person.edit',$person->pid)}}" class="btn btn-primary btn-sm m-1">Editar
-                                </a>
-                            @endcan
-                            @can('delete_group')
-                                <button wire:click="delete({{ $person->id }})" class="btn btn-danger btn-sm m-1">
-                                    Deletar
-                                </button>
-                            @endcan
-                            <a href="{{route('dash.person.history',$person->pid)}}" class="btn btn-black btn-sm m-1">
-                                Histórico
-                            </a>
+                            {{--                            @can('update_group')--}}
+                            {{--                                <a href="{{route('dash.person.edit',$person->pid)}}" class="btn btn-primary btn-sm m-1">Editar--}}
+                            {{--                                </a>--}}
+                            {{--                            @endcan--}}
+                            {{--                            @can('delete_group')--}}
+                            {{--                                <button wire:click="delete({{ $person->id }})" class="btn btn-danger btn-sm m-1">--}}
+                            {{--                                    Deletar--}}
+                            {{--                                </button>--}}
+                            {{--                            @endcan--}}
+                            {{--                            <a href="{{route('dash.person.history',$person->pid)}}" class="btn btn-black btn-sm m-1">--}}
+                            {{--                                Histórico--}}
+                            {{--                            </a>--}}
                         </td>
                     </tr>
                 @endforeach

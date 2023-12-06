@@ -3,9 +3,9 @@
 namespace App\Http\Livewire\Person;
 
 use App\Models\Person;
+use App\Service\Trait\Table\WithFilter;
 use App\Service\Trait\Table\WithReordering;
 use App\Service\Trait\Table\WithSearch;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -16,15 +16,11 @@ class Index extends Component
     use WithPagination;
     use WithReordering;
     use WithSearch;
+    use WithFilter;
 
     public $perPage = 25;
 
     public $selectedItems = [];
-
-    //    protected $rules = [
-    //        'name' => ['required', 'string', 'min:3', 'max:255'],
-    //        'description' => ['nullable', 'string', 'min:3', 'max:255'],
-    //    ];
 
     protected $listeners = ['refresh' => '$refresh'];
 
@@ -34,23 +30,26 @@ class Index extends Component
     {
         return view('livewire.person.index', [
             'people' => Person::with('address')
-                ->where('name', 'like', '%'.$this->search.'%')
-                ->orWhere('email', 'like', '%'.$this->search.'%')
-                ->orWhere('cpf', 'like', '%'.$this->search.'%')
-                ->orWhere('rg', 'like', '%'.$this->search.'%')
-                ->orWhere('dateOfBirth', 'like', '%'.$this->search.'%')
-                ->orwhere('cellphone', 'like', '%'.$this->search.'%')
-                ->orwhere('telephone', 'like', '%'.$this->search.'%')
-                ->orwhere('voter_registration', 'like', '%'.$this->search.'%')
-                ->orWhereHas('address', function (Builder $query) {
-                    $query->where('street', 'like', '%'.$this->search.'%')
-                        ->orWhere('number', 'like', '%'.$this->search.'%')
-                        ->orWhere('complement', 'like', '%'.$this->search.'%')
-                        ->orWhere('city', 'like', '%'.$this->search.'%')
-                        ->orWhere('state', 'like', '%'.$this->search.'%')
-                        ->orWhere('country', 'like', '%'.$this->search.'%')
-                        ->orWhere('zipcode', 'like', '%'.$this->search.'%');
-                })
+                ->whereLike([
+                    'name',
+                    'email',
+                    'cpf',
+                    'rg',
+                    'cellphone',
+                    'telephone',
+                    'address.street',
+                    'address.number',
+                    'address.district',
+                    'address.city',
+                    'address.state',
+                    'address.zipcode',
+                ], $this->search)
+                ->whenLike($this->filter['district'] ?? null, 'address.district')
+                ->whenLike($this->filter['city'] ?? null, 'address.city')
+                ->whenLike($this->filter['cpf'] ?? null, 'cpf')
+                ->whenLike($this->filter['rg'] ?? null, 'rg')
+                ->whenLike($this->filter['cellphone'] ?? null, 'cellphone')
+                ->whenLike($this->filter['telephone'] ?? null, 'telephone')
                 ->orderBy($this->defaultReorderColumn, $this->defaultReorderASC ? 'asc' : 'desc')
                 ->paginate($this->perPage),
         ]);
