@@ -23,7 +23,7 @@ class TenantScope implements Scope
     {
         $tenant_id = session()->get('tenant_id') ?? optional(Auth::user()?->company)->tenant_id;
         if (! $tenant_id) {
-            if (! app()->runningInConsole() && ! auth()->user()->hasRole('admin')) {
+            if (! app()->runningInConsole() && ! request()->user()->hasRole('admin')) {
                 throw new TenantException(message: 'Tenant id not found', user: auth()->user());
             }
         } else {
