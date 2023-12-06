@@ -30,6 +30,19 @@
                         Criar Demanda
                     </button>
 
+                    @can('update_group')
+                        <a href="{{route('dash.person.edit',$person->pid)}}" class="btn btn-sm btn-light text-primary">Editar
+                        </a>
+                    @endcan
+                    @can('delete_group')
+                        <button wire:click="delete({{ $person->id }})" class="btn btn-sm btn-light text-primary">
+                            Deletar
+                        </button>
+                    @endcan
+                    <a href="{{route('dash.person.history',$person->pid)}}" class="btn btn-sm btn-light text-primary">
+                        Histórico
+                    </a>
+
                 </div>
             </x-slot:content>
         </x-header-compact>
@@ -66,7 +79,8 @@
                         - {{$person->address?->district}} - {{$person->address?->city}} - {{$person->address?->state}}
                         <br>
                         CEP: {{$person->address?->zipcode}} @if($person->address?->latitude && $person->address?->longitude)
-                            <a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{$person->address->latitude}},{{$person->address->longitude}}">(Visualizar
+                            <a target="_blank"
+                               href="https://www.google.com/maps/search/?api=1&query={{$person->address->latitude}},{{$person->address->longitude}}">(Visualizar
                                 no Mapa)</a>
                         @endif <br>
 

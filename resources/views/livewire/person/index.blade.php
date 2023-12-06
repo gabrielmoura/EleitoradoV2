@@ -158,18 +158,6 @@
                             <a href="{{route('dash.person.show',$person->pid)}}" class="btn btn-black btn-sm m-1">
                                 Ver
                             </a>
-                            {{--                            @can('update_group')--}}
-                            {{--                                <a href="{{route('dash.person.edit',$person->pid)}}" class="btn btn-primary btn-sm m-1">Editar--}}
-                            {{--                                </a>--}}
-                            {{--                            @endcan--}}
-                            {{--                            @can('delete_group')--}}
-                            {{--                                <button wire:click="delete({{ $person->id }})" class="btn btn-danger btn-sm m-1">--}}
-                            {{--                                    Deletar--}}
-                            {{--                                </button>--}}
-                            {{--                            @endcan--}}
-                            {{--                            <a href="{{route('dash.person.history',$person->pid)}}" class="btn btn-black btn-sm m-1">--}}
-                            {{--                                Histórico--}}
-                            {{--                            </a>--}}
                         </td>
                     </tr>
                 @endforeach

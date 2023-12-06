@@ -13,10 +13,10 @@ use Livewire\WithPagination;
 class Index extends Component
 {
     use AuthorizesRequests;
+    use WithFilter;
     use WithPagination;
     use WithReordering;
     use WithSearch;
-    use WithFilter;
 
     public $perPage = 25;
 

@@ -42,8 +42,8 @@ class AppServiceProvider extends ServiceProvider
         /**
          * @description Implementa o whereLike no Eloquent Builder
          *
-         * @param string|array $attributes
-         * @param string|null $searchTerm
+         * @param  string|array  $attributes
+         * @param  string|null  $searchTerm
          * @return Builder
          */
         Builder::macro('whereLike', function (string|array $attributes, ?string $searchTerm) {
@@ -70,8 +70,8 @@ class AppServiceProvider extends ServiceProvider
         /**
          * @description Implementa o whenLike no Eloquent Builder
          *
-         * @param string|null $condition
-         * @param string $attribute
+         * @param  string|null  $condition
+         * @param  string  $attribute
          * @return Builder
          */
         Builder::macro('whenLike', function (?string $condition, string $attribute) {
