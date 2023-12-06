@@ -36,39 +36,8 @@
                         </div>
                     @endif
 
-                    <div class=" mb-3 mb-md-0 md-0 ms-md-2">
-                        <div x-data="{ open: false, childElementOpen: false }"
-                             x-on:keydown.escape.stop="if (!childElementOpen) { open = false }"
-                             x-on:mousedown.away="if (!childElementOpen) { open = false }"
-                             class="dropdown d-block d-md-inline" wire:key="column-select-button-table">
-                            <button x-on:click="open = !open" class="btn dropdown-toggle d-block w-100 d-md-inline"
-                                    type="button" id="columnSelect-table" aria-haspopup="true"
-                                    x-bind:aria-expanded="open" aria-expanded="false">
-                                Columns
-                            </button>
-
-                            <div class="dropdown-menu dropdown-menu-end w-100" x-bind:class="{ 'show': open }"
-                                 aria-labelledby="columnSelect-table">
-                                <div class="form-check ms-2">
-                                    <input checked="" wire:click="deselectAllColumns" wire:loading.attr="disabled"
-                                           type="checkbox" class="form-check-input">
-                                    <label wire:loading.attr="disabled" class="form-check-label">
-                                        All Columns
-                                    </label>
-                                </div>
-                                <div wire:key="columnSelect-0-table" class="form-check ms-2">
-                                    <input wire:model="selectedColumns" wire:target="selectedColumns"
-                                           wire:loading.attr="disabled" type="checkbox" class="form-check-input"
-                                           value="id">
-                                    <label wire:loading.attr="disabled" wire:target="selectedColumns"
-                                           class="mb-1 form-check-label">Id</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="ms-0 ms-md-2">
-                        <select wire:model="perPage" id="perPage" class="form-select">
+                        <select wire:model="perPage" id="perPage" title="Quantidade por página" class="form-select">
                             <option value="10">
                                 10
                             </option>
