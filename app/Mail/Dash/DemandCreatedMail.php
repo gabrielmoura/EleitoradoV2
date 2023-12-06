@@ -42,6 +42,9 @@ class DemandCreatedMail extends Mailable
     {
         return new Content(
             markdown: 'emails.dash.demand-created',
+            with: [
+                'demand' => $this->demand,
+            ],
         );
     }
 

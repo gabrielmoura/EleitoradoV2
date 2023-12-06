@@ -20,7 +20,7 @@ class DemandCreatedMail
      */
     public function handle(DemandCreatedEvent $event): void
     {
-        $responsible = $event->demand?->type?->responsible;
+        $responsible = $event->demand->type()->first()->responsible;
         if ($responsible !== null) {
             Mail::to($responsible)
                 ->queue(new \App\Mail\Dash\DemandCreatedMail($event->demand));

@@ -1,12 +1,14 @@
 <x-mail::message>
 # Demanda criada
 
-The body of your message.
+{{ $demand->name }}
 
-<x-mail::button :url="''">
-Button Text
+{{ $demand->description }}
+
+<x-mail::button :url="route('dash.demand.show',['demand'=>$demand->pid])">
+Ver demanda
 </x-mail::button>
 
-Thanks,<br>
+Obrigado,<br>
 {{ config('app.name') }}
 </x-mail::message>
