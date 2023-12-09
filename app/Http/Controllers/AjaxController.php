@@ -7,7 +7,7 @@ use App\Events\Export\PDF\RequestExportPeopleAddressEvent;
 use App\Events\Export\PDF\RequestExportTagEvent;
 use App\Models\Person;
 use App\Models\User;
-use App\ServiceHttp\CepService\CepService;
+use Gabrielmoura\LaravelCep\Cep;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -19,7 +19,7 @@ class AjaxController extends Controller
     {
         $this->validate($request, ['cep' => 'min:8|max:9|regex:/^[0-9]{5}-?[0-9]{3}$/']);
 
-        return response()->json(CepService::find($request->input('cep')));
+        return response()->json(Cep::find($request->input('cep')));
     }
 
     public function requestReportGroup(Request $request): JsonResponse

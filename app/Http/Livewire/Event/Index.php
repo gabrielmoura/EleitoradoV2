@@ -6,7 +6,7 @@ use App\Models\Address;
 use App\Models\Event;
 use App\Service\Trait\Table\WithReordering;
 use App\Service\Trait\Table\WithSearch;
-use App\ServiceHttp\CepService\CepService;
+use Gabrielmoura\LaravelCep\Cep;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -163,7 +163,7 @@ class Index extends Component
     {
         $zipCode = $this->data['local']['zipcode'];
         if (preg_match('/^[0-9]{5}-?[0-9]{3}$/', $zipCode)) {
-            $cep = CepService::find($zipCode);
+            $cep = Cep::find($zipCode);
             $this->data['local']['street'] = $cep->logradouro;
             $this->data['local']['district'] = $cep->bairro;
             $this->data['local']['city'] = $cep->localidade;

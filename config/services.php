@@ -42,4 +42,7 @@ return [
         'announcements' => env('SLACK_ANNOUNCEMENTS_WEBHOOK_URL'),
         'tech-dev-ops' => env('SLACK_TECH_DEV_OPS_WEBHOOK_URL'),
     ],
+    'cep' => [
+        'endpoint' => \Gabrielmoura\LaravelCep\EndpointOption::VIACEP,
+    ],
 ];

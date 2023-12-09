@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Appointment;
 
 use App\Models\Address;
 use App\Models\Appointment;
-use App\ServiceHttp\CepService\CepService;
+use Gabrielmoura\LaravelCep\Cep;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -102,7 +102,7 @@ class AppointmentModalEdit extends Component
     {
         $zipCode = $this->app['address']['zipcode'];
         if (preg_match('/^[0-9]{5}-?[0-9]{3}$/', $zipCode)) {
-            $cep = CepService::find($zipCode);
+            $cep = Cep::find($zipCode);
             $this->app['address']['street'] = $cep->logradouro;
             $this->app['address']['district'] = $cep->bairro;
             $this->app['address']['city'] = $cep->localidade;

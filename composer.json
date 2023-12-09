@@ -1,8 +1,11 @@
 {
-    "name": "laravel/laravel",
+    "name": "gabrielmoura/eleitorado",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "description": "Political Campaign Management System (CRM).",
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.1",
@@ -39,7 +42,8 @@
         "spatie/laravel-medialibrary": "^10.0.0",
         "spatie/laravel-permission": "^5.10",
         "tightenco/ziggy": "^1.6",
-        "gabrielmoura/laravel-utalk": "dev-main"
+        "gabrielmoura/laravel-utalk": "dev-main",
+        "gabrielmoura/laravel-cep": "1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
@@ -105,7 +109,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "repositories": [
-      {
+        {
             "type": "vcs",
             "url": "git@github.com:gabrielmoura/laravel-utalk.git"
         },
