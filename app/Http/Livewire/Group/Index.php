@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Group;
 
 use App\Models\Group;
-use App\Service\Trait\Table\WithBulkActions;
 use App\Service\Trait\Table\WithReordering;
 use App\Service\Trait\Table\WithSearch;
 use Illuminate\Contracts\Foundation\Application;
