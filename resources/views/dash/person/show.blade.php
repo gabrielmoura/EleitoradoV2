@@ -67,11 +67,12 @@
                         Email: {{$person->email}}<br>
                         Data de Cadastro: {{$person->created_at?->format("d/m/Y")}}<br>
                         Data de Atualização: {{$person->updated_at?->format("d/m/Y H:i")}}<br>
-                        Telefone: {{$person?->telephone}} | Celular: {{$person?->cellphone}} @if($person->cellphone)
-                            <a href="https://api.whatsapp.com/send?phone=55{{numberClear($person->cellphone)}}"
+                        Telefone: {{$person?->telephone?->format()}} |
+                        Celular: {{$person?->cellphone?->format()}} @if($person->cellphone)
+                            <a href="https://api.whatsapp.com/send?phone={{$person->cellphone?->toE164()}}"
                                title="(Enviar mensagem no WhatsApp)"><i
                                     class="fab fa-whatsapp"></i></a>
-                            <a href="https://t.me/+55{{numberClear($person->cellphone)}}"
+                            <a href="https://t.me/{{$person->cellphone?->toE164()}}"
                                title="(Enviar mensagem no Telegram)"><i
                                     class="fab fa-telegram"></i></a>
                         @endif<br>

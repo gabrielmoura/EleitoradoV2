@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use App\Casts\PhoneCast;
 use App\Service\Trait\ChartScopeTrait;
 use App\Service\Trait\HasPid;
 use App\Service\Trait\HasTenant;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -77,6 +77,8 @@ class Person extends Model implements HasMedia
         'phone_verified_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'telephone' => PhoneCast::class,
+        'cellphone' => PhoneCast::class,
     ];
 
     public function address(): BelongsTo
@@ -105,38 +107,6 @@ class Person extends Model implements HasMedia
         return $this->getFirstMedia('avatar')?->getUrl('cover') ?? Vite::asset("resources/images/$this->sex.png");
     }
 
-    protected function telephone(): Attribute
-    {
-        return Attribute::make(
-            get: function (?string $value) {
-                if ($value !== null && strlen($value) === 8) {
-                    return $value = '5521'.$value;
-                } elseif ($value !== null && strlen($value) === 10) {
-                    return $value = '55'.$value;
-                } else {
-                    return $value;
-                }
-            },
-            //            set: fn (string $value) => $value,
-        );
-    }
-
-    protected function cellphone(): Attribute
-    {
-        return Attribute::make(
-            get: function (?string $value) {
-                if ($value !== null && strlen($value) === 9) {
-                    return $value = '5521'.$value;
-                } elseif ($value !== null && strlen($value) === 11) {
-                    return $value = '55'.$value;
-                } else {
-                    return $value;
-                }
-            },
-            //            set: fn (string $value) => $value,
-        );
-    }
-
     public function scopeFindPid(Builder $query, string $pid): Builder
     {
         return $query->where('pid', Ulid::fromString($pid)->toRfc4122());
@@ -153,7 +123,7 @@ class Person extends Model implements HasMedia
      *
      * @throws InvalidManipulation
      */
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         /** Converte Imagem vinda de avatar para webP e reduz para 230x280 */
         $this->addMediaConversion('cover')

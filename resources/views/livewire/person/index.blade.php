@@ -151,7 +151,7 @@
                         @endif
                         <td>{{ $person->name }}</td>
                         {{--                        <td>{{ $person->email }}</td>--}}
-                        <td>{{ $person->cellphone }}</td>
+                        <td>{{ $person->cellphone?->format() }}</td>
                         <td>{{ $person->cpf }}</td>
                         <td>{{ $person->address?->street }}, {{ $person->address?->district }}</td>
                         <td class="d-flex">
