@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Dash;
 
+use App\Exports\Contact;
 use App\Http\Controllers\Controller;
 use App\Models\Group;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Activitylog\Models\Activity;
 
 class GroupController extends Controller
@@ -39,5 +41,14 @@ class GroupController extends Controller
 
             return redirect()->back();
         }
+    }
+
+    public function getContacts(Request $request)
+    {
+        $group = Group::findPid($request->group)->firstOrFail();
+
+        $persons = $group->persons()->get();
+
+        return Excel::download(new Contact($persons), 'contatos.csv');
     }
 }
